@@ -2,7 +2,6 @@
 .topHeader {
     background-color: #043180;
     border-bottom: 3px solid var(--accent);
-    min-height: 45px;
     width: 100%;
 }
 
@@ -24,4 +23,15 @@
     text-decoration: none;
     opacity: 0.6;
     transition: all ease-in 200ms;
+}
+
+/* Navigation */
+.navLink {
+    color: var(--text-color);
+    font-family: var(--font-body);
+    transition: all ease-in 200ms;
+}
+
+.navLink:hover {
+    color: var(--accent);
 }

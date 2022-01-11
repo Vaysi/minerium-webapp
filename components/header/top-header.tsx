@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import styles from "../styles/Header.module.css";
+import styles from "../../styles/Header.module.css";
 import {Button, Container, Grid, IconButton} from "@mui/material";
 import {DarkModeOutlined, AccountCircleOutlined, LightModeOutlined, Logout} from "@mui/icons-material";
 import {useContext} from "react";
-import {themeModeContext} from "../utils/context";
+import {themeModeContext} from "../../utils/context";
 import {useRouter} from "next/router";
 
 const TopHeader = () => {
@@ -11,7 +11,7 @@ const TopHeader = () => {
     const router = useRouter();
     return (
         <div className={styles.topHeader}>
-           <Container maxWidth={"lg"}>
+           <Container maxWidth={"xl"}>
                <Grid container>
                    <Grid item xs={6}>
                        <IconButton className={`${styles.themeMode} ${mode == 'light' ? styles.active : ''}`} aria-label="light mode" component="span" onClick={() => setMode('light')}>

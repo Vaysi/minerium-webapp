@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import {Container, Grid} from "@mui/material";
-import Header from "../components/header";
+import Header from "../components/header/header";
 
 const Home: NextPage = () => {
   return (
