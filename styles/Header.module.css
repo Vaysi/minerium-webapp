@@ -1,0 +1,27 @@
+/* Top Header */
+.topHeader {
+    background-color: #043180;
+    border-bottom: 3px solid var(--accent);
+    min-height: 45px;
+    width: 100%;
+}
+
+.themeMode {
+    color: #fff;
+    opacity: 0.6;
+    transition: all ease-in 200ms;
+}
+.themeMode:hover , .topHeaderLinks:hover{
+    opacity: 1;
+}
+
+.themeMode.active {
+    opacity: 1;
+}
+
+.topHeaderLinks {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.6;
+    transition: all ease-in 200ms;
+}
