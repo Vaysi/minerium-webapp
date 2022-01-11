@@ -1,12 +1,15 @@
 import styles from "../../styles/Header.module.css";
 import {AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography} from "@mui/material";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {useRouter} from "next/router";
 import {Menu as MenuIcon} from "@mui/icons-material";
 const pages = ['Dashboard', 'Calculator', 'Workers', 'Earnings', 'Settings'];
 import Link from "next/link";
+import Logo from "../inline-components/logo";
+import {themeModeContext} from "../../utils/context";
 const Navigation = () => {
     const router = useRouter();
+    const {mode} = useContext(themeModeContext);
     const [anchorElNav, setAnchorElNav] = useState(null);
 
     const handleOpenNavMenu = (event:any) => {
@@ -17,12 +20,12 @@ const Navigation = () => {
         setAnchorElNav(null);
     };
     return (
-        <AppBar color={"default"} position="static">
+        <AppBar className={styles.header} position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Box sx={{flexGrow: 1,cursor:"pointer", mr: 2, display: { xs: 'none', md: 'flex' } }}>
                         <Link href={"/"}>
-                            <img src={"/assets/images/light-logo.svg"} alt={"minerium logo"} />
+                            <Logo mode={mode} style={{maxHeight: 45}} />
                         </Link>
                     </Box>
 
@@ -65,14 +68,11 @@ const Navigation = () => {
                             ))}
                         </Menu>
                     </Box>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+                    <Box
+                        sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' },justifyContent: "end" }}
                     >
-                        <img src={"/assets/images/light-logo.svg"} alt={"minerium logo"} />
-                    </Typography>
+                        <img src={"/assets/images/light-logo.svg"} alt={"minerium logo"} className={styles.desktopLogo} />
+                    </Box>
                     <Box  justifyContent={"end"} sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <Button

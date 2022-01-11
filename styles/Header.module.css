@@ -1,6 +1,6 @@
 /* Top Header */
 .topHeader {
-    background-color: #043180;
+    background-color: var(--header-bg);
     border-bottom: 3px solid var(--accent);
     width: 100%;
 }
@@ -25,7 +25,7 @@
     transition: all ease-in 200ms;
 }
 
-/* Navigation */
+/* Header & Navigation */
 .navLink {
     color: var(--text-color);
     font-family: var(--font-body);
@@ -33,5 +33,20 @@
 }
 
 .navLink:hover {
-    color: var(--accent);
+    color: var(--accent-const);
+}
+
+.header {
+    background-color: var(--bg-color);
+}
+
+/* Page Title */
+.pageTitle {
+    background-color: #043180;
+    width: 100%;
+    padding: 7px 0;
+}
+.title {
+    color: #fff;
+    font-size: 24px;
 }

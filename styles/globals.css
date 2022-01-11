@@ -5,6 +5,11 @@ body {
   padding: 0;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 :root {
   --font-body: "Open Sans", sans-serif;
   --font-header: "Poppins", sans-serif;
@@ -14,6 +19,7 @@ body {
   --semi-white: #aaaaaa;
   --grey: #777777;
   --accent: #cea716;
+  --accent-const: #cea716;
   --header-bg: #043180;
   --header-title: #fff;
   --header: #053ea1;
@@ -22,4 +28,15 @@ body {
   --balloon-text-color: #fff;
   --balloon-font-size: 12px;
   --balloon-move: 4px;
+}
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --blue-ghost: #1e1e1e;
+  --semi-white: #888;
+  --accent: #292929;
+  --header-bg: #090909;
+  --header-title: #aaaaaa;
+  --header: #888;
+  --border: #333;
 }

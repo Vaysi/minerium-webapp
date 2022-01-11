@@ -1,14 +1,15 @@
 import {PaletteMode} from "@mui/material";
 
-export const getDesignTokens = (mode: PaletteMode) => ({
+export const getDesignTokens = (mode: any) => ({
     palette: {
         primary: {
-        ...(mode === 'light'
-            ? {
-                main: "#043180"
-            } : {
-                main: "#043180"
-            })
+            ...(mode === 'light'
+                ? {
+                    main: "#043180"
+
+                } : {
+                    main: "#043180"
+                })
         },
     },
 });
