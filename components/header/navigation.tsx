@@ -1,5 +1,14 @@
-import styles from "../../styles/Header.module.css";
-import {AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography} from "@mui/material";
+import {
+    AppBar,
+    Box,
+    Button,
+    Container,
+    IconButton,
+    Menu,
+    MenuItem,
+    Toolbar,
+    Typography
+} from "@mui/material";
 import {useContext, useState} from "react";
 import {useRouter} from "next/router";
 import {Menu as MenuIcon} from "@mui/icons-material";
@@ -8,11 +17,27 @@ const pages = ['Dashboard', 'Calculator', 'Workers', 'Earnings', 'Settings'];
 import Link from "next/link";
 import Logo from "../inline-components/logo";
 import {themeModeContext} from "../../utils/context";
+import {makeStyles} from "@mui/styles";
+
+const useStyles:any = makeStyles((theme:any) => ({
+    header: {
+        backgroundColor: "var(--bg-color)"
+    },
+    navLink: {
+        color: "var(--text-color)",
+        fontFamily: "var(--font-body)",
+        transition: "all ease-in 200ms",
+        "&:hover": {
+            color: "var(--accent-const)"
+        }
+    }
+}));
 
 const Navigation = () => {
     const router = useRouter();
     const {mode} = useContext(themeModeContext);
     const [anchorElNav, setAnchorElNav] = useState(null);
+    const styles = useStyles();
 
     const handleOpenNavMenu = (event: any) => {
         setAnchorElNav(event.currentTarget);

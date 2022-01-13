@@ -1,12 +1,24 @@
-import styles from "../../styles/Header.module.css";
 import {Container, Typography} from "@mui/material";
-import {useRouter} from "next/router";
+import {makeStyles} from "@mui/styles";
+
+const useStyles:any = makeStyles((theme:any) => ({
+    pageTitle: {
+        backgroundColor: "#043180",
+        width: "100%",
+        padding: "7px 0"
+    },
+    title: {
+        color: "#fff",
+        fontSize: 24,
+    }
+}));
+
 interface Props {
     title: string;
     icon: any;
 }
 const PageTitle = (props:Props) => {
-    const router = useRouter();
+    const styles = useStyles();
     return (
         <div className={styles.pageTitle}>
            <Container maxWidth={"xl"}>
