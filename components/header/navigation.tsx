@@ -50,10 +50,8 @@ const Navigation = () => {
         <AppBar className={styles.header} position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <Box sx={{flexGrow: 1, cursor: "pointer", mr: 2, display: {xs: 'none', md: 'flex'}}}>
-                        <Link href={"/"} passHref>
-                            <Logo mode={mode} style={{maxHeight: 45}}/>
-                        </Link>
+                    <Box sx={{flexGrow: 1, cursor: "pointer", mr: 2, display: {xs: 'none', md: 'flex'}}} onClick={() => router.push("/")}>
+                        <Logo mode={mode} style={{maxHeight: 45}}/>
                     </Box>
 
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
@@ -96,11 +94,9 @@ const Navigation = () => {
                         </Menu>
                     </Box>
                     <Box
-                        sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}, justifyContent: "end"}}
+                        sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}, justifyContent: "end"}} onClick={() => router.push("/")}
                     >
-                        <Link href={"/"} passHref>
-                            <Logo mode={mode} style={{maxHeight: 45}}/>
-                        </Link>
+                        <Logo mode={mode} style={{maxHeight: 45}}/>
                     </Box>
                     <Box justifyContent={"end"} sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
                         {pages.map((page) => (
