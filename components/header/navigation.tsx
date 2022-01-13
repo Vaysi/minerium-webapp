@@ -51,7 +51,7 @@ const Navigation = () => {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Box sx={{flexGrow: 1, cursor: "pointer", mr: 2, display: {xs: 'none', md: 'flex'}}} onClick={() => router.push("/")}>
-                        <Logo mode={mode} style={{maxHeight: 45}}/>
+                        <Logo mode={mode} styles={{maxHeight: 45}}/>
                     </Box>
 
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
@@ -96,7 +96,7 @@ const Navigation = () => {
                     <Box
                         sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}, justifyContent: "end"}} onClick={() => router.push("/")}
                     >
-                        <Logo mode={mode} style={{maxHeight: 45}}/>
+                        <Logo mode={mode} styles={{maxHeight: 45}}/>
                     </Box>
                     <Box justifyContent={"end"} sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
                         {pages.map((page) => (
