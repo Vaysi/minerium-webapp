@@ -6,6 +6,7 @@ import {AccountBalanceWallet, Home as HomeIcon} from "@mui/icons-material";
 import Footer from "../components/footer/footer";
 import Tabs from "../components/inline-components/tabs";
 import Balance from "../components/earnings/balance";
+import History from "../components/earnings/history";
 
 const Home: NextPage = () => {
     const tabLinks = [
@@ -15,7 +16,7 @@ const Home: NextPage = () => {
             active: true
         },
         {
-            title: "payments",
+            title: "payments history",
             link: "payments",
             active: false
         }
@@ -26,6 +27,7 @@ const Home: NextPage = () => {
         <PageTitle title={"Earnings"} icon={<AccountBalanceWallet style={{width:35,height: "auto"}} />} />
         <Tabs data={tabLinks} />
         <Balance />
+        <History />
         <Footer />
       </Grid>
   );
