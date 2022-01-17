@@ -11,5 +11,8 @@ export const getDesignTokens = (mode: any) => ({
                     main: "#043180"
                 })
         },
+        secondary: {
+            main: "#CEA716"
+        }
     },
 });

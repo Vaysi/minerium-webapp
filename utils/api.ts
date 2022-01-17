@@ -1,9 +1,11 @@
-const axios = require('axios').default;
+import axios, { AxiosInstance, AxiosRequestConfig,Method } from 'axios';
 import env from "./env";
 
-const instance = axios.create({
+const axiosConfig:AxiosRequestConfig = {
     baseURL: env.API_URL,
-});
+};
+
+const instance:AxiosInstance = axios.create(axiosConfig);
 
 const {POST,GET} = {POST:"POST",GET:"GET"};
 
@@ -24,11 +26,15 @@ const routes = {
     }
 }
 
-const $$userLogin = () => {
-    instance({
-        method: routes.users.login.method,
-        url: routes.users.login.route
-    });
+const $$userLogin = (identifier:string,password:string) => {
+    return instance.request({
+        method: routes.users.login.method as Method,
+        url: routes.users.login.route,
+        data: {
+            identifier,
+            password
+        }
+    }).then(response => response.data);
 }
 
 export {
