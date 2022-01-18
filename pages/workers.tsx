@@ -5,6 +5,7 @@ import PageTitle from "../components/inline-components/page-title";
 import {Computer} from "@mui/icons-material";
 import Footer from "../components/footer/footer";
 import WorkersList from "../components/workers/list";
+import HashChart from "../components/workers/chart";
 
 const Home: NextPage = () => {
   const tabLinks = [
@@ -24,6 +25,7 @@ const Home: NextPage = () => {
         <Header />
         <PageTitle title={"Workers"} icon={<Computer style={{width:35,height: "auto"}} />} />
         <WorkersList />
+        <HashChart />
         <Footer />
       </Grid>
   );
