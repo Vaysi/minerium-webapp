@@ -48,6 +48,7 @@ const TopHeader = () => {
         clearAuthTokens();
         setUser({...user,loggedIn:false});
         router.push('/auth/login');
+
     };
 
     return (
