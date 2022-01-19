@@ -2,11 +2,11 @@ import { useRouter } from "next/router"
 import {isLoggedIn} from "axios-jwt";
 
 const ProtectedRoute = (ProtectedComponent:any,forUsers:boolean) => {
+    const Router = useRouter()
 
-    return (props:any) => {
+    const HOC =  (props:any) => {
 
         if (typeof window !== "undefined") {
-            const Router = useRouter()
 
 
             if(forUsers){
@@ -28,6 +28,8 @@ const ProtectedRoute = (ProtectedComponent:any,forUsers:boolean) => {
 
         return null
     }
+    HOC.displayName = 'ProtectedRoute';
+    return HOC;
 }
 
 export default ProtectedRoute
