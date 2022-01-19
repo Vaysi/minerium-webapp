@@ -2,11 +2,11 @@ import { useRouter } from "next/router"
 import {isLoggedIn} from "axios-jwt";
 
 const ProtectedRoute = (ProtectedComponent:any,forUsers:boolean) => {
-    const Router = useRouter()
 
     const HOC =  (props:any) => {
 
         if (typeof window !== "undefined") {
+            const Router = useRouter()
 
 
             if(forUsers){
