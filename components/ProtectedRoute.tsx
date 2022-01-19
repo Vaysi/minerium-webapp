@@ -4,10 +4,9 @@ import {isLoggedIn} from "axios-jwt";
 const ProtectedRoute = (ProtectedComponent:any,forUsers:boolean) => {
 
     const HOC =  (props:any) => {
+        const Router = useRouter();
 
         if (typeof window !== "undefined") {
-            const Router = useRouter()
-
 
             if(forUsers){
                 if (isLoggedIn()) {

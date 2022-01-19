@@ -114,7 +114,7 @@ const Content = () => {
                             FRAUD WARNING
                         </Typography>
                         <Typography className={styles.fraud} variant={"subtitle1"}>
-                            There is a growing number of Internet sites using the "Minerium" name, purporting to represent Minerium and positioning themselves as official representer of Minerium. These fraudulent websites do not represent us and we reserves the right to take legal action to stop fraudulent activities conducted by them. If you receive any offers from companies whose website names were made up to resemble the domain names of the Minerium, such as www.minerium.co, www.minerium.net, please report to us at support@minerium.com
+                            There is a growing number of Internet sites using the 'Minerium' name, purporting to represent Minerium and positioning themselves as official representer of Minerium. These fraudulent websites do not represent us and we reserves the right to take legal action to stop fraudulent activities conducted by them. If you receive any offers from companies whose website names were made up to resemble the domain names of the Minerium, such as www.minerium.co, www.minerium.net, please report to us at support@minerium.com
                         </Typography>
                     </Grid>
                </Grid>
