@@ -1,11 +1,19 @@
 import axios, { AxiosInstance, AxiosRequestConfig,Method } from 'axios';
 import env from "./env";
+import { IAuthTokens, TokenRefreshRequest, applyAuthTokenInterceptor } from 'axios-jwt'
 
 const axiosConfig:AxiosRequestConfig = {
     baseURL: env.API_URL,
 };
 
 const instance:AxiosInstance = axios.create(axiosConfig);
+
+const requestRefresh: TokenRefreshRequest = async (refreshToken: string): Promise<IAuthTokens | string> => {
+    return refreshToken;
+}
+
+applyAuthTokenInterceptor(instance,{requestRefresh});
+
 
 const {POST,GET} = {POST:"POST",GET:"GET"};
 
