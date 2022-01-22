@@ -45,6 +45,20 @@ const $$userLogin = (identifier:string,password:string) => {
     }).then(response => response.data);
 }
 
+const $$userRegister = (email:string,password:string,repeat_password:string,username:string) => {
+    return instance.request({
+        method: routes.users.register.method as Method,
+        url: routes.users.register.route,
+        data: {
+            email,
+            username,
+            password,
+            repeat_password
+        }
+    }).then(response => response.data);
+}
+
 export {
-    $$userLogin
+    $$userLogin,
+    $$userRegister
 };
