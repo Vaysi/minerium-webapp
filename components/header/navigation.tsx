@@ -24,11 +24,11 @@ const useStyles:any = makeStyles((theme:any) => ({
         backgroundColor: "var(--bg-color)"
     },
     navLink: {
-        color: "var(--text-color)",
-        fontFamily: "var(--font-body)",
-        transition: "all ease-in 200ms",
+        color: "var(--text-color)!important",
+        fontFamily: "var(--font-body)!important",
+        transition: "all ease-in 200ms!important",
         "&:hover": {
-            color: "var(--accent-const)"
+            color: "var(--accent-const)!important"
         }
     }
 }));

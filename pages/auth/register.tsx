@@ -26,6 +26,8 @@ import React, {useContext, useEffect, useState} from "react";
 import {isLoggedIn} from "axios-jwt";
 import {userContext} from "../../utils/context";
 import {$$userRegister} from "../../utils/api";
+import {toast} from "react-toastify";
+import {useRouter} from "next/router";
 
 const useStyles: any = makeStyles((theme: any) => ({
     cardHeader: {
@@ -45,6 +47,7 @@ const useStyles: any = makeStyles((theme: any) => ({
 
 const Register: NextPage = () => {
     const styles = useStyles();
+    const router = useRouter();
     const {user, setUser} = useContext(userContext);
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -54,12 +57,49 @@ const Register: NextPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    const ready = () => {
+        if(email.length > 4 && username.length > 4 && password == confirmPassword && agreed) {
+            return true;
+        }else {
+            return false;
+        }
+    };
+
     const onSubmit = () => {
         setLoading(true);
-        $$userRegister(email,username,password,confirmPassword).then(response => {
-            console.log(response);
+        $$userRegister(email,password,confirmPassword,username).then(response => {
+            let urlParams = new URLSearchParams({
+                email: email,
+                expireDate: response.data.expireDate
+            }).toString();
+            setTimeout(() => {
+                router.push('/auth/verify?' + urlParams);
+            },1000);
+            setUser({...user,email,username});
             setLoading(false);
-        }).catch(reason => console.log(reason))
+        }).catch(reason => {
+            let close = reason.data == 'TRY_LOGIN' ? 7000 : 5000;
+            if('message' in reason){
+                toast.error(reason.message,{autoClose: close});
+
+                if(reason.data == 'TRY_LOGIN'){
+                    setTimeout(() => {
+                        router.push('/auth/login');
+                    },7500);
+                }
+
+                if(reason.data == 'NOT_VERIFIED'){
+                    let urlParams = new URLSearchParams({
+                        email: email,
+                        expireDate: reason.data.expireDate
+                    }).toString();
+                    setTimeout(() => {
+                        router.push('/auth/verify?' + urlParams);
+                    },1000);
+                }
+            }
+            setLoading(false);
+        });
 
     };
     useEffect(() => {
@@ -159,7 +199,7 @@ const Register: NextPage = () => {
                                 <Grid item xs={12}>
                                     <Button fullWidth onClick={onSubmit} className={styles.button} variant={"contained"}
                                             startIcon={loading ? <CircularProgress size={20}/> : ''}
-                                            disabled={!agreed || loading}>
+                                            disabled={!ready() || loading}>
                                         Register
                                     </Button>
                                 </Grid>

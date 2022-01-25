@@ -12,32 +12,32 @@ img {
 }
 
 :root {
-  --font-body: "Open Sans", sans-serif;
-  --font-header: "Poppins", sans-serif;
-  --bg-color: #f5f5f7;
-  --text-color: #333333;
-  --blue-ghost: #e9ecf2;
-  --semi-white: #aaaaaa;
-  --grey: #777777;
-  --accent: #cea716;
-  --accent-const: #cea716;
-  --header-bg: #043180;
-  --header-title: #fff;
-  --header: #053ea1;
-  --balloon-border-radius: 2px;
-  --balloon-color: rgba(16, 16, 16, 0.95);
-  --balloon-text-color: #fff;
-  --balloon-font-size: 12px;
-  --balloon-move: 4px;
+  --font-body: "Open Sans", sans-serif!important;
+  --font-header: "Poppins", sans-serif!important;
+  --bg-color: #f5f5f7!important;
+  --text-color: #333333!important;
+  --blue-ghost: #e9ecf2!important;
+  --semi-white: #aaaaaa!important;
+  --grey: #777777!important;
+  --accent: #cea716!important;
+  --accent-const: #cea716!important;
+  --header-bg: #043180!important;
+  --header-title: #fff!important;
+  --header: #053ea1!important;
+  --balloon-border-radius: 2px!important;
+  --balloon-color: rgba(16, 16, 16, 0.95)!important;
+  --balloon-text-color: #fff!important;
+  --balloon-font-size: 12px!important;
+  --balloon-move: 4px!important;
 }
 [data-theme="dark"] {
-  --bg-color: #121212;
-  --text-color: #e0e0e0;
-  --blue-ghost: #1e1e1e;
-  --semi-white: #888;
-  --accent: #292929;
-  --header-bg: #090909;
-  --header-title: #aaaaaa;
-  --header: #888;
-  --border: #333;
+  --bg-color: #121212!important;
+  --text-color: #e0e0e0!important;
+  --blue-ghost: #1e1e1e!important;
+  --semi-white: #888!important;
+  --accent: #292929!important;
+  --header-bg: #090909!important;
+  --header-title: #aaaaaa!important;
+  --header: #888!important;
+  --border: #333!important;
 }

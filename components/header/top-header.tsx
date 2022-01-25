@@ -20,9 +20,9 @@ const useStyles: any = makeStyles((theme: any) => ({
         width: "100%",
     },
     themeMode: {
-        color: "#fff",
+        color: "#fff!important",
         opacity: 0.6,
-        transition: "all ease-in 200ms",
+        transition: "all ease-in 200ms!important",
         "&:hover": {
             opacity: 1
         }
@@ -31,10 +31,13 @@ const useStyles: any = makeStyles((theme: any) => ({
         opacity: 1,
     },
     topHeaderLinks: {
-        color: "#fff",
+        color: "#fff!important",
         textDecoration: "none",
         opacity: 0.6,
-        transition: "all ease-in 200ms",
+        transition: "all ease-in 200ms!important",
+        "&:hover": {
+            opacity: 1
+        }
     }
 }));
 

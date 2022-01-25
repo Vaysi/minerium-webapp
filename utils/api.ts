@@ -42,7 +42,9 @@ const $$userLogin = (identifier:string,password:string) => {
             identifier,
             password
         }
-    }).then(response => response.data);
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
 }
 
 const $$userRegister = (email:string,password:string,repeat_password:string,username:string) => {
@@ -55,7 +57,9 @@ const $$userRegister = (email:string,password:string,repeat_password:string,user
             password,
             repeat_password
         }
-    }).then(response => response.data);
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
 }
 
 export {
