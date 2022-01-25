@@ -40,6 +40,10 @@ const routes = {
         history: {
             route: "earnings",
             method: GET
+        },
+        paymentHistory: {
+            route: "earnings/payment-history",
+            method: GET
         }
     }
 }
@@ -90,9 +94,21 @@ const $$earningsHistory = () => {
     });
 }
 
+const $$paymentHistory = () => {
+    return instance.request({
+        method: routes.earnings.paymentHistory.method as Method,
+        url: routes.earnings.paymentHistory.route,
+        params: {
+            coin: "all"
+        }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
 export {
     $$userLogin,
     $$userRegister,
     $$earningsBalance,
-    $$earningsHistory
+    $$earningsHistory,
+    $$paymentHistory
 };
