@@ -11,7 +11,11 @@ import {
     Typography
 } from "@mui/material";
 import {makeStyles, styled} from "@mui/styles";
-import {Tab} from "../../utils/interfaces";
+import {EarningHistory, Tab} from "../../utils/interfaces";
+import {useEffect, useState} from "react";
+import {$$earningsHistory} from "../../utils/api";
+import moment from "moment";
+import {DataGrid, GridColDef} from "@mui/x-data-grid";
 
 const useStyles:any = makeStyles((theme:any) => ({
     earnings: {
@@ -28,46 +32,73 @@ const useStyles:any = makeStyles((theme:any) => ({
         backgroundColor: "var(--blue-ghost)"
     },
     headerTitle: {
-
-    }
-}));
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
         backgroundColor: "#043180",
         color: "#fff",
-        textAlign: "center"
-    },
-    [`&.${tableCellClasses.body}`]: {
-        color: "#043180",
-        textAlign: "center"
+        fontWeight: "bold",
+        borderRadius: "3px 3px 0 0"
     },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-        backgroundColor: "rgba(5, 62, 161, 0.1)",
-    },
-}));
-
-function createData(id:number,since:string, until:string, price:number, currency:string, earningType:string,settled:string) {
-    return { id,since,until,price,currency,earningType,settled };
-}
-
-const rows = [
-    createData(1,"2021-04-21 00:00","2021-04-22 00:00",0.00227991,"BTC","PPS","Settled"),
-    createData(2,"2021-04-21 00:00","2021-04-22 00:00",0.00227991,"BTC","PPS","Settled"),
-    createData(3,"2021-04-21 00:00","2021-04-22 00:00",0.00227991,"BTC","PPS","Settled"),
-    createData(4,"2021-04-21 00:00","2021-04-22 00:00",0.00227991,"BTC","PPS","Settled"),
-    createData(5,"2021-04-21 00:00","2021-04-22 00:00",0.00227991,"BTC","PPS","Settled"),
-    createData(6,"2021-04-21 00:00","2021-04-22 00:00",0.00227991,"BTC","PPS","Settled"),
-    createData(7,"2021-04-21 00:00","2021-04-22 00:00",0.00227991,"BTC","PPS","Settled"),
-    createData(8,"2021-04-21 00:00","2021-04-22 00:00",0.00227991,"BTC","PPS","Settled"),
-    createData(9,"2021-04-21 00:00","2021-04-22 00:00",0.00227991,"BTC","PPS","Settled"),
-];
 
 const History = () => {
     const styles = useStyles();
+    const [history,setHistory] = useState<Array<any>>([]);
+
+    useEffect(() => {
+        $$earningsHistory().then(response => setHistory(response.data));
+    },[]);
+
+    const columns: GridColDef[] = [
+        {
+            field: 'since',
+            headerName: 'Since',
+            flex: 1,
+            align: "center",
+            headerAlign: "center",
+            headerClassName: styles.headerTitle
+        },
+        {
+            field: 'until',
+            headerName: 'Until',
+            flex: 1,
+            align: "center",
+            headerAlign: "center",
+            headerClassName: styles.headerTitle
+        },
+        {
+            field: 'price',
+            headerName: 'Price',
+            flex: 1,
+            align: "center",
+            headerAlign: "center",
+            headerClassName: styles.headerTitle
+        },
+        {
+            field: 'currency',
+            headerName: 'Currency',
+            flex: 1,
+            align: "center",
+            headerAlign: "center",
+            headerClassName: styles.headerTitle
+        },
+        {
+            field: 'type',
+            headerName: 'Earning Type',
+            flex: 1,
+            align: "center",
+            headerAlign: "center",
+            headerClassName: styles.headerTitle
+        },
+        {
+            field: 'paid',
+            headerName: 'Settled',
+            flex: 1,
+            align: "center",
+            headerAlign: "center",
+            headerClassName: styles.headerTitle
+        },
+    ];
+
     return (
        <Container maxWidth={"xl"}>
            <Card className={styles.card} sx={{mt:3}}>
@@ -82,34 +113,24 @@ const History = () => {
                    }}
                />
                <CardContent className={styles.cardContent}>
-                   <TableContainer component={Paper}>
-                       <Table sx={{ width: "100%" }} aria-label="customized table">
-                           <TableHead>
-                               <TableRow style={{borderRadius: "3px 3px 0 0"}}>
-                                   <StyledTableCell>Since</StyledTableCell>
-                                   <StyledTableCell align="center">Until</StyledTableCell>
-                                   <StyledTableCell align="center">Price</StyledTableCell>
-                                   <StyledTableCell align="center">Currency</StyledTableCell>
-                                   <StyledTableCell align="center">Earning Type</StyledTableCell>
-                                   <StyledTableCell align="center">Settled</StyledTableCell>
-                               </TableRow>
-                           </TableHead>
-                           <TableBody>
-                               {rows.map((row) => (
-                                   <StyledTableRow key={row.id}>
-                                       <StyledTableCell>
-                                           {row.since}
-                                       </StyledTableCell>
-                                       <StyledTableCell align="center">{row.until}</StyledTableCell>
-                                       <StyledTableCell align="center">{row.price}</StyledTableCell>
-                                       <StyledTableCell align="center">{row.currency}</StyledTableCell>
-                                       <StyledTableCell align="center">{row.earningType}</StyledTableCell>
-                                       <StyledTableCell align="center">{row.settled}</StyledTableCell>
-                                   </StyledTableRow>
-                               ))}
-                           </TableBody>
-                       </Table>
-                   </TableContainer>
+                   <div style={{display: 'flex', height: '100%', minHeight: 400}}>
+                       <div style={{flexGrow: 1}}>
+                           <DataGrid
+                               rows={history.map(item => {
+                                   item.since = moment(item.since,'YYYYMMDDHH').format('YYYY-MM-DD H:m');
+                                   item.until = moment(item.until,'YYYYMMDDHH').format('YYYY-MM-DD H:m');
+                                   item.paid = item.paid ? 'Settled' : 'Not Settled';
+                                   item.type = 'PPS';
+                                   item.id = (new Date()).getTime();
+                                   item.currency = item.currency.toUpperCase();
+                                   return item;
+                               })}
+                               columns={columns}
+                               rowsPerPageOptions={[10]}
+                               autoPageSize={true}
+                           />
+                       </div>
+                   </div>
                </CardContent>
            </Card>
        </Container>

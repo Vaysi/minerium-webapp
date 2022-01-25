@@ -30,9 +30,31 @@ interface Tab {
     active: boolean;
 }
 
+interface EarningBalance {
+    balance: {
+        minimum: number;
+        paid: number;
+        price: number;
+        wallet: string;
+    },
+    currency: string;
+    total: number;
+    yesterday: number;
+}
+
+interface EarningHistory {
+    currency: string;
+    paid: boolean;
+    price: number;
+    since: number;
+    until: number;
+}
+
 export type {
     ThemeMode,
     Tab,
     User,
-    UserState
+    UserState,
+    EarningBalance,
+    EarningHistory
 }

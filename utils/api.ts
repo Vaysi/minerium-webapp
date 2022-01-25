@@ -31,6 +31,16 @@ const routes = {
             route: "users/reset-password",
             method: POST
         },
+    },
+    earnings: {
+        balance: {
+            route: "earnings/balance",
+            method: GET
+        },
+        history: {
+            route: "earnings",
+            method: GET
+        }
     }
 }
 
@@ -62,7 +72,27 @@ const $$userRegister = (email:string,password:string,repeat_password:string,user
     });
 }
 
+const $$earningsBalance = () => {
+    return instance.request({
+        method: routes.earnings.balance.method as Method,
+        url: routes.earnings.balance.route
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+const $$earningsHistory = () => {
+    return instance.request({
+        method: routes.earnings.history.method as Method,
+        url: routes.earnings.history.route
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
 export {
     $$userLogin,
-    $$userRegister
+    $$userRegister,
+    $$earningsBalance,
+    $$earningsHistory
 };

@@ -11,7 +11,9 @@ import {
     Typography
 } from "@mui/material";
 import {makeStyles, styled} from "@mui/styles";
-import {Tab} from "../../utils/interfaces";
+import {EarningBalance, Tab} from "../../utils/interfaces";
+import {useEffect, useState} from "react";
+import {$$earningsBalance} from "../../utils/api";
 
 const useStyles:any = makeStyles((theme:any) => ({
     earnings: {
@@ -29,6 +31,11 @@ const useStyles:any = makeStyles((theme:any) => ({
     },
     headerTitle: {
 
+    },
+    subtitle: {
+        backgroundColor: "rgba(3, 37, 97, 0.1)",
+        borderRadius: 3,
+        padding: "0 3px"
     }
 }));
 
@@ -63,6 +70,32 @@ const rows = [
 
 const Balance = () => {
     const styles = useStyles();
+    const [balances,setBalances] = useState<Array<EarningBalance>>([]);
+
+    useEffect(() => {
+        $$earningsBalance().then(response => {
+            setBalances(response.data);
+        })
+    },[]);
+
+    const status = (row:EarningBalance) => {
+        if(!row.balance.wallet){
+            return (<>
+                Not Payable<br /><span className={styles.subtitle}>No Wallet Address Defined</span>
+            </>);
+        }else if (row.balance.price < row.balance.minimum) {
+            return (
+                <>
+                    Not Payable<br /><span className={styles.subtitle}>Min. Amount Has Not Reached</span>
+                </>
+            );
+        }else if (row.balance.price === 0) {
+            return 'Paid';
+        }else {
+            return 'Pending';
+        }
+    };
+
     return (
        <Container maxWidth={"xl"}>
            <Card className={styles.card} sx={{mt:3}}>
@@ -90,16 +123,28 @@ const Balance = () => {
                                </TableRow>
                            </TableHead>
                            <TableBody>
-                               {rows.map((row) => (
+                               {balances.map((row) => (
                                    <StyledTableRow key={row.currency}>
                                        <StyledTableCell>
-                                           {row.currency}
+                                           {row.currency.toUpperCase()}
                                        </StyledTableCell>
                                        <StyledTableCell align="center">{row.yesterday}</StyledTableCell>
-                                       <StyledTableCell align="center">{row.status}</StyledTableCell>
-                                       <StyledTableCell align="center">{row.totalEarnings}</StyledTableCell>
-                                       <StyledTableCell align="center">{row.totalPaid}</StyledTableCell>
-                                       <StyledTableCell align="center">{row.balance}</StyledTableCell>
+                                       <StyledTableCell align="center">{status(row)}</StyledTableCell>
+                                       {
+                                            row.currency == 'dgb' ? (
+                                                <>
+                                                    <StyledTableCell align="center">{row.total.toFixed(2)}</StyledTableCell>
+                                                    <StyledTableCell align="center">{(row.balance.paid || 0).toFixed(2)}</StyledTableCell>
+                                                    <StyledTableCell align="center">{row.balance.price.toFixed(2)}</StyledTableCell>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <StyledTableCell align="center">{row.total.toFixed(8)}</StyledTableCell>
+                                                    <StyledTableCell align="center">{(row.balance.paid || 0).toFixed(8)}</StyledTableCell>
+                                                    <StyledTableCell align="center">{row.balance.price.toFixed(8)}</StyledTableCell>
+                                                </>
+                                            )
+                                       }
                                    </StyledTableRow>
                                ))}
                            </TableBody>
