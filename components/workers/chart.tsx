@@ -17,12 +17,9 @@ import {
     Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import {WorkersGraph} from "../../utils/interfaces";
+import {useEffect, useState} from "react";
 
-interface Fake {
-    timestamps: Array<number>;
-    workers: Array<any>;
-}
-const graphData:Fake = require('./fake.json');
 
 const useStyles:any = makeStyles((theme:any) => ({
     earnings: {
@@ -36,7 +33,8 @@ const useStyles:any = makeStyles((theme:any) => ({
         color: "#fff"
     },
     cardContent: {
-        backgroundColor: "var(--blue-ghost)"
+        backgroundColor: "var(--blue-ghost)",
+        minHeight: "50vh"
     },
     headerTitle: {
 
@@ -84,32 +82,49 @@ function format_time(timestamp:number) {
     return dtFormat.format(new Date(timestamp * 1e3));
 }
 
-
-const labels = graphData.timestamps.map(item => {
-    return format_time(item)
-});
-
 const r = () => {
-    return '#'+Math.floor(Math.random()*16777215).toString(16);;
+    return '#'+Math.floor(Math.random()*16777215).toString(16);
 }
-const workersData = graphData.workers.map(item => {
-    let color= r();
-   item.label = item.name;
-   item.data = item.rates;
-   item.borderColor = color;
-   item.backgroundColor = color;
-    return {...item,...{
-        pointBorderColor: r(),
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(4, 49, 128, 0.75)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-    }};
-});
-const HashChart = () => {
+
+interface Props {
+    data: WorkersGraph
+}
+const HashChart = (props: Props) => {
     const styles = useStyles();
+
+    const workersToGraph = (data:Array<any>) => {
+      return data.map((item:any) => {
+          let color= r();
+          //@ts-ignore
+          item.label = item.name;
+          //@ts-ignore
+          item.data = item.rates;
+          //@ts-ignore
+          item.borderColor = color;
+          //@ts-ignore
+          item.backgroundColor = color;
+          return {...item,...{
+                  pointBorderColor: r(),
+                  pointBackgroundColor: '#fff',
+                  pointBorderWidth: 1,
+                  pointHoverRadius: 5,
+                  pointHoverBackgroundColor: 'rgba(4, 49, 128, 0.75)',
+                  pointHoverBorderColor: 'rgba(220,220,220,1)',
+                  pointHoverBorderWidth: 2,
+              }};
+      });
+    };
+    const [workersData,setWorkersData] = useState(workersToGraph(props.data.workers));
+
+
+    useEffect(() => {
+        setWorkersData(workersToGraph(props.data.workers));
+    },[props.data]);
+
+    const labels = props.data.timestamps.map(item => {
+        return format_time(item)
+    });
+
     const data = {
         labels,
         datasets: workersData,
@@ -129,7 +144,10 @@ const HashChart = () => {
                    }}
                />
                <CardContent className={styles.cardContent}>
-                   <Line options={options} data={data} />
+                   {
+                       //@ts-ignore
+                       (<Line options={options} data={data} />)
+                   }
                </CardContent>
            </Card>
        </Container>

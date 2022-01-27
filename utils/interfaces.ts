@@ -50,11 +50,46 @@ interface EarningHistory {
     until: number;
 }
 
+interface WorkersGraph {
+    timestamps: Array<number>;
+    workers: Array<{
+        name: string;
+        rates: Array<number>;
+    }>
+}
+
+interface WorkersList {
+    bestshare: number;
+    group_id: number;
+    hash1d: number;
+    hash1hr: number;
+    hash1m: number;
+    hash5m: number;
+    hash7d: number;
+    lastupdate: number;
+    shares: number;
+    uid: number;
+    worker_id: number;
+    worker_name: string;
+}
+
+interface WorkerGroups {
+    coin: string | null;
+    createdAt: string;
+    id: number;
+    name: string;
+    updatedAt: string;
+    userId: number;
+}
+
 export type {
     ThemeMode,
     Tab,
     User,
     UserState,
     EarningBalance,
-    EarningHistory
+    EarningHistory,
+    WorkersGraph,
+    WorkersList,
+    WorkerGroups
 }

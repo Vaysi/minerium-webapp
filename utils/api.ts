@@ -45,6 +45,24 @@ const routes = {
             route: "earnings/payment-history",
             method: GET
         }
+    },
+    workers: {
+        list: {
+            route: "workers",
+            method: GET,
+        },
+        byGroup: {
+            route: "workers/groups/:groupId",
+            method: GET
+        },
+        groupList: {
+            route: "workers/groups",
+            method: GET
+        },
+        createGroup: {
+            route: "workers/groups",
+            method: POST
+        }
     }
 }
 
@@ -105,10 +123,50 @@ const $$paymentHistory = () => {
         throw error.response.data;
     });
 }
+
+const $$workersList = (groupId:Number|null|string = null) => {
+    let method = groupId != null ? routes.workers.byGroup.method : routes.workers.list.method;
+    let route = groupId != null ? routes.workers.byGroup.route.replace(":groupId",String(groupId)) : routes.workers.list.route;
+    return instance.request({
+        method: method as Method,
+        url: route,
+        params: {
+            since: 2
+        }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+const $$workersGroups = () => {
+    return instance.request({
+        method: routes.workers.groupList.method as Method,
+        url: routes.workers.groupList.route,
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+const $$createWorkerGroup = (name:string,workers:Array<any>) => {
+    return instance.request({
+        method: routes.workers.createGroup.method as Method,
+        url: routes.workers.createGroup.route,
+        data: {
+            name,
+            workers
+        }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
 export {
     $$userLogin,
     $$userRegister,
     $$earningsBalance,
     $$earningsHistory,
-    $$paymentHistory
+    $$paymentHistory,
+    $$workersList,
+    $$workersGroups,
+    $$createWorkerGroup
 };

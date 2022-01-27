@@ -41,3 +41,6 @@ img {
   --header: #888!important;
   --border: #333!important;
 }
+.MuiDataGrid-columnHeadersInner  , .MuiDataGrid-columnHeaderCheckbox {
+  background-color: var(--header-bg)!important;
+}

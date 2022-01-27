@@ -5,13 +5,17 @@ import {
     Card,
     CardContent,
     CardHeader,
-    Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid,
-    TableCell, tableCellClasses, TableRow, TextField,
+    Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
 } from "@mui/material";
-import {makeStyles, styled} from "@mui/styles";
+import {makeStyles} from "@mui/styles";
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useEffect, useState} from "react";
-
+import {Hashrate} from "../../utils/functions";
+import {WorkersList as WorkersListType} from "../../utils/interfaces";
+import "../../styles/daragrid.module.css";
+import group from "./group";
+import {$$createWorkerGroup} from "../../utils/api";
+import {toast} from "react-toastify";
 const useStyles: any = makeStyles((theme: any) => ({
     earnings: {},
     card: {},
@@ -37,117 +41,30 @@ const useStyles: any = makeStyles((theme: any) => ({
     }
 }));
 
-const StyledTableCell = styled(TableCell)(({theme}) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: "#043180",
-        color: "#fff",
-        textAlign: "center"
-    },
-    [`&.${tableCellClasses.body}`]: {
-        color: "#043180",
-        textAlign: "center"
-    },
-}));
-
-const StyledTableRow = styled(TableRow)(({theme}) => ({
-    '&:nth-of-type(odd)': {
-        backgroundColor: "rgba(5, 62, 161, 0.01)",
-    },
-}));
-
-
-const rows = [
-    {
-        id: 12,
-        workerName: "hans.home3",
-        oneMinute: "61.54",
-        fiveMinute: "2",
-        oneHour: "61.54",
-        oneDay: "61.54",
-        sevenDay: "61.54",
-        lastUpdate: "2022-01-28 15:42",
-    },
-    {
-        id: 13,
-        workerName: "hans.home2",
-        oneMinute: "14.54",
-        fiveMinute: "2",
-        oneHour: "18.54",
-        oneDay: "19.54",
-        sevenDay: "20.54",
-        lastUpdate: "2022-01-07 15:42"
-    },
-    {
-        id: 8,
-        workerName: "hans.home1",
-        oneMinute: "22.54",
-        fiveMinute: "0",
-        oneHour: "41.54",
-        oneDay: "78.54",
-        sevenDay: "52.54",
-        lastUpdate: "2022-01-20 15:42"
-    },
-    {
-        id: 4,
-        workerName: "hans.home3",
-        oneMinute: "61.54",
-        fiveMinute: "2",
-        oneHour: "61.54",
-        oneDay: "61.54",
-        sevenDay: "61.54",
-        lastUpdate: "2022-01-15 15:42"
-    },
-    {
-        id: 7,
-        workerName: "hans.home3",
-        oneMinute: "61.54",
-        fiveMinute: "0",
-        oneHour: "61.54",
-        oneDay: "61.54",
-        sevenDay: "61.54",
-        lastUpdate: "2022-01-28 15:42"
-    },
-    {
-        id: 9,
-        workerName: "hans.home2",
-        oneMinute: "14.54",
-        fiveMinute: "2",
-        oneHour: "18.54",
-        oneDay: "0",
-        sevenDay: "20.54",
-        lastUpdate: "2022-01-07 15:42"
-    },
-    {
-        id: 2,
-        workerName: "hans.home1",
-        oneMinute: "22.54",
-        fiveMinute: "2",
-        oneHour: "41.54",
-        oneDay: "78.54",
-        sevenDay: "52.54",
-        lastUpdate: "2022-01-20 15:42"
-    },
-    {
-        id: 1,
-        workerName: "hans.home3",
-        oneMinute: "61.54",
-        fiveMinute: "2",
-        oneHour: "61.54",
-        oneDay: "0",
-        sevenDay: "61.54",
-        lastUpdate: "2022-01-15 15:42"
+interface Props{
+    data: Array<WorkersListType>;
+    states: {
+        setGroups: any;
+        groups: any;
+        getWorkersList: any;
     }
-];
-
-const WorkersList = () => {
+}
+const WorkersList = (props: Props) => {
     const styles = useStyles();
-
-    const [workers, setWorkers] = useState<Array<any>>(rows);
+    const [workers, setWorkers] = useState<Array<WorkersListType>>([...props.data]);
+    const [rows, setRows] = useState<Array<WorkersListType>>([...props.data]);
     const [groupModal, setGroupModal] = useState(false);
+    const [groupName, setGroupName] = useState('');
     const [watcherModal, setWatcherModal] = useState(false);
+    const [selectionModel, setSelectionModel] = useState([]);
+
 
     const openGroupModal = () => {
-        setGroupModal(true);
+        if(selectionModel.length){
+            setGroupModal(true);
+        }else {
+            toast.error('Please Select a Worker First , Click Here Again');
+        }
     };
 
     const closeGroupModal = () => {
@@ -173,15 +90,15 @@ const WorkersList = () => {
         let newState = 'all';
         switch (state) {
             case 'online':
-                setWorkers(rows.filter(worker => parseInt(worker.oneMinute) > 0));
+                setWorkers(rows.filter(worker => worker.hash1m > 0));
                 newState = 'online';
                 break;
             case 'offline':
-                setWorkers(rows.filter(worker => parseInt(worker.fiveMinute) === 0));
+                setWorkers(rows.filter(worker => worker.hash5m === 0));
                 newState = 'offline';
                 break;
             case 'inactive':
-                setWorkers(rows.filter(worker => parseInt(worker.oneDay) === 0));
+                setWorkers(rows.filter(worker => worker.hash1d === 0));
                 newState = 'inactive';
                 break;
             default:
@@ -192,6 +109,7 @@ const WorkersList = () => {
         setStatus({...status,activeTab: newState});
     };
 
+
     const workersStatus = () => {
         let status = {
             all: rows.length,
@@ -200,28 +118,22 @@ const WorkersList = () => {
             inactive: 0,
         };
         rows.map(worker => {
-                status.online += parseInt(worker.oneMinute) > 0 ? 1 : 0;
-                status.offline += parseInt(worker.fiveMinute) === 0 ? 1 : 0;
-                status.inactive += parseInt(worker.oneDay) === 0 ? 1 : 0;
+                status.online += worker.hash1m > 0 ? 1 : 0;
+                status.offline += worker.hash5m === 0 ? 1 : 0;
+                status.inactive += worker.hash1d === 0 ? 1 : 0;
         })
         return status;
     };
 
     useEffect(() => {
         setStatus({...status, ...workersStatus()});
-    }, []);
+        setWorkers([...props.data]);
+        setRows([...props.data]);
+    }, [props.data]);
 
     const columns: GridColDef[] = [
         {
-            field: 'oneMinute',
-            headerName: '1 Minute',
-            flex: 1,
-            align: "center",
-            headerAlign: "center",
-            headerClassName: styles.headerTitle
-        },
-        {
-            field: 'workerName',
+            field: 'worker_name',
             headerName: 'Worker',
             flex: 1,
             align: "center",
@@ -229,32 +141,52 @@ const WorkersList = () => {
             headerClassName: styles.headerTitle
         },
         {
-            field: 'oneHour',
+            field: 'hash1m',
+            headerName: '1 Minute',
+            flex: 1,
+            align: "center",
+            headerAlign: "center",
+            valueGetter: params => {
+                return Hashrate(params.row.hash1m);
+            },
+            headerClassName: styles.headerTitle,
+        },
+        {
+            field: 'hash1hr',
             headerName: '1 Hour',
             flex: 1,
             align: "center",
             headerAlign: "center",
+            valueGetter: params => {
+                return Hashrate(params.row.hash1hr);
+            },
             headerClassName: styles.headerTitle
         },
         {
-            field: 'oneDay',
+            field: 'hash1d',
             headerName: '1 Day',
             flex: 1,
             align: "center",
             headerAlign: "center",
+            valueGetter: params => {
+                return Hashrate(params.row.hash1d);
+            },
             headerClassName: styles.headerTitle
         },
         {
-            field: 'sevenDay',
+            field: 'hash7d',
             headerName: '7 Day',
             flex: 1,
             align: "center",
             headerAlign: "center",
+            valueGetter: params => {
+              return Hashrate(params.row.hash7d);
+            },
             headerClassName: styles.headerTitle
         },
         {
-            field: 'lastUpdate',
-            headerName: '7 Day',
+            field: 'lastupdate',
+            headerName: 'Last Update',
             flex: 1,
             align: "center",
             headerAlign: "center",
@@ -262,7 +194,28 @@ const WorkersList = () => {
         },
     ];
 
-    // @ts-ignore
+    const createGroup = () => {
+        $$createWorkerGroup(groupName,getWorkersNameById()).then((response) => {
+            setGroupName('');
+            props.states.setGroups([...props.states.groups,{...response.data}]);
+            toast.success('Group Created Successfuly');
+            setGroupModal(false);
+        });
+    };
+
+    const getWorkersNameById = () => {
+        return selectionModel.map(item => {
+            let find = workers.filter(item => {
+                //@ts-ignore
+                return selectionModel.includes(item.worker_id);
+            });
+            if(find.length){
+                return find[0].worker_name;
+            }
+        });
+    };
+
+
     return (
         <Container maxWidth={"xl"}>
             <Card className={styles.card} sx={{mt: 3}}>
@@ -307,6 +260,12 @@ const WorkersList = () => {
                                 columns={columns}
                                 rowsPerPageOptions={[10]}
                                 autoPageSize={true}
+                                checkboxSelection
+                                onSelectionModelChange={(newSelectionModel) => {
+                                    // @ts-ignore
+                                    setSelectionModel(newSelectionModel);
+                                }}
+                                selectionModel={selectionModel}
                             />
                         </div>
                     </div>
@@ -322,11 +281,13 @@ const WorkersList = () => {
                         label="Group Name"
                         fullWidth
                         variant="standard"
+                        value={groupName}
+                        onChange={e => setGroupName(e.target.value)}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeGroupModal}>Cancel</Button>
-                    <Button onClick={closeGroupModal}>Create</Button>
+                    <Button onClick={createGroup}>Create</Button>
                 </DialogActions>
             </Dialog>
             <Dialog open={watcherModal} onClose={closeWatcherModal} maxWidth={"md"} fullWidth>
