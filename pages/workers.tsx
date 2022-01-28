@@ -1,5 +1,5 @@
 import type {NextPage} from 'next'
-import {Alert, Grid} from "@mui/material";
+import {Grid} from "@mui/material";
 import Header from "../components/header/header";
 import PageTitle from "../components/inline-components/page-title";
 import {Computer} from "@mui/icons-material";
@@ -20,7 +20,7 @@ const Workers: NextPage = () => {
 
     const [groups, setGroups] = useState<Array<WorkerGroups>>([]);
 
-    const [selected,setSelected] = useState('all');
+    const [selected, setSelected] = useState('all');
 
 
     useEffect(() => {
@@ -28,9 +28,9 @@ const Workers: NextPage = () => {
         $$workersGroups().then(response => {
             setGroups(response.data);
         })
-    },[]);
+    }, []);
 
-    const getWorkersList = async (groupId:number|null=null) => {
+    const getWorkersList = async (groupId: number | null = null) => {
         await $$workersList(groupId).then(response => {
             let rows = response.data.workers.map((item: any) => {
                 item.id = item.worker_id;
@@ -49,9 +49,10 @@ const Workers: NextPage = () => {
         <Grid container>
             <Header/>
             <PageTitle title={"Workers"} icon={<Computer style={{width: 35, height: "auto"}}/>}/>
-            <WorkersGroup call={getWorkersList} states={{groups,setGroups,selected,setSelected}} />
-            {workers.length > 0 && <WorkersList states={{groups,setGroups,getWorkersList,selected,setSelected}} data={workers}/>}
-            { Boolean(workerGraph) && <HashChart data={workerGraph}/>}
+            <WorkersGroup call={getWorkersList} states={{groups, setGroups, selected, setSelected}}/>
+            {workers.length > 0 &&
+            <WorkersList states={{groups, setGroups, getWorkersList, selected, setSelected}} data={workers}/>}
+            {Boolean(workerGraph) && <HashChart data={workerGraph}/>}
             <Footer/>
         </Grid>
     );

@@ -1,10 +1,7 @@
-import {
-    Box, Button,
-    IconButton, MobileStepper, Paper, TextField, Typography
-} from "@mui/material";
+import {Box, Button, IconButton, MobileStepper, TextField} from "@mui/material";
 import {makeStyles} from "@mui/styles";
-import {ContentCopy, Groups, KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
-import {useEffect, useState} from "react";
+import {ContentCopy, KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
+import {useState} from "react";
 
 const useStyles: any = makeStyles((theme: any) => ({}));
 
