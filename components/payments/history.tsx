@@ -49,11 +49,11 @@ const PaymentHistory = () => {
     },[]);
 
     const getWalletLink = (params:GridRenderCellParams) => {
-        return params.row.wallet ? <a href={walletLink(params.row)} target="_blank">{params.row.wallet}</a> : 'Not Paid';
+        return params.row.wallet ? <a href={walletLink(params.row)} rel={"noreferrer"} target="_blank">{params.row.wallet}</a> : 'Not Paid';
     };
 
     const getTransactionLink = (params:GridRenderCellParams) => {
-        return params.row.txInfo ? <a href={txInfoLink(params.row)} target="_blank">{params.row.txInfo}</a> : 'Not Paid';
+        return params.row.txInfo ? <a href={txInfoLink(params.row)} rel={"noreferrer"} target="_blank">{params.row.txInfo}</a> : 'Not Paid';
     };
 
     const columns: GridColDef[] = [
