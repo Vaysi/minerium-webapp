@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig,Method } from 'axios';
 import env from "./env";
 import { IAuthTokens, TokenRefreshRequest, applyAuthTokenInterceptor } from 'axios-jwt'
+import {toast} from "react-toastify";
 
 const axiosConfig:AxiosRequestConfig = {
     baseURL: env.API_URL,
@@ -13,6 +14,11 @@ const requestRefresh: TokenRefreshRequest = async (refreshToken: string): Promis
 }
 
 applyAuthTokenInterceptor(instance,{requestRefresh});
+
+instance.interceptors.response.use((response) => response, (error) => {
+    toast.error('Something Went Wrong , Please Try Again or Call The Support Team');
+    throw error;
+});
 
 
 const {POST,GET} = {POST:"POST",GET:"GET"};
@@ -61,6 +67,12 @@ const routes = {
         },
         createGroup: {
             route: "workers/groups",
+            method: POST
+        }
+    },
+    watchers: {
+        create:{
+            route: "watchers",
             method: POST
         }
     }
@@ -160,6 +172,19 @@ const $$createWorkerGroup = (name:string,workers:Array<any>) => {
     });
 }
 
+const $$createWatcher = (name:string,workerGroupId:number|string) => {
+    return instance.request({
+        method: routes.watchers.create.method as Method,
+        url: routes.watchers.create.route,
+        data: {
+            name,
+            workerGroupId
+        }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
 export {
     $$userLogin,
     $$userRegister,
@@ -168,5 +193,6 @@ export {
     $$paymentHistory,
     $$workersList,
     $$workersGroups,
-    $$createWorkerGroup
+    $$createWorkerGroup,
+    $$createWatcher
 };

@@ -21,20 +21,20 @@ interface Props{
     states: {
         groups: any;
         setGroups: any;
+        selected: any;
+        setSelected: any;
     }
 }
 const WorkersGroup = (props: Props) => {
     const styles = useStyles();
-    const [selected,setSelected] = useState('all');
-
 
     useEffect(() => {
-        if(selected == 'all'){
+        if(props.states.selected == 'all'){
             props.call();
         }else {
-            props.call(selected);
+            props.call(props.states.selected);
         }
-    },[selected]);
+    },[props.states.selected]);
 
     return (
         <Container maxWidth={"xl"}>
@@ -43,9 +43,9 @@ const WorkersGroup = (props: Props) => {
                 <FormControl style={{backgroundColor: "#fff",padding:"0 15px!important"}}>
                     <Select
                         id="groupSelect"
-                        value={selected}
+                        value={props.states.selected}
                         variant={"standard"}
-                        onChange={(e) => setSelected(e.target.value)}
+                        onChange={(e) => props.states.setSelected(e.target.value)}
                         classes={{ select: styles.select }}
                     >
                         <MenuItem value={'all'}>All</MenuItem>

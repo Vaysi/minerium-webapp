@@ -44,3 +44,6 @@ img {
 .MuiDataGrid-columnHeadersInner  , .MuiDataGrid-columnHeaderCheckbox {
   background-color: var(--header-bg)!important;
 }
+.MuiDialogContent-root {
+  overflow-x: hidden;
+}

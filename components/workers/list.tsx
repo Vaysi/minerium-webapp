@@ -5,7 +5,7 @@ import {
     Card,
     CardContent,
     CardHeader,
-    Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField,
+    Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, Link, TextField, Typography,
 } from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
@@ -14,8 +14,10 @@ import {Hashrate} from "../../utils/functions";
 import {WorkersList as WorkersListType} from "../../utils/interfaces";
 import "../../styles/daragrid.module.css";
 import group from "./group";
-import {$$createWorkerGroup} from "../../utils/api";
+import {$$createWatcher, $$createWorkerGroup} from "../../utils/api";
 import {toast} from "react-toastify";
+import AddWorkerStepper from "./stepper";
+
 const useStyles: any = makeStyles((theme: any) => ({
     earnings: {},
     card: {},
@@ -41,28 +43,34 @@ const useStyles: any = makeStyles((theme: any) => ({
     }
 }));
 
-interface Props{
+interface Props {
     data: Array<WorkersListType>;
     states: {
         setGroups: any;
         groups: any;
         getWorkersList: any;
+        selected: any;
+        setSelected: any;
     }
 }
+
 const WorkersList = (props: Props) => {
     const styles = useStyles();
     const [workers, setWorkers] = useState<Array<WorkersListType>>([...props.data]);
     const [rows, setRows] = useState<Array<WorkersListType>>([...props.data]);
     const [groupModal, setGroupModal] = useState(false);
     const [groupName, setGroupName] = useState('');
+    const [watcherName, setWatcherName] = useState('');
     const [watcherModal, setWatcherModal] = useState(false);
+    const [addWorkerModal, setAddWorkerModal] = useState(false);
     const [selectionModel, setSelectionModel] = useState([]);
+    const [watcherLink, setWatcherLink] = useState(null);
 
 
     const openGroupModal = () => {
-        if(selectionModel.length){
+        if (selectionModel.length) {
             setGroupModal(true);
-        }else {
+        } else {
             toast.error('Please Select a Worker First , Click Here Again');
         }
     };
@@ -72,12 +80,27 @@ const WorkersList = (props: Props) => {
     };
 
     const openWatcherModal = () => {
-        setWatcherModal(true);
+        if (props.states.selected != 'all') {
+            setWatcherModal(true);
+        } else {
+            toast.error('Please Select a Group from Top To Create a Watcher');
+        }
     };
 
     const closeWatcherModal = () => {
         setWatcherModal(false);
     };
+
+    const openAddWorkerModal = () => {
+        setAddWorkerModal(true);
+    };
+
+    const closeAddWorkerModal = () => {
+        setAddWorkerModal(false);
+    };
+
+    useEffect(() => setWatcherLink(null),[watcherModal]);
+
     const [status, setStatus] = useState({
         activeTab: 'all',
         all: 0,
@@ -106,7 +129,7 @@ const WorkersList = (props: Props) => {
                 newState = 'all';
                 break;
         }
-        setStatus({...status,activeTab: newState});
+        setStatus({...status, activeTab: newState});
     };
 
 
@@ -118,9 +141,9 @@ const WorkersList = (props: Props) => {
             inactive: 0,
         };
         rows.map(worker => {
-                status.online += worker.hash1m > 0 ? 1 : 0;
-                status.offline += worker.hash5m === 0 ? 1 : 0;
-                status.inactive += worker.hash1d === 0 ? 1 : 0;
+            status.online += worker.hash1m > 0 ? 1 : 0;
+            status.offline += worker.hash5m === 0 ? 1 : 0;
+            status.inactive += worker.hash1d === 0 ? 1 : 0;
         })
         return status;
     };
@@ -180,7 +203,7 @@ const WorkersList = (props: Props) => {
             align: "center",
             headerAlign: "center",
             valueGetter: params => {
-              return Hashrate(params.row.hash7d);
+                return Hashrate(params.row.hash7d);
             },
             headerClassName: styles.headerTitle
         },
@@ -195,11 +218,19 @@ const WorkersList = (props: Props) => {
     ];
 
     const createGroup = () => {
-        $$createWorkerGroup(groupName,getWorkersNameById()).then((response) => {
+        $$createWorkerGroup(groupName, getWorkersNameById()).then((response) => {
             setGroupName('');
-            props.states.setGroups([...props.states.groups,{...response.data}]);
-            toast.success('Group Created Successfuly');
+            props.states.setGroups([...props.states.groups, {...response.data}]);
+            toast.success('Group Created Successfully');
             setGroupModal(false);
+        });
+    };
+
+    const createWatcher = () => {
+        $$createWatcher(watcherName, props.states.selected).then((response) => {
+            setWatcherName('');
+            setWatcherLink(response.data.token);
+            toast.success('Watcher Created Successfully');
         });
     };
 
@@ -209,7 +240,7 @@ const WorkersList = (props: Props) => {
                 //@ts-ignore
                 return selectionModel.includes(item.worker_id);
             });
-            if(find.length){
+            if (find.length) {
                 return find[0].worker_name;
             }
         });
@@ -233,23 +264,27 @@ const WorkersList = (props: Props) => {
                     <Grid container sx={{mb: 1}}>
                         <Grid item xs={6}>
                             <Badge sx={{mr: 2}} color="secondary" badgeContent={status.all}>
-                                <Button className={status.activeTab != 'all' ? styles.inactive : ''} variant={"contained"} onClick={() => applyFilter('all')}>All</Button>
+                                <Button className={status.activeTab != 'all' ? styles.inactive : ''}
+                                        variant={"contained"} onClick={() => applyFilter('all')}>All</Button>
                             </Badge>
                             <Badge sx={{mr: 2}} color="secondary" badgeContent={status.online}>
-                                <Button className={status.activeTab != 'online' ? styles.inactive : ''} variant={"contained"} onClick={() => applyFilter('online')}>Online</Button>
+                                <Button className={status.activeTab != 'online' ? styles.inactive : ''}
+                                        variant={"contained"} onClick={() => applyFilter('online')}>Online</Button>
                             </Badge>
                             <Badge sx={{mr: 2}} color="secondary" badgeContent={status.offline}>
-                                <Button className={status.activeTab != 'offline' ? styles.inactive : ''} variant={"contained"} onClick={() => applyFilter('offline')}>Offline</Button>
+                                <Button className={status.activeTab != 'offline' ? styles.inactive : ''}
+                                        variant={"contained"} onClick={() => applyFilter('offline')}>Offline</Button>
                             </Badge>
                             <Badge sx={{mr: 2}} color="secondary" badgeContent={status.inactive}>
-                                <Button className={status.activeTab != 'inactive' ? styles.inactive : ''} variant={"contained"} onClick={() => applyFilter('inactive')}>Inactive</Button>
+                                <Button className={status.activeTab != 'inactive' ? styles.inactive : ''}
+                                        variant={"contained"} onClick={() => applyFilter('inactive')}>Inactive</Button>
                             </Badge>
                         </Grid>
                         <Grid item xs={6} style={{textAlign: "right"}}>
                             <ButtonGroup variant="contained">
                                 <Button onClick={openGroupModal}>Create Group</Button>
                                 <Button onClick={openWatcherModal}>Create Watcher</Button>
-                                <Button>Add Worker</Button>
+                                <Button onClick={openAddWorkerModal}>Add Worker</Button>
                             </ButtonGroup>
                         </Grid>
                     </Grid>
@@ -290,25 +325,25 @@ const WorkersList = (props: Props) => {
                     <Button onClick={createGroup}>Create</Button>
                 </DialogActions>
             </Dialog>
-            <Dialog open={watcherModal} onClose={closeWatcherModal} maxWidth={"md"} fullWidth>
-                <DialogTitle>Create New Watcher</DialogTitle>
+            <Dialog open={addWorkerModal} onClose={closeAddWorkerModal} maxWidth={"md"} fullWidth>
+                <DialogTitle>
+                    <Typography variant={"h5"} style={{fontWeight:"bold"}} align={"center"}>
+                        Adding More Workers!
+                    </Typography>
+                    <Typography  variant={"h6"}  align={"center"}>
+                        Please follow these steps to configure your new workers:
+                    </Typography>
+                    <Divider />
+                </DialogTitle>
                 <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Watcher Name"
-                        fullWidth
-                        variant="standard"
-                    />
+                    <AddWorkerStepper />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={closeWatcherModal}>Cancel</Button>
-                    <Button onClick={closeWatcherModal}>Create</Button>
+                    <Button onClick={closeAddWorkerModal}>Close</Button>
                 </DialogActions>
             </Dialog>
         </Container>
-);
+    );
 }
 
 export default WorkersList;

@@ -20,6 +20,9 @@ const Workers: NextPage = () => {
 
     const [groups, setGroups] = useState<Array<WorkerGroups>>([]);
 
+    const [selected,setSelected] = useState('all');
+
+
     useEffect(() => {
         getWorkersList();
         $$workersGroups().then(response => {
@@ -46,8 +49,8 @@ const Workers: NextPage = () => {
         <Grid container>
             <Header/>
             <PageTitle title={"Workers"} icon={<Computer style={{width: 35, height: "auto"}}/>}/>
-            <WorkersGroup call={getWorkersList} states={{groups,setGroups}} />
-            {workers.length > 0 && <WorkersList states={{groups,setGroups,getWorkersList}} data={workers}/>}
+            <WorkersGroup call={getWorkersList} states={{groups,setGroups,selected,setSelected}} />
+            {workers.length > 0 && <WorkersList states={{groups,setGroups,getWorkersList,selected,setSelected}} data={workers}/>}
             { Boolean(workerGraph) && <HashChart data={workerGraph}/>}
             <Footer/>
         </Grid>
