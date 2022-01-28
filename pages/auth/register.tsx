@@ -189,7 +189,7 @@ const Register: NextPage = () => {
                             <FormControl>
                                 <FormControlLabel label={(
                                     <>
-                                        I have read and accept the <a target="_blank"
+                                        I have read and accept the <a target="_blank" rel={"noreferrer"}
                                                                       href="https://minerium.com/terms-of-services/">Terms
                                         and Conditions</a>.</>
                                 )} control={<Checkbox defaultChecked onClick={() => setAgreed(!agreed)}
