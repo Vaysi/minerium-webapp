@@ -1,19 +1,19 @@
-import axios, { AxiosInstance, AxiosRequestConfig,Method } from 'axios';
+import axios, {AxiosInstance, AxiosRequestConfig, Method} from 'axios';
 import env from "./env";
-import { IAuthTokens, TokenRefreshRequest, applyAuthTokenInterceptor } from 'axios-jwt'
+import {applyAuthTokenInterceptor, IAuthTokens, TokenRefreshRequest} from 'axios-jwt'
 import {toast} from "react-toastify";
 
-const axiosConfig:AxiosRequestConfig = {
+const axiosConfig: AxiosRequestConfig = {
     baseURL: env.API_URL,
 };
 
-const instance:AxiosInstance = axios.create(axiosConfig);
+const instance: AxiosInstance = axios.create(axiosConfig);
 
 const requestRefresh: TokenRefreshRequest = async (refreshToken: string): Promise<IAuthTokens | string> => {
     return refreshToken;
 }
 
-applyAuthTokenInterceptor(instance,{requestRefresh});
+applyAuthTokenInterceptor(instance, {requestRefresh});
 
 instance.interceptors.response.use((response) => response, (error) => {
     toast.error('Something Went Wrong , Please Try Again or Call The Support Team');
@@ -21,7 +21,7 @@ instance.interceptors.response.use((response) => response, (error) => {
 });
 
 
-const {POST,GET} = {POST:"POST",GET:"GET"};
+const {POST, GET} = {POST: "POST", GET: "GET"};
 
 const routes = {
     users: {
@@ -37,6 +37,14 @@ const routes = {
             route: "users/reset-password",
             method: POST
         },
+        notifications: {
+            route: "users/notifications",
+            method: GET
+        },
+        setNotifications: {
+            route: "users/notifications",
+            method: POST
+        }
     },
     earnings: {
         balance: {
@@ -50,6 +58,18 @@ const routes = {
         paymentHistory: {
             route: "earnings/payment-history",
             method: GET
+        },
+        paymentPreference: {
+            route: "earnings/payment-preference",
+            method: POST
+        },
+        cap: {
+            route: "earnings/cap",
+            method: GET
+        },
+        setCap: {
+            route: "earnings/cap",
+            method: POST
         }
     },
     workers: {
@@ -71,14 +91,20 @@ const routes = {
         }
     },
     watchers: {
-        create:{
+        create: {
             route: "watchers",
             method: POST
         }
-    }
+    },
+    pool: {
+        allPps: {
+            route: "pool/all-pps",
+            method: GET
+        }
+    },
 }
 
-const $$userLogin = (identifier:string,password:string) => {
+const $$userLogin = (identifier: string, password: string) => {
     return instance.request({
         method: routes.users.login.method as Method,
         url: routes.users.login.route,
@@ -91,7 +117,7 @@ const $$userLogin = (identifier:string,password:string) => {
     });
 }
 
-const $$userRegister = (email:string,password:string,repeat_password:string,username:string) => {
+const $$userRegister = (email: string, password: string, repeat_password: string, username: string) => {
     return instance.request({
         method: routes.users.register.method as Method,
         url: routes.users.register.route,
@@ -136,9 +162,9 @@ const $$paymentHistory = () => {
     });
 }
 
-const $$workersList = (groupId:Number|null|string = null) => {
+const $$workersList = (groupId: Number | null | string = null) => {
     let method = groupId != null ? routes.workers.byGroup.method : routes.workers.list.method;
-    let route = groupId != null ? routes.workers.byGroup.route.replace(":groupId",String(groupId)) : routes.workers.list.route;
+    let route = groupId != null ? routes.workers.byGroup.route.replace(":groupId", String(groupId)) : routes.workers.list.route;
     return instance.request({
         method: method as Method,
         url: route,
@@ -159,7 +185,7 @@ const $$workersGroups = () => {
     });
 }
 
-const $$createWorkerGroup = (name:string,workers:Array<any>) => {
+const $$createWorkerGroup = (name: string, workers: Array<any>) => {
     return instance.request({
         method: routes.workers.createGroup.method as Method,
         url: routes.workers.createGroup.route,
@@ -172,7 +198,7 @@ const $$createWorkerGroup = (name:string,workers:Array<any>) => {
     });
 }
 
-const $$createWatcher = (name:string,workerGroupId:number|string) => {
+const $$createWatcher = (name: string, workerGroupId: number | string) => {
     return instance.request({
         method: routes.watchers.create.method as Method,
         url: routes.watchers.create.route,
@@ -180,6 +206,79 @@ const $$createWatcher = (name:string,workerGroupId:number|string) => {
             name,
             workerGroupId
         }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+const $$getAllPPS = () => {
+    return instance.request({
+        method: routes.pool.allPps.method as Method,
+        url: routes.pool.allPps.route,
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+
+const $$changePaymentPreference = (currency: string) => {
+    return instance.request({
+        method: routes.earnings.paymentPreference.method as Method,
+        url: routes.earnings.paymentPreference.route,
+        data: {
+            currency
+        }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+const $$getCap = () => {
+    return instance.request({
+        method: routes.earnings.cap.method as Method,
+        url: routes.earnings.cap.route,
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+const $$setCap = (coin: string, priceCap: number, wallet: string) => {
+    return instance.request({
+        method: routes.earnings.setCap.method as Method,
+        url: routes.earnings.setCap.route,
+        params: {
+            coin,
+        },
+        data: {
+            coin,
+            priceCap,
+            wallet
+        }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+const $$getNotifications = () => {
+    return instance.request({
+        method: routes.users.notifications.method as Method,
+        url: routes.users.notifications.route,
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+const $$setNotifications = (activeWorkers: any, dailyReport: boolean, hashrate: any, totalHashrate: any) => {
+    let data = {
+        activeWorkers: parseInt(activeWorkers),
+        dailyReport,
+        hashrate: parseInt(hashrate),
+        totalHashrate: parseInt(totalHashrate)
+    };
+    return instance.request({
+        method: routes.users.setNotifications.method as Method,
+        url: routes.users.setNotifications.route,
+        data
     }).then(response => response.data).catch(error => {
         throw error.response.data;
     });
@@ -194,5 +293,11 @@ export {
     $$workersList,
     $$workersGroups,
     $$createWorkerGroup,
-    $$createWatcher
+    $$createWatcher,
+    $$getAllPPS,
+    $$changePaymentPreference,
+    $$getCap,
+    $$setCap,
+    $$getNotifications,
+    $$setNotifications
 };

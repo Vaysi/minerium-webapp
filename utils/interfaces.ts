@@ -82,6 +82,34 @@ interface WorkerGroups {
     userId: number;
 }
 
+interface AllPPS {
+    pps: Array<Coins>;
+    preference: string;
+}
+
+interface Coins {
+    coin: string;
+    yesterday: number;
+    icon?: string;
+}
+
+interface Cap {
+    coin: string;
+    createdAt: string;
+    id: number;
+    priceCap: number;
+    updatedAt: string;
+    userId: number;
+    wallet: string;
+}
+
+interface Notifications {
+    activeWorkers: number;
+    dailyReport: boolean;
+    hashrate: number;
+    totalHashrate: number;
+}
+
 export type {
     ThemeMode,
     Tab,
@@ -91,5 +119,9 @@ export type {
     EarningHistory,
     WorkersGraph,
     WorkersList,
-    WorkerGroups
+    WorkerGroups,
+    AllPPS,
+    Coins,
+    Cap,
+    Notifications
 }

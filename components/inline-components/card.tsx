@@ -18,7 +18,7 @@ const useStyles: any = makeStyles((theme: any) => ({
 
 interface Props {
     titleProps: any;
-    content: any;
+    children: any;
 }
 
 const CustomCard = (props:Props) => {
@@ -37,7 +37,7 @@ const CustomCard = (props:Props) => {
                     {...props.titleProps}
                 />
                 <CardContent className={styles.cardContent}>
-                    {props.content}
+                    {props.children}
                 </CardContent>
             </Card>
         </Container>
