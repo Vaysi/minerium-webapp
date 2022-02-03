@@ -110,6 +110,37 @@ interface Notifications {
     totalHashrate: number;
 }
 
+interface Watchers {
+    active: boolean;
+    coin: string | null;
+    createdAt: string;
+    expiresIn: number;
+    id: number;
+    ownerId: number;
+    remark: string;
+    token: string;
+    updatedAt: string;
+    workerGroupId: number;
+}
+
+interface Me {
+    isOwnerUser: boolean;
+    user: {
+        displayName: string;
+        email: string;
+        firstName: string;
+        lastName: string;
+        payment: {
+            preferredCurrency: string;
+        }
+        role: string;
+        security: {
+            has2fa: boolean;
+        }
+        username: string;
+    }
+}
+
 export type {
     ThemeMode,
     Tab,
@@ -123,5 +154,7 @@ export type {
     AllPPS,
     Coins,
     Cap,
-    Notifications
+    Notifications,
+    Watchers,
+    Me
 }

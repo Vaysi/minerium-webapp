@@ -87,7 +87,8 @@ const r = () => {
 }
 
 interface Props {
-    data: WorkersGraph
+    data: WorkersGraph,
+    options?: any;
 }
 const HashChart = (props: Props) => {
     const styles = useStyles();
@@ -146,7 +147,7 @@ const HashChart = (props: Props) => {
                <CardContent className={styles.cardContent}>
                    {
                        //@ts-ignore
-                       (<Line options={options} data={data} />)
+                       (<Line options={props.options ?? options} data={data} />)
                    }
                </CardContent>
            </Card>

@@ -342,6 +342,25 @@ const WorkersList = (props: Props) => {
                     <Button onClick={closeAddWorkerModal}>Close</Button>
                 </DialogActions>
             </Dialog>
+            <Dialog open={watcherModal} onClose={closeWatcherModal} maxWidth={"md"} fullWidth>
+                <DialogTitle>Create New Watcher</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Watcher Name"
+                        fullWidth
+                        variant="standard"
+                        value={watcherName}
+                        onChange={e => setWatcherName(e.target.value)}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={closeWatcherModal}>Cancel</Button>
+                    <Button onClick={createWatcher}>Create</Button>
+                </DialogActions>
+            </Dialog>
         </Container>
     );
 }

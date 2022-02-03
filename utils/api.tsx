@@ -16,12 +16,17 @@ const requestRefresh: TokenRefreshRequest = async (refreshToken: string): Promis
 applyAuthTokenInterceptor(instance, {requestRefresh});
 
 instance.interceptors.response.use((response) => response, (error) => {
-    toast.error('Something Went Wrong , Please Try Again or Call The Support Team');
+    toast.error(
+        <>
+            Something Went Wrong ,<br/>
+            {error.response.data.message}
+        </>
+    );
     throw error;
 });
 
 
-const {POST, GET} = {POST: "POST", GET: "GET"};
+const {POST, GET,DELETE} = {POST: "POST", GET: "GET",DELETE:"DELETE"};
 
 const routes = {
     users: {
@@ -43,6 +48,30 @@ const routes = {
         },
         setNotifications: {
             route: "users/notifications",
+            method: POST
+        },
+        me: {
+            route: "users/me",
+            method: GET
+        },
+        setMe: {
+            route: "users/me",
+            method: POST
+        },
+        twoFA: {
+            route: "users/request-2fa",
+            method: POST
+        },
+        active2Fa: {
+            route: "users/activate-2fa",
+            method: POST
+        },
+        disable2Fa:{
+            route: "users/deactivate-2fa",
+            method: POST
+        },
+        updatePassword: {
+            route: "users/update-password",
             method: POST
         }
     },
@@ -94,6 +123,14 @@ const routes = {
         create: {
             route: "watchers",
             method: POST
+        },
+        list:{
+            route: "watchers",
+            method: GET
+        },
+        delete: {
+            route: "watchers/:watcherId",
+            method: DELETE
         }
     },
     pool: {
@@ -211,6 +248,24 @@ const $$createWatcher = (name: string, workerGroupId: number | string) => {
     });
 }
 
+const $$getWatchers = () => {
+    return instance.request({
+        method: routes.watchers.list.method as Method,
+        url: routes.watchers.list.route,
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+const $$deleteWatcher = (watcherId:any) => {
+    return instance.request({
+        method: routes.watchers.delete.method as Method,
+        url: routes.watchers.delete.route.replace(":watcherId",watcherId),
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
 const $$getAllPPS = () => {
     return instance.request({
         method: routes.pool.allPps.method as Method,
@@ -268,6 +323,29 @@ const $$getNotifications = () => {
     });
 }
 
+
+const $$getMe = () => {
+    return instance.request({
+        method: routes.users.me.method as Method,
+        url: routes.users.me.route,
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+const $$setMe = (firstName:string,lastName:string) => {
+    return instance.request({
+        method: routes.users.setMe.method as Method,
+        url: routes.users.setMe.route,
+        data: {
+            firstName,
+            lastName
+        }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
 const $$setNotifications = (activeWorkers: any, dailyReport: boolean, hashrate: any, totalHashrate: any) => {
     let data = {
         activeWorkers: parseInt(activeWorkers),
@@ -279,6 +357,57 @@ const $$setNotifications = (activeWorkers: any, dailyReport: boolean, hashrate: 
         method: routes.users.setNotifications.method as Method,
         url: routes.users.setNotifications.route,
         data
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+
+const $$get2FA = () => {
+    return instance.request({
+        method: routes.users.twoFA.method as Method,
+        url: routes.users.twoFA.route,
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+
+const $$active2FA = (token:string) => {
+    return instance.request({
+        method: routes.users.active2Fa.method as Method,
+        url: routes.users.active2Fa.route,
+        data: {
+            token
+        }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+
+const $$disable2FA = (token:string) => {
+    return instance.request({
+        method: routes.users.disable2Fa.method as Method,
+        url: routes.users.disable2Fa.route,
+        data: {
+            token
+        }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+
+const $$updatePassword = (old_password:string,password:string,repeat_password:string) => {
+    return instance.request({
+        method: routes.users.updatePassword.method as Method,
+        url: routes.users.updatePassword.route,
+        data: {
+            old_password,
+            password,
+            repeat_password
+        }
     }).then(response => response.data).catch(error => {
         throw error.response.data;
     });
@@ -299,5 +428,13 @@ export {
     $$getCap,
     $$setCap,
     $$getNotifications,
-    $$setNotifications
+    $$setNotifications,
+    $$getWatchers,
+    $$deleteWatcher,
+    $$getMe,
+    $$setMe,
+    $$get2FA,
+    $$active2FA,
+    $$disable2FA,
+    $$updatePassword
 };

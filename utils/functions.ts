@@ -17,6 +17,22 @@ export const dynamicSort = (property:any) => {
     }
 }
 
-function capitalizeFirstLetter(string:string) {
+export function capitalizeFirstLetter(string:string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function hasJsonStructure(str:any) {
+    if (typeof str !== 'string') return false;
+    try {
+        const result = JSON.parse(str);
+        const type = Object.prototype.toString.call(result);
+        return type === '[object Object]'
+            || type === '[object Array]';
+    } catch (err) {
+        return false;
+    }
+}
+
+export function humanize(x:number) {
+    return x && x.toFixed(8).replace(/\.?0*$/, '');
 }

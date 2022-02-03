@@ -2,12 +2,18 @@ import {Box, Button, IconButton, MobileStepper, TextField} from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import {ContentCopy, KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import {useState} from "react";
+import {CopyToClipboard} from "react-copy-to-clipboard";
+import {toast} from "react-toastify";
 
 const useStyles: any = makeStyles((theme: any) => ({}));
 
-const copyButton = (text: string) => (<IconButton color="primary" component="span">
-    <ContentCopy/>
-</IconButton>);
+const copyButton = (text: string) => (
+    <CopyToClipboard text={text} onCopy={() => toast.success('Successfully Copied !')}>
+        <IconButton color="primary" component="span">
+            <ContentCopy/>
+        </IconButton>
+    </CopyToClipboard>
+);
 
 const step1 = <>
     <h4>1. Connect to The Miner</h4>
