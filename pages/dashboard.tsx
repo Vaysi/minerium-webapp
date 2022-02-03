@@ -145,7 +145,7 @@ const Dashboard: NextPage = () => {
                 <Grid container>
                     {Object.entries(dashboardData.userEarning).map(([k, v]) => {
                         return (
-                            <Grid md={3} sm={6} xs={12} item>
+                            <Grid key={k} md={3} sm={6} xs={12} item>
                                 <CustomCard key={k} titleProps={{
                                     title: k.toUpperCase(),
                                     avatar: (

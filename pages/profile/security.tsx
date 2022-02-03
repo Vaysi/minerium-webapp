@@ -250,8 +250,8 @@ const WatchersPage: NextPage = () => {
                         ) : (
                             <>
                                 <Grid container>
-                                    {recovery.map(item => (
-                                        <Grid item sm={6} xs={12} sx={{my: 2}}>
+                                    {recovery.map((item,index) => (
+                                        <Grid key={index} item sm={6} xs={12} sx={{my: 2}}>
                                             <Paper style={{textAlign:"center"}} variant="outlined" sx={{mx:2,py:2}}>
                                                 {item}
                                             </Paper>
