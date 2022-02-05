@@ -137,6 +137,10 @@ const routes = {
         allPps: {
             route: "pool/all-pps",
             method: GET
+        },
+        pps: {
+            route: "pool/pps-info",
+            method: GET
         }
     },
 }
@@ -413,6 +417,18 @@ const $$updatePassword = (old_password:string,password:string,repeat_password:st
     });
 }
 
+const $$getPps = (coin:string) => {
+    return instance.request({
+        method: routes.pool.pps.method as Method,
+        url: routes.pool.pps.route,
+        params: {
+            coin: coin.toLowerCase()
+        }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
 export {
     $$userLogin,
     $$userRegister,
@@ -436,5 +452,6 @@ export {
     $$get2FA,
     $$active2FA,
     $$disable2FA,
-    $$updatePassword
+    $$updatePassword,
+    $$getPps
 };

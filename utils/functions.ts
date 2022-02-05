@@ -33,6 +33,6 @@ export function hasJsonStructure(str:any) {
     }
 }
 
-export function humanize(x:number) {
-    return x && x.toFixed(8).replace(/\.?0*$/, '');
+export function humanize(x:number, fixed=8) {
+    return x && x.toFixed(fixed).replace(/\.?0*$/, "");
 }

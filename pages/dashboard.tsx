@@ -4,7 +4,8 @@ import {
     Box,
     Button,
     CircularProgress,
-    Container, Divider,
+    Container,
+    Divider,
     Grid,
     IconButton,
     TextField,
@@ -145,7 +146,7 @@ const Dashboard: NextPage = () => {
                 <Grid container>
                     {Object.entries(dashboardData.userEarning).map(([k, v]) => {
                         return (
-                            <Grid key={k} md={3} sm={6} xs={12} item>
+                            <Grid key={k} lg={3} sm={6} xs={12} item>
                                 <CustomCard key={k} titleProps={{
                                     title: k.toUpperCase(),
                                     avatar: (
@@ -173,7 +174,7 @@ const Dashboard: NextPage = () => {
                                             }
                                         </Typography>
                                         <Box textAlign={"center"}>
-                                            <Button variant={"contained"} color={"primary"}>
+                                            <Button onClick={() => router.push(`/calculator?coin=${k.toLowerCase()}`)} variant={"contained"} color={"primary"}>
                                                 {k.toUpperCase()} Calculator
                                             </Button>
                                         </Box>
@@ -190,79 +191,96 @@ const Dashboard: NextPage = () => {
                                data={socketFiler == 'day' ? dashboardData.graphDay : dashboardData.graphHour}/>
                 }
                 <CustomCard titleProps={{title: "Minerium Mining Addresses"}}>
-                    <TextField
-                        fullWidth
-                        id="address"
-                        sx={{my: 1}}
-                        value="stratum+tcp://stratum.minerium.com:3333"
-                        InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:3333")}}
-                    />
-                    <TextField
-                        fullWidth
-                        id="address2"
-                        sx={{my: 1}}
-                        value="stratum+tcp://stratum.minerium.com:4444"
-                        InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:4444")}}
-                    />
-                    <TextField
-                        fullWidth
-                        id="address3"
-                        sx={{mt: 1,mb:2}}
-                        value="stratum+tcp://stratum.minerium.com:44443"
-                        InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:44443")}}
-                    />
-                    <Typography>
-                        Miner Config <br/>
-                        <Typography className={styles.primary}>
-                            {user && user.username || 'username'}.001, {user && user.username || 'username'}.002
-                        </Typography>
-                    </Typography>
-                    <Divider sx={{my:1}} />
-                    <Typography>
-                        Fee PPS+ <br/>
-                        <Typography className={styles.primary}>
-                            2%
-                        </Typography>
-                    </Typography>
-                    <Divider sx={{my:1}} />
-                    <Typography>
-                        Minimum Payout <br/>
-                        <Typography className={styles.primary}>
-                            0.005 BTC
-                        </Typography>
-                    </Typography>
-                    <Divider sx={{my:1}} />
-                    <Typography>
-                        Payment Time <br/>
-                        <Typography className={styles.primary}>
-                            During 00:00-01:00 (UTC)
-                        </Typography>
-                    </Typography>
+                    <Grid container>
+                        <Grid item lg={6} xs={12} sx={{px: 1}}>
+                            <TextField
+                                fullWidth
+                                id="address"
+                                sx={{my: 1}}
+                                value="stratum+tcp://stratum.minerium.com:3333"
+                                InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:3333")}}
+                            />
+                            <TextField
+                                fullWidth
+                                id="address2"
+                                sx={{my: 1}}
+                                value="stratum+tcp://stratum.minerium.com:4444"
+                                InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:4444")}}
+                            />
+                            <TextField
+                                fullWidth
+                                id="address3"
+                                sx={{mt: 1, mb: 2}}
+                                value="stratum+tcp://stratum.minerium.com:44443"
+                                InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:44443")}}
+                            />
+                        </Grid>
+                        <Grid item lg={6} xs={12} sx={{px: 1}}>
+                            <Typography>
+                                Miner Config <br/>
+                                <Typography className={styles.primary}>
+                                    {user && user.username || 'username'}.001, {user && user.username || 'username'}.002
+                                </Typography>
+                            </Typography>
+                            <Divider sx={{my: 1}}/>
+                            <Typography>
+                                Fee PPS+ <br/>
+                                <Typography className={styles.primary}>
+                                    2%
+                                </Typography>
+                            </Typography>
+                            <Divider sx={{my: 1}}/>
+                            <Typography>
+                                Minimum Payout <br/>
+                                <Typography className={styles.primary}>
+                                    0.005 BTC
+                                </Typography>
+                            </Typography>
+                            <Divider sx={{my: 1}}/>
+                            <Typography>
+                                Payment Time <br/>
+                                <Typography className={styles.primary}>
+                                    During 00:00-01:00 (UTC)
+                                </Typography>
+                            </Typography>
+                        </Grid>
+                    </Grid>
                 </CustomCard>
                 <CustomCard titleProps={{title: "Support"}}>
-                    <Typography>
-                        <Typography className={styles.secondary}>
-                            FAQ
-                        </Typography>
-                        Here find some of the most frequent questions about minerium, crypto currency and pools.
-                    </Typography>
-                    <Box textAlign={"center"} sx={{my:2}}>
-                        <Button variant={"contained"} color={"primary"}>
-                            Check FAQs
-                        </Button>
-                    </Box>
-                    <Typography>
-                        <Typography className={styles.secondary}>
-                            Contact Us
-                        </Typography>
-                        Report Problems: <Typography onClick={() => router.push('mailto:support@minerium.com') } component={"span"} className={styles.primary} style={{cursor:"pointer"}}>support@minerium.com</Typography> <br/>
-                        Customer Service: <Typography  onClick={() => router.push('https://wa.me/message/M7A2O5XJEHDMH1') } component={"span"} className={styles.primary}  style={{cursor:"pointer"}}>WhatsApp</Typography>
-                    </Typography>
-                    <Box textAlign={"center"} sx={{my:2}}>
-                        <Button variant={"contained"} color={"primary"}>
-                            Contact Us
-                        </Button>
-                    </Box>
+                    <Grid container>
+                        <Grid item lg={6} xs={12} sx={{px: 1}}>
+                            <Typography>
+                                <Typography className={styles.secondary}>
+                                    FAQ
+                                </Typography>
+                                Here find some of the most frequent questions about minerium, crypto currency and pools.
+                            </Typography>
+                            <Box textAlign={"center"} sx={{my: 2}}>
+                                <Button variant={"contained"} color={"primary"}>
+                                    Check FAQs
+                                </Button>
+                            </Box>
+                        </Grid>
+                        <Grid item lg={6} xs={12} sx={{px: 1}}>
+                            <Typography>
+                                <Typography className={styles.secondary}>
+                                    Contact Us
+                                </Typography>
+                                Report Problems: <Typography onClick={() => router.push('mailto:support@minerium.com')}
+                                                             component={"span"} className={styles.primary}
+                                                             style={{cursor: "pointer"}}>support@minerium.com</Typography>
+                                <br/>
+                                Customer Service: <Typography
+                                onClick={() => router.push('https://wa.me/message/M7A2O5XJEHDMH1')} component={"span"}
+                                className={styles.primary} style={{cursor: "pointer"}}>WhatsApp</Typography>
+                            </Typography>
+                            <Box textAlign={"center"} sx={{my: 2}}>
+                                <Button variant={"contained"} color={"primary"}>
+                                    Contact Us
+                                </Button>
+                            </Box>
+                        </Grid>
+                    </Grid>
                 </CustomCard>
             </Container>
             <Backdrop
