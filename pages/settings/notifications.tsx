@@ -1,10 +1,8 @@
 import type {NextPage} from 'next'
 import {Box, Button, Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, TextField} from "@mui/material";
 import Header from "../../components/header/header";
-import PageTitle from "../../components/inline-components/page-title";
 import Footer from "../../components/footer/footer";
 import Tabs from "../../components/inline-components/tabs";
-import {Settings} from "@mui/icons-material";
 import {makeStyles} from "@mui/styles";
 import CustomCard from "../../components/inline-components/card";
 import {useEffect, useState} from "react";
@@ -34,7 +32,7 @@ const SettingsPage: NextPage = () => {
     const [showTotalHashrate, setShowTotalHashrate] = useState(false);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const changeField = (field: string, value: string|boolean|number) => {
+    const changeField = (field: string, value: string | boolean | number) => {
         let newNotification = {...notifications};
         // @ts-ignore
         newNotification[field] = value;
@@ -78,12 +76,13 @@ const SettingsPage: NextPage = () => {
     return (
         <Grid container>
             <Header/>
-            <PageTitle title={"SETTING"} icon={<Settings style={{width: 35, height: "auto"}}/>}/>
             <Tabs data={tabLinks}/>
             <CustomCard titleProps={{title: "Notifications"}}>
                 <FormGroup>
-                    <FormControlLabel control={<Checkbox onChange={(e) => changeField('dailyReport',!notifications.dailyReport)} checked={notifications.dailyReport as boolean}/>}
-                                      label="Receive daily report"/>
+                    <FormControlLabel
+                        control={<Checkbox onChange={(e) => changeField('dailyReport', !notifications.dailyReport)}
+                                           checked={notifications.dailyReport as boolean}/>}
+                        label="Receive daily report"/>
                 </FormGroup>
                 <FormGroup row={true} style={{justifyContent: "space-between"}}>
                     <FormControlLabel
@@ -130,7 +129,7 @@ const SettingsPage: NextPage = () => {
                         className={styles.input}
                     />
                 </FormGroup>
-                <Box sx={{mt:2}} textAlign={"right"}>
+                <Box sx={{mt: 2}} textAlign={"right"}>
                     <Button onClick={submit} variant={"contained"}
                             startIcon={loading ? <CircularProgress size={20}/> : ''} disabled={loading}>
                         Submit

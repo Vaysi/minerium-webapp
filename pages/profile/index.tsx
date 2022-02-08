@@ -1,28 +1,16 @@
 import type {NextPage} from 'next'
 import {
     Box,
-    Button,
-    Checkbox,
-    Chip, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
-    Grid,
-    IconButton,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText, TextField
+    Grid, TextField, Button, CircularProgress
 } from "@mui/material";
 import Header from "../../components/header/header";
-import PageTitle from "../../components/inline-components/page-title";
 import Footer from "../../components/footer/footer";
 import Tabs from "../../components/inline-components/tabs";
-import {Comment, Delete, Settings} from "@mui/icons-material";
 import {makeStyles} from "@mui/styles";
 import CustomCard from "../../components/inline-components/card";
 import {useEffect, useState} from "react";
-import {Me, Notifications, Watchers} from "../../utils/interfaces";
-import {$$deleteWatcher, $$getMe, $$getWatchers, $$setMe} from "../../utils/api";
-import {useRouter} from "next/router";
+import {Me} from "../../utils/interfaces";
+import {$$getMe, $$setMe} from "../../utils/api";
 import {toast} from "react-toastify";
 
 
@@ -69,7 +57,6 @@ const WatchersPage: NextPage = () => {
     return (
         <Grid container>
             <Header/>
-            <PageTitle title={"SETTING"} icon={<Settings style={{width: 35, height: "auto"}}/>}/>
             <Tabs data={tabLinks}/>
             <CustomCard titleProps={{title: "Information"}}>
                 <TextField sx={{mb:2}} fullWidth label="Username" variant="outlined" disabled value={user?.user?.username || ''}/>

@@ -36,3 +36,11 @@ export function hasJsonStructure(str:any) {
 export function humanize(x:number, fixed=8) {
     return x && x.toFixed(fixed).replace(/\.?0*$/, "");
 }
+
+export function msToHMS( ms:number ) {
+    let seconds = ms / 1000;
+    seconds = seconds % 3600;
+    const minutes = seconds / 60;
+    seconds = seconds % 60;
+    return minutes.toFixed(0)+":"+seconds.toFixed(0);
+}

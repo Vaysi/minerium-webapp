@@ -3,8 +3,7 @@ import {makeStyles} from "@mui/styles";
 
 const useStyles: any = makeStyles((theme: any) => ({
     cardHeader: {
-        backgroundColor: "#043180",
-        color: "#fff"
+        backgroundColor: "transparent",
     },
     cardContent: {
         backgroundColor: "var(--blue-ghost)"
@@ -13,6 +12,11 @@ const useStyles: any = makeStyles((theme: any) => ({
         backgroundColor: "rgba(3, 37, 97, 0.1)",
         borderRadius: 3,
         padding: "0 3px"
+    },
+    card: {
+        backgroundColor: "#E5ECF6",
+        boxShadow: "2px 10px 60px rgba(0, 0, 0, 0.25)",
+        borderRadius: 16
     }
 }));
 
@@ -30,8 +34,10 @@ const CustomCard = (props:Props) => {
                     className={styles.cardHeader}
                     titleTypographyProps={{
                         style: {
-                            fontSize: 17,
-                            color: "#fff"
+                            color: "#043180",
+                            fontFamily: "var(--font-header)",
+                            fontWeight: 600,
+                            fontSize: 30
                         }
                     }}
                     {...props.titleProps}

@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Card,
     CardContent,
@@ -19,26 +20,10 @@ import {
 import { Line } from 'react-chartjs-2';
 import {WorkersGraph} from "../../utils/interfaces";
 import {useEffect, useState} from "react";
+import CustomCard from "../inline-components/card";
 
 
 const useStyles:any = makeStyles((theme:any) => ({
-    earnings: {
-
-    },
-    card: {
-
-    },
-    cardHeader:{
-        backgroundColor: "#043180",
-        color: "#fff"
-    },
-    cardContent: {
-        backgroundColor: "var(--blue-ghost)",
-        minHeight: "50vh"
-    },
-    headerTitle: {
-
-    }
 }));
 
 
@@ -132,26 +117,16 @@ const HashChart = (props: Props) => {
     };
 
     return (
-       <Container maxWidth={"xl"}>
-           <Card className={styles.card} sx={{mt:3}}>
-               <CardHeader
-                   className={styles.cardHeader}
-                   title="Hashrate Chart"
-                   titleTypographyProps={{
-                       style:{
-                           fontSize: 17,
-                           color: "#fff"
-                       }
-                   }}
-               />
-               <CardContent className={styles.cardContent}>
+       <>
+           <CustomCard titleProps={{title:"Hashrate Chart"}}>
+               <Box style={{minHeight: "50vh"}}>
                    {
                        //@ts-ignore
                        (<Line options={props.options ?? options} data={data} />)
                    }
-               </CardContent>
-           </Card>
-       </Container>
+               </Box>
+           </CustomCard>
+       </>
     );
 }
 

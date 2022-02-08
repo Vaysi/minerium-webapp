@@ -2,32 +2,29 @@ import {
     Badge,
     Button,
     ButtonGroup,
-    Card,
-    CardContent,
-    CardHeader,
-    Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, Link, TextField, Typography,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Divider, FormControl,
+    Grid,
+    IconButton, MenuItem, Select,
+    TextField,
+    Typography,
 } from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useEffect, useState} from "react";
 import {Hashrate} from "../../utils/functions";
-import {WorkersList as WorkersListType} from "../../utils/interfaces";
+import {WorkerGroups, WorkersList as WorkersListType} from "../../utils/interfaces";
 import "../../styles/daragrid.module.css";
-import group from "./group";
 import {$$createWatcher, $$createWorkerGroup} from "../../utils/api";
 import {toast} from "react-toastify";
 import AddWorkerStepper from "./stepper";
+import CustomCard from "../inline-components/card";
+import {OpenInNew} from "@mui/icons-material";
 
 const useStyles: any = makeStyles((theme: any) => ({
-    earnings: {},
-    card: {},
-    cardHeader: {
-        backgroundColor: "#043180",
-        color: "#fff"
-    },
-    cardContent: {
-        backgroundColor: "var(--blue-ghost)"
-    },
     headerTitle: {
         backgroundColor: "#043180",
         color: "#fff",
@@ -39,6 +36,14 @@ const useStyles: any = makeStyles((theme: any) => ({
         transition: "all ease-in 200ms",
         "&:hover": {
             opacity: 1
+        }
+    },
+    selector: {
+        "& fieldset": {
+            display: "none"
+        },
+        "& 	.MuiSelect-outlined": {
+            backgroundColor: "#fff",
         }
     }
 }));
@@ -99,7 +104,7 @@ const WorkersList = (props: Props) => {
         setAddWorkerModal(false);
     };
 
-    useEffect(() => setWatcherLink(null),[watcherModal]);
+    useEffect(() => setWatcherLink(null), [watcherModal]);
 
     const [status, setStatus] = useState({
         activeTab: 'all',
@@ -247,65 +252,77 @@ const WorkersList = (props: Props) => {
     };
 
 
+    useEffect(() => {
+        if (props.states.selected == 'all') {
+            props.states.getWorkersList();
+        } else {
+            props.states.getWorkersList(props.states.selected);
+        }
+    }, [props.states.selected]);
+
     return (
-        <Container maxWidth={"xl"}>
-            <Card className={styles.card} sx={{mt: 3}}>
-                <CardHeader
-                    className={styles.cardHeader}
-                    title="Workers"
-                    titleTypographyProps={{
-                        style: {
-                            fontSize: 17,
-                            color: "#fff"
-                        }
-                    }}
-                />
-                <CardContent className={styles.cardContent}>
-                    <Grid container sx={{mb: 1}}>
-                        <Grid item xs={6}>
-                            <Badge sx={{mr: 2}} color="secondary" badgeContent={status.all}>
-                                <Button className={status.activeTab != 'all' ? styles.inactive : ''}
-                                        variant={"contained"} onClick={() => applyFilter('all')}>All</Button>
-                            </Badge>
-                            <Badge sx={{mr: 2}} color="secondary" badgeContent={status.online}>
-                                <Button className={status.activeTab != 'online' ? styles.inactive : ''}
-                                        variant={"contained"} onClick={() => applyFilter('online')}>Online</Button>
-                            </Badge>
-                            <Badge sx={{mr: 2}} color="secondary" badgeContent={status.offline}>
-                                <Button className={status.activeTab != 'offline' ? styles.inactive : ''}
-                                        variant={"contained"} onClick={() => applyFilter('offline')}>Offline</Button>
-                            </Badge>
-                            <Badge sx={{mr: 2}} color="secondary" badgeContent={status.inactive}>
-                                <Button className={status.activeTab != 'inactive' ? styles.inactive : ''}
-                                        variant={"contained"} onClick={() => applyFilter('inactive')}>Inactive</Button>
-                            </Badge>
-                        </Grid>
-                        <Grid item xs={6} style={{textAlign: "right"}}>
-                            <ButtonGroup variant="contained">
-                                <Button onClick={openGroupModal}>Create Group</Button>
-                                <Button onClick={openWatcherModal}>Create Watcher</Button>
-                                <Button onClick={openAddWorkerModal}>Add Worker</Button>
-                            </ButtonGroup>
-                        </Grid>
+        <>
+            <CustomCard titleProps={{
+                title: "Workers"
+                , action: (
+                    <FormControl style={{backgroundColor: "#fff",borderRadius: 25,minWidth: 100}}>
+                        <Select
+                            id="groupSelect"
+                            value={props.states.selected}
+                            variant={"outlined"}
+                            onChange={(e) => props.states.setSelected(e.target.value)}
+                            classes={{select: styles.select}}
+                            className={styles.selector}
+                        >
+                            <MenuItem value={'all'}>All&nbsp;&nbsp;&nbsp;</MenuItem>
+                            {props.states.groups.map((item: WorkerGroups) => (
+                                <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>))}
+                        </Select>
+                    </FormControl>
+                )
+            }}>
+                <Grid container sx={{mb: 1}}>
+                    <Grid item xs={6}>
+                        <Badge sx={{mr: 2}} color="secondary" badgeContent={status.all}>
+                            <Button className={status.activeTab != 'all' ? styles.inactive : ''}
+                                    variant={"contained"} onClick={() => applyFilter('all')}>All</Button>
+                        </Badge>
+                        <Badge sx={{mr: 2}} color="secondary" badgeContent={status.online}>
+                            <Button className={status.activeTab != 'online' ? styles.inactive : ''}
+                                    variant={"contained"} onClick={() => applyFilter('online')}>Online</Button>
+                        </Badge>
+                        <Badge sx={{mr: 2}} color="secondary" badgeContent={status.offline}>
+                            <Button className={status.activeTab != 'offline' ? styles.inactive : ''}
+                                    variant={"contained"} onClick={() => applyFilter('offline')}>Offline</Button>
+                        </Badge>
+                        <Badge sx={{mr: 2}} color="secondary" badgeContent={status.inactive}>
+                            <Button className={status.activeTab != 'inactive' ? styles.inactive : ''}
+                                    variant={"contained"} onClick={() => applyFilter('inactive')}>Inactive</Button>
+                        </Badge>
                     </Grid>
-                    <div style={{display: 'flex', height: '100%', minHeight: 400}}>
-                        <div style={{flexGrow: 1}}>
-                            <DataGrid
-                                rows={workers}
-                                columns={columns}
-                                rowsPerPageOptions={[10]}
-                                autoPageSize={true}
-                                checkboxSelection
-                                onSelectionModelChange={(newSelectionModel) => {
-                                    // @ts-ignore
-                                    setSelectionModel(newSelectionModel);
-                                }}
-                                selectionModel={selectionModel}
-                            />
-                        </div>
+                    <Grid item xs={6} style={{display:"flex",justifyContent:"space-around"}}>
+                        <Button onClick={openGroupModal} variant={"contained"}>Create Group</Button>
+                        <Button onClick={openWatcherModal} variant={"contained"}>Create Watcher</Button>
+                        <Button onClick={openAddWorkerModal} variant={"contained"}>Add Worker</Button>
+                    </Grid>
+                </Grid>
+                <div style={{display: 'flex', height: '100%', minHeight: 400}}>
+                    <div style={{flexGrow: 1}}>
+                        <DataGrid
+                            rows={workers}
+                            columns={columns}
+                            rowsPerPageOptions={[10]}
+                            autoPageSize={true}
+                            checkboxSelection
+                            onSelectionModelChange={(newSelectionModel) => {
+                                // @ts-ignore
+                                setSelectionModel(newSelectionModel);
+                            }}
+                            selectionModel={selectionModel}
+                        />
                     </div>
-                </CardContent>
-            </Card>
+                </div>
+            </CustomCard>
             <Dialog open={groupModal} onClose={closeGroupModal} maxWidth={"md"} fullWidth>
                 <DialogTitle>Create New Group</DialogTitle>
                 <DialogContent>
@@ -327,16 +344,16 @@ const WorkersList = (props: Props) => {
             </Dialog>
             <Dialog open={addWorkerModal} onClose={closeAddWorkerModal} maxWidth={"md"} fullWidth>
                 <DialogTitle>
-                    <Typography variant={"h5"} style={{fontWeight:"bold"}} align={"center"}>
+                    <Typography variant={"h5"} style={{fontWeight: "bold"}} align={"center"}>
                         Adding More Workers!
                     </Typography>
-                    <Typography  variant={"h6"}  align={"center"}>
+                    <Typography variant={"h6"} align={"center"}>
                         Please follow these steps to configure your new workers:
                     </Typography>
-                    <Divider />
+                    <Divider/>
                 </DialogTitle>
                 <DialogContent>
-                    <AddWorkerStepper />
+                    <AddWorkerStepper/>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeAddWorkerModal}>Close</Button>
@@ -361,7 +378,7 @@ const WorkersList = (props: Props) => {
                     <Button onClick={createWatcher}>Create</Button>
                 </DialogActions>
             </Dialog>
-        </Container>
+        </>
     );
 }
 

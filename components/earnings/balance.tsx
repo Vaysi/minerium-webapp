@@ -1,7 +1,4 @@
 import {
-    Card,
-    CardContent,
-    CardHeader,
     Container,
     Paper,
     Table,
@@ -16,18 +13,9 @@ import {makeStyles, styled} from "@mui/styles";
 import {EarningBalance} from "../../utils/interfaces";
 import {useEffect, useState} from "react";
 import {$$earningsBalance} from "../../utils/api";
+import CustomCard from "../inline-components/card";
 
 const useStyles: any = makeStyles((theme: any) => ({
-    earnings: {},
-    card: {},
-    cardHeader: {
-        backgroundColor: "#043180",
-        color: "#fff"
-    },
-    cardContent: {
-        backgroundColor: "var(--blue-ghost)"
-    },
-    headerTitle: {},
     subtitle: {
         backgroundColor: "rgba(3, 37, 97, 0.1)",
         borderRadius: 3,
@@ -83,66 +71,54 @@ const Balance = () => {
 
     return (
         <Container maxWidth={"xl"}>
-            <Card className={styles.card} sx={{mt: 3}}>
-                <CardHeader
-                    className={styles.cardHeader}
-                    title="Earnings"
-                    titleTypographyProps={{
-                        style: {
-                            fontSize: 17,
-                            color: "#fff"
-                        }
-                    }}
-                />
-                <CardContent className={styles.cardContent}>
-                    <TableContainer component={Paper}>
-                        <Table sx={{width: "100%"}} aria-label="customized table">
-                            <TableHead>
-                                <TableRow style={{borderRadius: "3px 3px 0 0"}}>
-                                    <StyledTableCell>Currency</StyledTableCell>
-                                    <StyledTableCell align="center">Yesterday</StyledTableCell>
-                                    <StyledTableCell align="center">Status</StyledTableCell>
-                                    <StyledTableCell align="center">Total Earnings</StyledTableCell>
-                                    <StyledTableCell align="center">Total Paid</StyledTableCell>
-                                    <StyledTableCell align="center">Balance</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {balances.map((row) => (
-                                    <StyledTableRow key={row.currency}>
-                                        <StyledTableCell>
-                                            {row.currency.toUpperCase()}
-                                        </StyledTableCell>
-                                        <StyledTableCell align="center">{row.yesterday}</StyledTableCell>
-                                        <StyledTableCell align="center">{status(row)}</StyledTableCell>
-                                        {
-                                            row.currency == 'dgb' ? (
-                                                <>
-                                                    <StyledTableCell
-                                                        align="center">{row.total.toFixed(2)}</StyledTableCell>
-                                                    <StyledTableCell
-                                                        align="center">{(row.balance.paid || 0).toFixed(2)}</StyledTableCell>
-                                                    <StyledTableCell
-                                                        align="center">{row.balance.price.toFixed(2)}</StyledTableCell>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <StyledTableCell
-                                                        align="center">{row.total.toFixed(8)}</StyledTableCell>
-                                                    <StyledTableCell
-                                                        align="center">{(row.balance.paid || 0).toFixed(8)}</StyledTableCell>
-                                                    <StyledTableCell
-                                                        align="center">{row.balance.price.toFixed(8)}</StyledTableCell>
-                                                </>
-                                            )
-                                        }
-                                    </StyledTableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </CardContent>
-            </Card>
+            <CustomCard titleProps={{title: "Earnings"}}>
+                <TableContainer component={Paper}>
+                    <Table sx={{width: "100%"}} aria-label="customized table">
+                        <TableHead>
+                            <TableRow style={{borderRadius: "3px 3px 0 0"}}>
+                                <StyledTableCell>Currency</StyledTableCell>
+                                <StyledTableCell align="center">Yesterday</StyledTableCell>
+                                <StyledTableCell align="center">Status</StyledTableCell>
+                                <StyledTableCell align="center">Total Earnings</StyledTableCell>
+                                <StyledTableCell align="center">Total Paid</StyledTableCell>
+                                <StyledTableCell align="center">Balance</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {balances.map((row) => (
+                                <StyledTableRow key={row.currency}>
+                                    <StyledTableCell>
+                                        {row.currency.toUpperCase()}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{row.yesterday}</StyledTableCell>
+                                    <StyledTableCell align="center">{status(row)}</StyledTableCell>
+                                    {
+                                        row.currency == 'dgb' ? (
+                                            <>
+                                                <StyledTableCell
+                                                    align="center">{row.total.toFixed(2)}</StyledTableCell>
+                                                <StyledTableCell
+                                                    align="center">{(row.balance.paid || 0).toFixed(2)}</StyledTableCell>
+                                                <StyledTableCell
+                                                    align="center">{row.balance.price.toFixed(2)}</StyledTableCell>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <StyledTableCell
+                                                    align="center">{row.total.toFixed(8)}</StyledTableCell>
+                                                <StyledTableCell
+                                                    align="center">{(row.balance.paid || 0).toFixed(8)}</StyledTableCell>
+                                                <StyledTableCell
+                                                    align="center">{row.balance.price.toFixed(8)}</StyledTableCell>
+                                            </>
+                                        )
+                                    }
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </CustomCard>
         </Container>
     );
 }

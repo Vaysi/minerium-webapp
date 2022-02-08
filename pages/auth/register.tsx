@@ -28,6 +28,7 @@ import {userContext} from "../../utils/context";
 import {$$userRegister} from "../../utils/api";
 import {toast} from "react-toastify";
 import {useRouter} from "next/router";
+import ProtectedRoute from "../../components/ProtectedRoute";
 
 const useStyles: any = makeStyles((theme: any) => ({
     cardHeader: {
@@ -220,4 +221,4 @@ const Register: NextPage = () => {
     );
 };
 
-export default Register;
+export default ProtectedRoute(Register,true);

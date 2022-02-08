@@ -12,8 +12,7 @@ import {
     Typography
 } from "@mui/material";
 import Header from "../components/header/header";
-import PageTitle from "../components/inline-components/page-title";
-import {ContentCopy, OpenInNew, Speed} from "@mui/icons-material";
+import {ContentCopy, OpenInNew} from "@mui/icons-material";
 import Footer from "../components/footer/footer";
 import {useCallback, useContext, useEffect, useState} from "react";
 import {userContext} from "../utils/context";
@@ -117,7 +116,6 @@ const Dashboard: NextPage = () => {
     return (
         <Grid container>
             <Header/>
-            <PageTitle title={"Dashboard"} icon={<Speed style={{width: 35, height: "auto"}}/>}/>
             <Container maxWidth={"xl"}>
                 <CustomCard titleProps={{title: "Real Time"}}>
                     <Box display={"flex"} justifyContent={"space-around"}>
@@ -174,7 +172,8 @@ const Dashboard: NextPage = () => {
                                             }
                                         </Typography>
                                         <Box textAlign={"center"}>
-                                            <Button onClick={() => router.push(`/calculator?coin=${k.toLowerCase()}`)} variant={"contained"} color={"primary"}>
+                                            <Button onClick={() => router.push(`/calculator?coin=${k.toLowerCase()}`)}
+                                                    variant={"contained"} color={"primary"}>
                                                 {k.toUpperCase()} Calculator
                                             </Button>
                                         </Box>

@@ -38,6 +38,14 @@ const routes = {
             route: "users/register",
             method: POST
         },
+        verify: {
+            method: POST,
+            route: "users/verify-email"
+        },
+        resend: {
+            method: POST,
+            route: "users/request-token"
+        },
         reset: {
             route: "users/reset-password",
             method: POST
@@ -429,6 +437,31 @@ const $$getPps = (coin:string) => {
     });
 }
 
+const $$verifyEmail = (email:string,token:string) => {
+    return instance.request({
+        method: routes.users.verify.method as Method,
+        url: routes.users.verify.route,
+        data: {
+            email,
+            token
+        }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
+const $$resendVerification = (email:string) => {
+    return instance.request({
+        method: routes.users.resend.method as Method,
+        url: routes.users.resend.route,
+        data: {
+            email,
+        }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
 export {
     $$userLogin,
     $$userRegister,
@@ -453,5 +486,7 @@ export {
     $$active2FA,
     $$disable2FA,
     $$updatePassword,
-    $$getPps
+    $$getPps,
+    $$verifyEmail,
+    $$resendVerification
 };

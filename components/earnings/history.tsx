@@ -16,6 +16,7 @@ import {useEffect, useState} from "react";
 import {$$earningsHistory} from "../../utils/api";
 import moment from "moment";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import CustomCard from "../inline-components/card";
 
 const useStyles:any = makeStyles((theme:any) => ({
     earnings: {
@@ -101,38 +102,26 @@ const History = () => {
 
     return (
        <Container maxWidth={"xl"}>
-           <Card className={styles.card} sx={{mt:3}}>
-               <CardHeader
-                   className={styles.cardHeader}
-                   title="Earnings History"
-                   titleTypographyProps={{
-                       style:{
-                           fontSize: 17,
-                           color: "#fff"
-                       }
-                   }}
-               />
-               <CardContent className={styles.cardContent}>
-                   <div style={{display: 'flex', height: '100%', minHeight: 400}}>
-                       <div style={{flexGrow: 1}}>
-                           <DataGrid
-                               rows={history.map(item => {
-                                   item.since = moment(item.since,'YYYYMMDDHH').format('YYYY-MM-DD H:m');
-                                   item.until = moment(item.until,'YYYYMMDDHH').format('YYYY-MM-DD H:m');
-                                   item.paid = item.paid ? 'Settled' : 'Not Settled';
-                                   item.type = 'PPS';
-                                   item.id = (new Date()).getTime();
-                                   item.currency = item.currency.toUpperCase();
-                                   return item;
-                               })}
-                               columns={columns}
-                               rowsPerPageOptions={[10]}
-                               autoPageSize={true}
-                           />
-                       </div>
-                   </div>
-               </CardContent>
-           </Card>
+          <CustomCard titleProps={{title:"Earning History"}}>
+              <div style={{display: 'flex', height: '100%', minHeight: 400}}>
+                  <div style={{flexGrow: 1}}>
+                      <DataGrid
+                          rows={history.map(item => {
+                              item.since = moment(item.since,'YYYYMMDDHH').format('YYYY-MM-DD H:m');
+                              item.until = moment(item.until,'YYYYMMDDHH').format('YYYY-MM-DD H:m');
+                              item.paid = item.paid ? 'Settled' : 'Not Settled';
+                              item.type = 'PPS';
+                              item.id = (new Date()).getTime();
+                              item.currency = item.currency.toUpperCase();
+                              return item;
+                          })}
+                          columns={columns}
+                          rowsPerPageOptions={[10]}
+                          autoPageSize={true}
+                      />
+                  </div>
+              </div>
+          </CustomCard>
        </Container>
     );
 }

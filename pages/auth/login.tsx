@@ -67,7 +67,6 @@ const Login: NextPage = () => {
     return (
         <Grid container>
             <Header/>
-            <PageTitle title={"LOGIN"} icon={<LoginIcon style={{width: 35, height: "auto"}}/>}/>
             <Container sx={{maxWidth: {xs: "xl", md: "md", xl: "sm"}}}>
                 <Card sx={{mt: 3}}>
                     <CardHeader

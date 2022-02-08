@@ -25,7 +25,11 @@ function MyApp({Component, pageProps}: AppProps) {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            localStorage.setItem('userData',JSON.stringify(user));
+            if(user && 'loggedIn' in user && user.loggedIn == false){
+                localStorage.removeItem('userData');
+            }else {
+                localStorage.setItem('userData',JSON.stringify(user));
+            }
         }
     },[user]);
 

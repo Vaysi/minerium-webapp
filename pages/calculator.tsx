@@ -1,23 +1,31 @@
 import type {NextPage} from 'next'
 import {
-    Box,
-    Container, Divider,
+    Container,
     FormControl,
     Grid,
     InputAdornment,
-    InputLabel, MenuItem,
-    Paper, Select,
+    InputLabel,
+    MenuItem,
+    Paper,
+    Select,
+    Table,
+    TableBody,
+    TableCell,
+    tableCellClasses,
+    TableContainer,
+    TableHead,
+    TableRow,
     TextField,
     Typography
 } from "@mui/material";
 import Header from "../components/header/header";
 import Footer from "../components/footer/footer";
-import {makeStyles} from "@mui/styles";
-import {Calculate} from "@mui/icons-material";
+import {makeStyles, styled} from "@mui/styles";
 import {useEffect, useState} from "react";
 import {$$getPps} from "../utils/api";
 import {humanize} from "../utils/functions";
 import {useRouter} from "next/router";
+import CustomCard from "../components/inline-components/card";
 
 const useStyles: any = makeStyles((theme: any) => ({
     titleSecondary: {
@@ -26,7 +34,7 @@ const useStyles: any = makeStyles((theme: any) => ({
         fontWeight: 600,
         color: "var(--header)"
     },
-    titlePrimary :{
+    titlePrimary: {
         fontFamily: "var(--font-body)",
         fontWeight: 600,
         fontSize: "2em",
@@ -61,38 +69,71 @@ const useStyles: any = makeStyles((theme: any) => ({
         paddingLeft: 15,
         paddingRight: 15,
         color: "var(--header)",
-        marginBottom: 5
+        marginBottom: 5,
+        marginTop: 15,
+        fontSize: "14px"
+    },
+    notchedOutline: {
+        border: "none"
+    },
+    field: {
+        backgroundColor: "#CCD9F0"
+    },
+    input: {
+        backgroundColor: "#fff"
+    },
+    adornment: {
+        width: "50px",
+        justifyContent: "center"
+    },
+    select: {
+        "& fieldset": {
+            display: "none"
+        },
+        "& 	.MuiSelect-outlined": {
+            backgroundColor: "#fff"
+        }
     }
 }));
+
+const StyledTableCell = styled(TableCell)(({theme}) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: "#043386",
+        color: "#fff",
+        fontFamily: "var(--font-body)",
+        fontWeight: 600
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        color: "#043180"
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({theme}) => ({
+    '&:nth-of-type(odd)': {
+        // @ts-ignore
+        backgroundColor: theme.palette.action.hover,
+    },
+}));
+
+function createData(per: any, fee: any, reward: any, btc: any, usd: any, cost: any, profit: any) {
+    return {per, fee, reward, btc, usd, cost, profit};
+}
+
 
 const Calculator: NextPage = () => {
     const styles = useStyles();
     const router = useRouter();
-    const {coin:queryCoin} = router.query;
-    const [networkDiff,setNetworkDiff] = useState<number>(0);
-    const [coin,setCoin] = useState<string>(queryCoin as string || 'BTC');
-    const [hashrate,setHashrate] = useState<string|number>(1);
-    const [poolFee,setPoolFee] = useState<string|number>(4);
-    const [coinValue,setCoinValue] = useState<string|number>(0);
-    const [pps,setPps] = useState<number>(0);
-    const [power,setPower] = useState<string|number>(0);
-    const [powerCost,setPowerCost] = useState<string|number>(0);
-    const [daily,setDaily] = useState<any>({
-        usd: 0,
-        currency: 0
-    });
-    const [weekly,setWeekly] = useState<any>({
-        usd: 0,
-        currency: 0
-    });
-    const [monthly,setMonthly] = useState<any>({
-        usd: 0,
-        currency: 0
-    });
-    const [yearly,setYearly] = useState<any>({
-        usd: 0,
-        currency: 0
-    });
+    const {coin: queryCoin} = router.query;
+    const [networkDiff, setNetworkDiff] = useState<number>(0);
+    const [coin, setCoin] = useState<string>(queryCoin as string || 'BTC');
+    const [hashrate, setHashrate] = useState<string | number>(1);
+    const [poolFee, setPoolFee] = useState<string | number>(4);
+    const [coinValue, setCoinValue] = useState<string | number>(0);
+    const [pps, setPps] = useState<number>(0);
+    const [power, setPower] = useState<string | number>(0);
+    const [powerCost, setPowerCost] = useState<string | number>(0);
+    const [rows, setRows] = useState<Array<any>>([]);
 
     const HOURS_IN_DAY = 24,
         DAYS_IN_WEEK = 7,
@@ -117,19 +158,19 @@ const Calculator: NextPage = () => {
     };
 
     const calculate = (
-        i_hashrate:any,
-        i_electricity_Wh:any,
-        i_kWh_usd_rate:any,
-        i_pool_fee:any,
-        i_currency_to_usd_rate:any,
-        i_network_diff:any,
+        i_hashrate: any,
+        i_electricity_Wh: any,
+        i_kWh_usd_rate: any,
+        i_pool_fee: any,
+        i_currency_to_usd_rate: any,
+        i_network_diff: any,
     ) => {
         if (i_currency_to_usd_rate === 0) {
             return false;
         }
 
         // Watt to kW
-        const w2kw = (w:number) => w / 1000;
+        const w2kw = (w: number) => w / 1000;
 
         let electricity_per_hour_usd = i_electricity_Wh * w2kw(i_kWh_usd_rate);
         const electricity_cost_usd = {
@@ -146,7 +187,7 @@ const Calculator: NextPage = () => {
             yearly: electricity_cost_usd.yearly / i_currency_to_usd_rate,
         };
 
-        const fee_in_percent = (fee:number) => 1.0 - fee * 0.01;
+        const fee_in_percent = (fee: number) => 1.0 - fee * 0.01;
         const EARNING_CURRENCY_DAY =
             i_hashrate *
             pps *
@@ -179,23 +220,12 @@ const Calculator: NextPage = () => {
             monthly: earning_usd.monthly - electricity_cost_usd.monthly,
             yearly: earning_usd.yearly - electricity_cost_usd.yearly,
         };
-
-        setDaily({
-            usd: earning_usd_after_electricity.daily,
-            currency: earning_currency_after_electricity.daily,
-        });
-        setWeekly({
-            usd: earning_usd_after_electricity.weekly,
-            currency: earning_currency_after_electricity.weekly,
-        });
-        setMonthly({
-            usd: earning_usd_after_electricity.monthly,
-            currency: earning_currency_after_electricity.monthly,
-        });
-        setYearly({
-            usd: earning_usd_after_electricity.yearly,
-            currency: earning_currency_after_electricity.yearly,
-        });
+        setRows([
+            createData('Day', 0, 0, humanize(earning_currency_after_electricity.daily), humanize(earning_usd_after_electricity.daily, 2), 0, 0),
+            createData('Weekly', 0, 0, humanize(earning_currency_after_electricity.weekly), humanize(earning_usd_after_electricity.weekly, 2), 0, 0),
+            createData('Monthly', 0, 0, humanize(earning_currency_after_electricity.monthly), humanize(earning_usd_after_electricity.monthly, 2), 0, 0),
+            createData('Yearly', 0, 0, humanize(earning_currency_after_electricity.yearly), humanize(earning_usd_after_electricity.yearly, 2), 0, 0),
+        ]);
         return true;
     };
 
@@ -205,49 +235,31 @@ const Calculator: NextPage = () => {
             setCoinValue(res.data.exchangeRate);
             setPps(res.data.pps);
         })
-    },[coin]);
+    }, [coin]);
 
     useEffect(() => {
-        calculate(hashrate,power,powerCost,poolFee,coinValue,networkDiff);
-    },[networkDiff,hashrate,poolFee,power,powerCost,coinValue,coin]);
+        calculate(hashrate, power, powerCost, poolFee, coinValue, networkDiff);
+    }, [networkDiff, hashrate, poolFee, power, powerCost, coinValue, coin]);
 
     useEffect(() => {
         $$getPps(coin).then(res => {
             setNetworkDiff(res.data.difficulty);
             setCoinValue(res.data.exchangeRate);
             setPps(res.data.pps);
-            calculate(hashrate,power,powerCost,poolFee,res.data.exchangeRate,res.data.difficulty);
+            calculate(hashrate, power, powerCost, poolFee, res.data.exchangeRate, res.data.difficulty);
         })
-    },[]);
+    }, []);
 
     return (
         <Grid container>
             <Header/>
             <Container maxWidth={"xl"}>
-                <Paper variant="outlined" sx={{mb:2,mt:4,pt:4}} style={{backgroundColor: "var(--blue-ghost)"}}>
+                <CustomCard titleProps={{title: "Mining Reward Calculator"}}>
                     <Grid container>
-                        <Grid item xs={12} sm={12} md={3} display={"flex"} alignItems={"center"}>
-                            <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                                <Box>
-                                    <Calculate style={{fontSize:60,color:"var(--header)"}}/>
-                                </Box>
-                                <Box>
-                                    <Typography className={styles.titleSecondary}>
-                                        MINING
-                                    </Typography>
-                                    <Typography className={styles.titlePrimary}>
-                                        REWARD
-                                    </Typography>
-                                    <Typography className={styles.titleSecondary}>
-                                        CALCULATOR
-                                    </Typography>
-                                </Box>
-                            </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid item xs={12}>
                             <Grid container>
                                 <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
-                                    <FormControl sx={{ m: 1 }} fullWidth>
+                                    <FormControl sx={{m: 1}} fullWidth>
                                         <InputLabel id="demo-simple-select-label">Currency</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
@@ -259,6 +271,7 @@ const Calculator: NextPage = () => {
                                             onChange={(e) => {
                                                 setCoin(e.target.value);
                                             }}
+                                            className={styles.select}
                                         >
                                             <MenuItem value={"btc"}>BTC</MenuItem>
                                             <MenuItem value={"bch"}>BCH</MenuItem>
@@ -267,168 +280,178 @@ const Calculator: NextPage = () => {
                                         </Select>
                                     </FormControl>
                                 </Grid>
-                                <Grid item md={6} xs={12} alignItems={"center"}  display={"flex"}>
+                                <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Hashrate"
                                         id="filled-start-adornment"
-                                        sx={{ m: 1 }}
+                                        sx={{m: 1}}
                                         InputProps={{
-                                            endAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
+                                            endAdornment: <InputAdornment className={styles.adornment}
+                                                                          position="end">TH/s</InputAdornment>,
+                                            classes: {
+                                                notchedOutline: styles.notchedOutline,
+                                                input: styles.input,
+                                            }
                                         }}
                                         value={hashrate}
                                         onChange={(e) => {
                                             setHashrate(e.target.value);
                                         }}
                                         fullWidth
+                                        className={styles.field}
                                         variant="outlined"
                                     />
                                 </Grid>
-                                <Grid item md={6} xs={12} alignItems={"center"}  display={"flex"}>
+                                <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Power"
                                         id="filled-start-adornment"
                                         fullWidth
-                                        sx={{ m: 1 }}
+                                        sx={{m: 1}}
                                         InputProps={{
-                                            endAdornment: <InputAdornment position="end">W</InputAdornment>,
+                                            endAdornment: <InputAdornment className={styles.adornment}
+                                                                          position="end">W</InputAdornment>,
+                                            classes: {
+                                                notchedOutline: styles.notchedOutline,
+                                                input: styles.input,
+                                            }
                                         }}
                                         onChange={(e) => {
                                             setPower(e.target.value);
                                         }}
                                         value={power}
                                         variant="outlined"
+                                        className={styles.field}
                                     />
                                 </Grid>
-                                <Grid item md={6} xs={12} alignItems={"center"}  display={"flex"}>
+                                <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Power Cost"
                                         id="filled-start-adornment"
                                         fullWidth
-                                        sx={{ m: 1 }}
+                                        sx={{m: 1}}
                                         InputProps={{
-                                            endAdornment: <InputAdornment position="end">$/kWh</InputAdornment>,
+                                            endAdornment: <InputAdornment className={styles.adornment}
+                                                                          position="end">$/kWh</InputAdornment>,
+                                            classes: {
+                                                notchedOutline: styles.notchedOutline,
+                                                input: styles.input,
+                                            }
                                         }}
                                         onChange={(e) => {
                                             setPowerCost(e.target.value);
                                         }}
                                         value={powerCost}
                                         variant="outlined"
+                                        className={styles.field}
                                     />
                                 </Grid>
-                                <Grid item md={6} xs={12} alignItems={"center"}  display={"flex"}>
+                                <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Pool Fee"
                                         id="filled-start-adornment"
                                         fullWidth
-                                        sx={{ m: 1 }}
+                                        sx={{m: 1}}
                                         InputProps={{
-                                            endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                            endAdornment: <InputAdornment className={styles.adornment}
+                                                                          position="end">%</InputAdornment>,
+                                            classes: {
+                                                notchedOutline: styles.notchedOutline,
+                                                input: styles.input,
+                                            }
                                         }}
                                         onChange={(e) => {
                                             setPoolFee(e.target.value);
                                         }}
                                         value={poolFee}
                                         variant="outlined"
+                                        className={styles.field}
                                     />
                                 </Grid>
-                                <Grid item md={6} xs={12} alignItems={"center"}  display={"flex"}>
+                                <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label={`${coin.toUpperCase()} Value`}
                                         id="filled-start-adornment"
                                         fullWidth
-                                        sx={{ m: 1 }}
+                                        sx={{m: 1}}
                                         InputProps={{
-                                            endAdornment: <InputAdornment position="end">$</InputAdornment>,
+                                            endAdornment: <InputAdornment className={styles.adornment}
+                                                                          position="end">$</InputAdornment>,
+                                            classes: {
+                                                notchedOutline: styles.notchedOutline,
+                                                input: styles.input,
+                                            }
                                         }}
                                         onChange={(e) => {
                                             setCoinValue(e.target.value);
                                         }}
                                         value={coinValue}
                                         variant="outlined"
+                                        className={styles.field}
                                     />
                                 </Grid>
-                                <Grid item xs={12} alignItems={"center"}  display={"flex"}>
+                                <Grid item xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Net Difficulty"
                                         id="filled-start-adornment"
                                         fullWidth
-                                        sx={{ m: 1 }}
+                                        sx={{m: 1}}
                                         onChange={(e) => {
                                             //@ts-ignore
                                             setNetworkDiff(e.target.value);
                                         }}
                                         value={networkDiff}
                                         variant="outlined"
+                                        InputProps={{
+                                            classes: {
+                                                notchedOutline: styles.notchedOutline,
+                                                input: styles.input,
+                                            }
+                                        }}
+                                        className={styles.field}
                                     />
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={5}>
-                            <Grid container>
-                                <Grid item md={6} xs={12} className={styles.card}>
-                                    <Typography textAlign={"center"} className={styles.cardTitle}>
-                                        Daily
-                                    </Typography>
-                                    <Box textAlign={"center"}>
-                                        <Typography className={styles.cardBody}>
-                                            {humanize((daily.currency))} <span className={styles.cardCurrency}>{coin.toUpperCase()}</span>
-                                            <br />
-                                            <span className={styles.usd}>
-                                                {humanize(daily.usd,2)} USD
-                                            </span>
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-                                <Grid item md={6} xs={12} className={styles.card}>
-                                    <Typography textAlign={"center"} className={styles.cardTitle}>
-                                        Weekly
-                                    </Typography>
-                                    <Box textAlign={"center"}>
-                                        <Typography className={styles.cardBody}>
-                                            {humanize(weekly.currency)} <span className={styles.cardCurrency}>{coin.toUpperCase()}</span>
-                                            <br />
-                                            <span className={styles.usd}>
-                                                {humanize(weekly.usd,2)} USD
-                                            </span>
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-                                <Grid item md={6} xs={12} className={styles.card}>
-                                    <Typography textAlign={"center"} className={styles.cardTitle}>
-                                        Monthly
-                                    </Typography>
-                                    <Box textAlign={"center"}>
-                                        <Typography className={styles.cardBody}>
-                                            {humanize(monthly.currency)} <span className={styles.cardCurrency}>{coin.toUpperCase()}</span>
-                                            <br />
-                                            <span className={styles.usd}>
-                                                {humanize(monthly.usd,2)} USD
-                                            </span>
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-                                <Grid item md={6} xs={12} className={styles.card}>
-                                    <Typography textAlign={"center"} className={styles.cardTitle}>
-                                        Yearly
-                                    </Typography>
-                                    <Box textAlign={"center"}>
-                                        <Typography className={styles.cardBody}>
-                                            {humanize(yearly.currency)} <span className={styles.cardCurrency}>{coin.toUpperCase()}</span>
-                                            <br />
-                                            <span className={styles.usd}>
-                                                {humanize(yearly.usd,2)} USD
-                                            </span>
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-                            </Grid>
+                        <Grid item xs={12}>
+                            <TableContainer style={{border: "1px solid #043386", borderRadius: 5}} component={Paper}
+                                            sx={{mt: 5}}>
+                                <Table sx={{minWidth: 700}} aria-label="customized table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell align="center">Per</StyledTableCell>
+                                            <StyledTableCell align="center">Fee</StyledTableCell>
+                                            <StyledTableCell align="center">Est.Reward</StyledTableCell>
+                                            <StyledTableCell align="center">Rev.BTC</StyledTableCell>
+                                            <StyledTableCell align="center">Rev.$</StyledTableCell>
+                                            <StyledTableCell align="center">Cost</StyledTableCell>
+                                            <StyledTableCell align="center">Profit</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {rows.map((row) => (
+                                            <StyledTableRow key={row.name}>
+                                                <StyledTableCell align={"center"} style={{fontWeight: "bold"}}>
+                                                    {row.per}
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center">{row.fee}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.reward}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.btc}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.usd}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.cost}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.profit}</StyledTableCell>
+                                            </StyledTableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         </Grid>
                     </Grid>
-                    <Divider />
                     <Typography className={styles.note}>
-                        <b>Note:</b> You could use this tool to calculate the theoretical earnings based on current network difficulty, the result may deviate from your actual earnings, for reference only.
+                        <b>Note:</b> You could use this tool to calculate the theoretical earnings based on current
+                        network difficulty, the result may deviate from your actual earnings, for reference only.
                     </Typography>
-                </Paper>
+                </CustomCard>
             </Container>
             <Footer/>
         </Grid>

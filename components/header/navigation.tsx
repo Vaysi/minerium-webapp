@@ -1,35 +1,49 @@
-import {
-    AppBar,
-    Box,
-    Button,
-    Container,
-    IconButton,
-    Menu,
-    MenuItem,
-    Toolbar,
-    Typography
-} from "@mui/material";
-import {useContext, useState} from "react";
+import {AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography} from "@mui/material";
+import {useContext, useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import {Menu as MenuIcon} from "@mui/icons-material";
-
-const pages = ['Dashboard', 'Calculator', 'Workers', 'Earnings', 'Settings'];
-import Link from "next/link";
 import Logo from "../inline-components/logo";
 import {themeModeContext} from "../../utils/context";
 import {makeStyles} from "@mui/styles";
 
-const useStyles:any = makeStyles((theme:any) => ({
+const pages = ['Dashboard', 'Calculator', 'Workers', 'Earnings', 'Settings'];
+
+const useStyles: any = makeStyles((theme: any) => ({
     header: {
-        backgroundColor: "var(--bg-color)"
+        backgroundColor: "var(--header-bg)",
     },
     navLink: {
-        color: "var(--text-color)!important",
+        color: "var(--new-text-color)!important",
         fontFamily: "var(--font-body)!important",
         transition: "all ease-in 200ms!important",
+        position: "relative",
         "&:hover": {
-            color: "var(--accent-const)!important"
-        }
+            color: "#CEA716!important",
+        },
+        "&::after": {
+            content: "''",
+            width: "95%",
+            height: 8,
+            position:"absolute",
+            left:0,
+            right:0,
+            bottom:-5,
+            backgroundColor: "#CEA716",
+            borderRadius: 10,
+            opacity: 0,
+            margin: "auto",
+            transition: "all ease-in 200ms!important",
+        },
+        "&:hover::after": {
+            opacity: 1,
+        },
+    },
+    activeNavLink: {
+        color: "#CEA716!important",
+        fontWeight: "bold",
+        "&::after": {
+            opacity: "1!important"
+        },
     }
 }));
 
@@ -46,25 +60,28 @@ const Navigation = () => {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
+
+    const checkActivation = (name:string) => {
+          return router.pathname.startsWith(`/${name.toLowerCase()}`);
+    };
+
     return (
         <AppBar className={styles.header} position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <Box sx={{flexGrow: 1, cursor: "pointer", mr: 2, display: {xs: 'none', md: 'flex'}}} onClick={() => router.push("/")}>
-                        <Logo mode={mode} styles={{maxHeight: 45}}/>
-                    </Box>
 
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
-                        <IconButton
+                        <Button
                             size="large"
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
                             onClick={handleOpenNavMenu}
                             color="inherit"
+                            startIcon={<MenuIcon/>}
                         >
-                            <MenuIcon/>
-                        </IconButton>
+                            Menu
+                        </Button>
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorElNav}
@@ -93,12 +110,7 @@ const Navigation = () => {
                             ))}
                         </Menu>
                     </Box>
-                    <Box
-                        sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}, justifyContent: "end"}} onClick={() => router.push("/")}
-                    >
-                        <Logo mode={mode} styles={{maxHeight: 45}}/>
-                    </Box>
-                    <Box justifyContent={"end"} sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
+                    <Box justifyContent={"start"} sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
                         {pages.map((page) => (
                             <Button
                                 key={page}
@@ -107,7 +119,7 @@ const Navigation = () => {
                                     handleCloseNavMenu();
                                 }}
                                 sx={{my: 2, display: 'block'}}
-                                className={styles.navLink}
+                                className={`${styles.navLink} ${checkActivation(page) ? styles.activeNavLink : ''}`}
                             >
                                 {page}
                             </Button>

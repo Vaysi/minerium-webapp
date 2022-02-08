@@ -2,7 +2,12 @@ import type {NextPage} from 'next'
 import {
     Button,
     Checkbox,
-    Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+    Chip,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     Grid,
     IconButton,
     List,
@@ -12,10 +17,9 @@ import {
     ListItemText
 } from "@mui/material";
 import Header from "../../components/header/header";
-import PageTitle from "../../components/inline-components/page-title";
 import Footer from "../../components/footer/footer";
 import Tabs from "../../components/inline-components/tabs";
-import {Comment, Delete, Settings} from "@mui/icons-material";
+import {Delete} from "@mui/icons-material";
 import {makeStyles} from "@mui/styles";
 import CustomCard from "../../components/inline-components/card";
 import {useEffect, useState} from "react";
@@ -25,16 +29,15 @@ import {useRouter} from "next/router";
 import {toast} from "react-toastify";
 
 
-const useStyles: any = makeStyles((theme: any) => ({
-}));
+const useStyles: any = makeStyles((theme: any) => ({}));
 
 const WatchersPage: NextPage = () => {
     const styles = useStyles();
     const router = useRouter();
     const [open, setOpen] = useState(false);
-    const [selected,setSelected] = useState<number>();
+    const [selected, setSelected] = useState<number>();
 
-    const handleClickOpen = (watcherId:number) => {
+    const handleClickOpen = (watcherId: number) => {
         setSelected(watcherId);
         setOpen(true);
     };
@@ -68,17 +71,16 @@ const WatchersPage: NextPage = () => {
         }
     ];
 
-    const deleteWatcher = (watcherId:any) => {
+    const deleteWatcher = (watcherId: any) => {
         handleClose();
         $$deleteWatcher(watcherId).then(response => {
-           setWatchers(watchers.filter(item => item.id != watcherId));
-           toast.success('Watcher Deleted Successfully!');
+            setWatchers(watchers.filter(item => item.id != watcherId));
+            toast.success('Watcher Deleted Successfully!');
         });
     };
     return (
         <Grid container>
             <Header/>
-            <PageTitle title={"SETTING"} icon={<Settings style={{width: 35, height: "auto"}}/>}/>
             <Tabs data={tabLinks}/>
             <CustomCard titleProps={{title: "Watchers"}}>
                 <List sx={{width: '100%'}} dense={true}>
@@ -90,7 +92,7 @@ const WatchersPage: NextPage = () => {
                                 key={item.id}
                                 secondaryAction={
                                     <IconButton edge="end" aria-label="comments">
-                                        <Delete onClick={() => handleClickOpen(item.id)} />
+                                        <Delete onClick={() => handleClickOpen(item.id)}/>
                                     </IconButton>
                                 }
                                 disablePadding
@@ -107,7 +109,9 @@ const WatchersPage: NextPage = () => {
                                     <ListItemText id={labelId} primary={(
                                         <>
                                             {item.remark}
-                                            <Chip label="Link" size={"small"} sx={{ml: 2}} onClick={() => router.push("watchers/"+item.token)} color={"primary"} />
+                                            <Chip label="Link" size={"small"} sx={{ml: 2}}
+                                                  onClick={() => router.push("watchers/" + item.token)}
+                                                  color={"primary"}/>
                                         </>
                                     )}/>
                                 </ListItemButton>

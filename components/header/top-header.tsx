@@ -72,10 +72,6 @@ const TopHeader = () => {
                         {
                             user?.loggedIn ? (
                                 <>
-                                    <Button onClick={() => router.push('/profile')} className={styles.topHeaderLinks}
-                                            startIcon={<AccountCircleOutlined/>} sx={{mr: 2}}>
-                                        {user.username}
-                                    </Button>
                                     <Button onClick={() => logout()}
                                             className={styles.topHeaderLinks}
                                             startIcon={<Logout/>}>

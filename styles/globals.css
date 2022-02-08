@@ -4,6 +4,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--font-body);
+  background-color: #F5F5F7;
 }
 
 img {
@@ -15,6 +16,7 @@ img {
   --font-body: "Open Sans", sans-serif!important;
   --font-header: "Poppins", sans-serif!important;
   --bg-color: #f5f5f7!important;
+  --new-text-color: E5ECF6!important;
   --text-color: #333333!important;
   --blue-ghost: #e9ecf2!important;
   --semi-white: #aaaaaa!important;
@@ -24,6 +26,7 @@ img {
   --header-bg: #043180!important;
   --header-title: #fff!important;
   --header: #053ea1!important;
+  --primary: #043180!important;
   --balloon-border-radius: 2px!important;
   --balloon-color: rgba(16, 16, 16, 0.95)!important;
   --balloon-text-color: #fff!important;

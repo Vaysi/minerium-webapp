@@ -1,8 +1,6 @@
-import type { NextPage } from 'next'
-import {Box, Grid} from "@mui/material";
+import type {NextPage} from 'next'
+import {Grid} from "@mui/material";
 import Header from "../components/header/header";
-import PageTitle from "../components/inline-components/page-title";
-import {AccountBalanceWallet, Home as HomeIcon} from "@mui/icons-material";
 import Footer from "../components/footer/footer";
 import Tabs from "../components/inline-components/tabs";
 import Balance from "../components/earnings/balance";
@@ -21,16 +19,15 @@ const Home: NextPage = () => {
             active: false
         }
     ];
-  return (
-      <Grid container>
-        <Header />
-        <PageTitle title={"Earnings"} icon={<AccountBalanceWallet style={{width:35,height: "auto"}} />} />
-        <Tabs data={tabLinks} />
-        <Balance />
-        <History />
-        <Footer />
-      </Grid>
-  );
+    return (
+        <Grid container>
+            <Header/>
+            <Tabs data={tabLinks}/>
+            <Balance/>
+            <History/>
+            <Footer/>
+        </Grid>
+    );
 };
 
 export default Home;
