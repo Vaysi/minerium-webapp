@@ -62,7 +62,11 @@ const Navigation = () => {
     };
 
     const checkActivation = (name:string) => {
-          return router.pathname.startsWith(`/${name.toLowerCase()}`);
+          if(router.isReady){
+              return router.pathname.startsWith(`/${name.toLowerCase()}`);
+          }else {
+              return false;
+          }
     };
 
     return (
@@ -115,7 +119,7 @@ const Navigation = () => {
                             <Button
                                 key={page}
                                 onClick={() => {
-                                    router.push(page.toLowerCase());
+                                    router.push(`/${page.toLowerCase()}`);
                                     handleCloseNavMenu();
                                 }}
                                 sx={{my: 2, display: 'block'}}

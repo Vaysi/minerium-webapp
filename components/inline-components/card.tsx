@@ -14,7 +14,7 @@ const useStyles: any = makeStyles((theme: any) => ({
         padding: "0 3px"
     },
     card: {
-        backgroundColor: "#E5ECF6",
+        backgroundColor: "var(--blue-ghost)!important",
         boxShadow: "2px 10px 60px rgba(0, 0, 0, 0.25)",
         borderRadius: 16
     }

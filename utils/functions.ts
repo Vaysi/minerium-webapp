@@ -44,3 +44,7 @@ export function msToHMS( ms:number ) {
     seconds = seconds % 60;
     return minutes.toFixed(0)+":"+seconds.toFixed(0);
 }
+
+export function sumUp(string:string,length:number) {
+    return string.substring(0,length) + ' ...';
+}

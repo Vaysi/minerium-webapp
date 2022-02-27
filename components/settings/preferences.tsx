@@ -2,7 +2,7 @@ import type {NextPage} from 'next'
 import {
     Alert, Box, Button,
     CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
-    Divider,
+    Divider, Grid,
     ListItemIcon,
     ListItemText,
     MenuItem,
@@ -21,6 +21,10 @@ const useStyles: any = makeStyles((theme: any) => ({
     menuItem: {
         minWidth: 35
     },
+    alert: {
+        backgroundColor:"#CEDBEF",
+        color: "#043180",
+    }
 }));
 
 const Preferences: NextPage = () => {
@@ -62,40 +66,47 @@ const Preferences: NextPage = () => {
     return (
         <>
             <CustomCard titleProps={{title: "Preferred Payment Currency"}}>
-                <Alert icon={false} severity="info">
-                    <Typography variant={"h5"}>
-                        Please Note
-                    </Typography>
-                    <Divider/>
-                    <p><b>Changing Preferred Payment Currency</b>, changes how we
-                        calculate your earnings from the next hour until you change it
-                        again. You &nbsp;
-                        <b>Can Not Undo</b> &nbsp;
-                        the change but you can change the currency in the future.</p>
-                </Alert>
-                <Typography sx={{my: 2}}>
-                    Preferred Payment Currency
-                </Typography>
-                <Select value={selected} onChange={(e) => {
-                    setSelected(e.target.value);
-                    setDone(false);
-                }} variant={"outlined"}>
-                    {ppsCoins != null && ppsCoins.pps.map((item: any,index) => (
-                        <MenuItem value={item.coin} key={index}>
-                            <div style={{display: 'flex', alignItems: 'center', justifyContent: "center"}}>
-                                <ListItemIcon classes={{root: styles.menuItem}}>
-                                    <Image src={item.icon} width={25} height={25}/>
-                                </ListItemIcon>
-                                <ListItemText primary={item.coin.toUpperCase()}/>
-                            </div>
-                        </MenuItem>
-                    ))}
-                </Select>
-                <Box textAlign={"right"}>
-                    <Button onClick={handleClickOpen} variant={"contained"} startIcon={loading ? <CircularProgress size={20} /> : ''} disabled={loading || selected == ppsCoins?.preference || done}>
-                        {done ? 'Saved' : 'Submit'}
-                    </Button>
-                </Box>
+
+                <Grid container>
+                    <Grid item xs={12} md={6}>
+                        <Alert icon={false} severity="info" className={styles.alert}>
+                            <Typography fontWeight={"bold"} variant={"h5"}>
+                                Please Note
+                            </Typography>
+                            <Divider/>
+                            <p><b>Changing Preferred Payment Currency</b>, changes how we
+                                calculate your earnings from the next hour until you change it
+                                again. You &nbsp;
+                                <b>Can Not Undo</b> &nbsp;
+                                the change but you can change the currency in the future.</p>
+                        </Alert>
+                    </Grid>
+                    <Grid item xs={12} md={6} sx={{pl: {xs:0,md:2}}}>
+                        <Typography sx={{my: 2}}>
+                            Preferred Payment Currency
+                        </Typography>
+                        <Select value={selected} onChange={(e) => {
+                            setSelected(e.target.value);
+                            setDone(false);
+                        }} variant={"outlined"}>
+                            {ppsCoins != null && ppsCoins.pps.map((item: any,index) => (
+                                <MenuItem value={item.coin} key={index}>
+                                    <div style={{display: 'flex', alignItems: 'center', justifyContent: "center"}}>
+                                        <ListItemIcon classes={{root: styles.menuItem}}>
+                                            <Image src={item.icon} width={25} height={25}/>
+                                        </ListItemIcon>
+                                        <ListItemText primary={item.coin.toUpperCase()}/>
+                                    </div>
+                                </MenuItem>
+                            ))}
+                        </Select>
+                        <Box textAlign={"right"}>
+                            <Button onClick={handleClickOpen} variant={"contained"} startIcon={loading ? <CircularProgress size={20} /> : ''} disabled={loading || selected == ppsCoins?.preference || done}>
+                                {done ? 'Saved' : 'Submit'}
+                            </Button>
+                        </Box>
+                    </Grid>
+                </Grid>
             </CustomCard>
             <Dialog
                 open={open}

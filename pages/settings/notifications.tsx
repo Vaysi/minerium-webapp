@@ -13,7 +13,17 @@ import {toast} from "react-toastify";
 
 const useStyles: any = makeStyles((theme: any) => ({
     input: {
-        width: 70
+        width: 150,
+        backgroundColor: "rgba(4, 51, 134, 0.19)",
+        color: "#043386",
+        fontSize: "23px"
+    },
+    units: {
+        marginLeft: 10,
+        display: "flex",
+        alignItems: "center",
+        color: "#043386",
+        fontWeight: 500
     }
 }));
 
@@ -84,10 +94,10 @@ const SettingsPage: NextPage = () => {
                                            checked={notifications.dailyReport as boolean}/>}
                         label="Receive daily report"/>
                 </FormGroup>
-                <FormGroup row={true} style={{justifyContent: "space-between"}}>
+                <FormGroup row={true} style={{justifyContent: "flex-start"}}>
                     <FormControlLabel
                         control={<Checkbox checked={showHashrate} onChange={(e) => setShowHashrate(!showHashrate)}/>}
-                        label="Report if hash rate of any worker falls under a specific value (TH)"/>
+                        label="Report if hash rate of any worker falls under a specific value"/>
                     <TextField
                         margin="dense"
                         id="hashrate"
@@ -98,8 +108,9 @@ const SettingsPage: NextPage = () => {
                         className={styles.input}
                         disabled={!showHashrate}
                     />
+                    <span className={styles.units}>TH/s</span>
                 </FormGroup>
-                <FormGroup row={true} style={{justifyContent: "space-between"}}>
+                <FormGroup row={true} style={{justifyContent: "flex-start"}}>
                     <FormControlLabel control={<Checkbox checked={showActiveWorkers}
                                                          onChange={(e) => setShowActiveWorkers(!showActiveWorkers)}/>}
                                       label="Report if number of active workers falls under a specific value"/>
@@ -113,11 +124,12 @@ const SettingsPage: NextPage = () => {
                         disabled={!showActiveWorkers}
                         className={styles.input}
                     />
+                    <span className={styles.units}>miners</span>
                 </FormGroup>
-                <FormGroup row={true} style={{justifyContent: "space-between"}}>
+                <FormGroup row={true} style={{justifyContent: "flex-start"}}>
                     <FormControlLabel control={<Checkbox checked={showTotalHashrate}
                                                          onChange={(e) => setShowTotalHashrate(!showTotalHashrate)}/>}
-                                      label="Report if total hash rate falls under a specific value (TH)"/>
+                                      label="Report if total hash rate falls under a specific value"/>
                     <TextField
                         margin="dense"
                         id="totalHashrate"
@@ -128,6 +140,7 @@ const SettingsPage: NextPage = () => {
                         disabled={!showTotalHashrate}
                         className={styles.input}
                     />
+                    <span className={styles.units}>TH/s</span>
                 </FormGroup>
                 <Box sx={{mt: 2}} textAlign={"right"}>
                     <Button onClick={submit} variant={"contained"}

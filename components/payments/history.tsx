@@ -1,30 +1,15 @@
-import {
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    CardHeader,
-    Container,
-    Link, Paper,
-    Table,
-    TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow,
-    Typography
-} from "@mui/material";
-import {makeStyles, styled} from "@mui/styles";
-import {EarningHistory, Tab} from "../../utils/interfaces";
+import {makeStyles} from "@mui/styles";
 import {useEffect, useState} from "react";
-import {$$earningsHistory, $$paymentHistory} from "../../utils/api";
+import {$$paymentHistory} from "../../utils/api";
 import moment from "moment";
 import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
+import CustomCard from "../inline-components/card";
+import {sumUp} from "../../utils/functions";
 
-const useStyles:any = makeStyles((theme:any) => ({
-    earnings: {
-
-    },
-    card: {
-
-    },
-    cardHeader:{
+const useStyles: any = makeStyles((theme: any) => ({
+    earnings: {},
+    card: {},
+    cardHeader: {
         backgroundColor: "#043180",
         color: "#fff"
     },
@@ -37,23 +22,28 @@ const useStyles:any = makeStyles((theme:any) => ({
         fontWeight: "bold",
         borderRadius: "3px 3px 0 0"
     },
+    noUnder: {
+        textDecoration: "none",
+    }
 }));
 
 
 const PaymentHistory = () => {
     const styles = useStyles();
-    const [history,setHistory] = useState<Array<any>>([]);
+    const [history, setHistory] = useState<Array<any>>([]);
 
     useEffect(() => {
         $$paymentHistory().then(response => setHistory(response.data));
-    },[]);
+    }, []);
 
-    const getWalletLink = (params:GridRenderCellParams) => {
-        return params.row.wallet ? <a href={walletLink(params.row)} rel={"noreferrer"} target="_blank">{params.row.wallet}</a> : 'Not Paid';
+    const getWalletLink = (params: GridRenderCellParams) => {
+        return params.row.wallet ?
+            <a className={styles.noUnder} href={walletLink(params.row)} rel={"noreferrer"} target="_blank">{sumUp(params.row.wallet,10)}</a> : 'Not Paid';
     };
 
-    const getTransactionLink = (params:GridRenderCellParams) => {
-        return params.row.txInfo ? <a href={txInfoLink(params.row)} rel={"noreferrer"} target="_blank">{params.row.txInfo}</a> : 'Not Paid';
+    const getTransactionLink = (params: GridRenderCellParams) => {
+        return params.row.txInfo ?
+            <a className={styles.noUnder} href={txInfoLink(params.row)} rel={"noreferrer"} target="_blank">{sumUp(params.row.txInfo,10)}</a> : 'Not Paid';
     };
 
     const columns: GridColDef[] = [
@@ -94,59 +84,45 @@ const PaymentHistory = () => {
     ];
 
 
-    const txInfoLink = (item:any) => {
+    const txInfoLink = (item: any) => {
         let txInfoSites = {
-            "dgb":`https://digiexplorer.info/tx/${item.txInfo}`,
-            "bsv":`https://whatsonchain.com/tx/${item.txInfo}`,
-            "bch":`https://www.blockchain.com/bch/tx/${item.txInfo}`,
-            "btc":`https://www.blockchain.com/btc/tx/${item.txInfo}`
+            "dgb": `https://digiexplorer.info/tx/${item.txInfo}`,
+            "bsv": `https://whatsonchain.com/tx/${item.txInfo}`,
+            "bch": `https://www.blockchain.com/bch/tx/${item.txInfo}`,
+            "btc": `https://www.blockchain.com/btc/tx/${item.txInfo}`
         }
         //@ts-ignore
         return txInfoSites[item.currency];
     };
 
-    const walletLink = (item:any) => {
+    const walletLink = (item: any) => {
         let walletSites = {
-            "dgb":`https://digiexplorer.info/address/${item.wallet}`,
-            "bsv":`https://whatsonchain.com/address/${item.wallet}`,
-            "bch":`https://www.blockchain.com/bch/address/${item.wallet}`,
-            "btc":`https://www.blockchain.com/btc/address/${item.wallet}`
+            "dgb": `https://digiexplorer.info/address/${item.wallet}`,
+            "bsv": `https://whatsonchain.com/address/${item.wallet}`,
+            "bch": `https://www.blockchain.com/bch/address/${item.wallet}`,
+            "btc": `https://www.blockchain.com/btc/address/${item.wallet}`
         }
         //@ts-ignore
         return walletSites[item.currency]
     };
 
     return (
-       <Container maxWidth={"xl"}>
-           <Card className={styles.card} sx={{mt:3}}>
-               <CardHeader
-                   className={styles.cardHeader}
-                   title="Earnings History"
-                   titleTypographyProps={{
-                       style:{
-                           fontSize: 17,
-                           color: "#fff"
-                       }
-                   }}
-               />
-               <CardContent className={styles.cardContent}>
-                   <div style={{display: 'flex', height: '100%', minHeight: 400}}>
-                       <div style={{flexGrow: 1}}>
-                           <DataGrid
-                               rows={history.map(item => {
-                                   item.updatedAt = moment(item.updatedAt).format('YYYY-MM-DD');
-                                   item.price = `${item.price} ${(item.currency || '').toUpperCase()}`;
-                                   return item;
-                               })}
-                               columns={columns}
-                               rowsPerPageOptions={[10]}
-                               autoPageSize={true}
-                           />
-                       </div>
-                   </div>
-               </CardContent>
-           </Card>
-       </Container>
+        <CustomCard titleProps={{title: "Earning History"}}>
+            <div style={{display: 'flex', height: '100%', minHeight: 400}}>
+                <div style={{flexGrow: 1}}>
+                    <DataGrid
+                        rows={history.map(item => {
+                            item.updatedAt = moment(item.updatedAt).format('YYYY-MM-DD');
+                            item.price = `${item.price} ${(item.currency || '').toUpperCase()}`;
+                            return item;
+                        })}
+                        columns={columns}
+                        rowsPerPageOptions={[10]}
+                        autoPageSize={true}
+                    />
+                </div>
+            </div>
+        </CustomCard>
     );
 }
 

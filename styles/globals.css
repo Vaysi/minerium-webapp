@@ -50,3 +50,42 @@ img {
 .MuiDialogContent-root {
   overflow-x: hidden;
 }
+
+.MuiTableCell-head:last-child , .MuiDataGrid-columnHeader:last-child {
+  border-radius: 0 5px 5px 0;
+}
+
+.MuiTableCell-head:first-child , .MuiDataGrid-columnHeader:first-child {
+  border-radius: 5px 0 0 5px;
+}
+.MuiDataGrid-columnHeadersInner, .MuiDataGrid-columnHeaderCheckbox {
+  border-radius: 5px;
+}
+
+.MuiDataGrid-root {
+  border: 1px solid #043386;
+  border-radius: 5px;
+}
+
+
+.noBorder .Mui-focused:after , .noBorder .Mui-focused:before {
+  border-bottom: none;
+}
+
+.noBorder .MuiInputLabel-root {
+  top: -20px;
+  color: #043386!important;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.noBorder .MuiInput-root {
+  margin-top: 5px;
+  padding-left: 10px;
+}
+
+
+input:-webkit-autofill {
+  -webkit-background-clip: text;
+  margin-left: 10px;
+}

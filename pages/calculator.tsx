@@ -93,7 +93,7 @@ const useStyles: any = makeStyles((theme: any) => ({
         "& 	.MuiSelect-outlined": {
             backgroundColor: "#fff"
         }
-    }
+    },
 }));
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({

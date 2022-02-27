@@ -1,8 +1,5 @@
 import type {NextPage} from 'next'
-import {
-    Box,
-    Grid, TextField, Button, CircularProgress
-} from "@mui/material";
+import {Box, Button, CircularProgress, Grid, TextField} from "@mui/material";
 import Header from "../../components/header/header";
 import Footer from "../../components/footer/footer";
 import Tabs from "../../components/inline-components/tabs";
@@ -15,6 +12,11 @@ import {toast} from "react-toastify";
 
 
 const useStyles: any = makeStyles((theme: any) => ({
+    input: {
+        backgroundColor: "#F5F5F7",
+        boxShadow: "inset 0px 1px 10px rgba(0, 0, 0, 0.25)",
+        marginTop: "20px!important"
+    },
 }));
 
 const WatchersPage: NextPage = () => {
@@ -48,9 +50,9 @@ const WatchersPage: NextPage = () => {
 
     const save = () => {
         setLoading(true);
-        $$setMe(firstName,lastName).then(response => {
-           toast.success('Information Saved!');
-           setLoading(false);
+        $$setMe(firstName, lastName).then(response => {
+            toast.success('Information Saved!');
+            setLoading(false);
         });
     };
 
@@ -59,15 +61,24 @@ const WatchersPage: NextPage = () => {
             <Header/>
             <Tabs data={tabLinks}/>
             <CustomCard titleProps={{title: "Information"}}>
-                <TextField sx={{mb:2}} fullWidth label="Username" variant="outlined" disabled value={user?.user?.username || ''}/>
-                <TextField sx={{mb:2}} fullWidth label="Email Address" variant="outlined" disabled  value={user?.user?.email || ''}/>
-                <TextField sx={{mb:2}} fullWidth label="First Name" variant="outlined" value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
-                <TextField sx={{mb:2}} fullWidth label="Last Name" variant="outlined" value={lastName}  onChange={(e) => setLastName(e.target.value)}/>
-                <Box textAlign={"right"}>
-                    <Button onClick={save} variant={"contained"} startIcon={loading ? <CircularProgress size={20} /> : ''} disabled={loading}>
-                        Save
-                    </Button>
-                </Box>
+               <Box className={"noBorder"}>
+                   <TextField sx={{mb: 2}} fullWidth label="Username" variant="standard" focused
+                              classes={{root: styles.input}} disabled value={user?.user?.username || ''}/>
+                   <TextField sx={{mb: 2}} fullWidth label="Email Address" variant="standard" focused
+                              classes={{root: styles.input}} disabled value={user?.user?.email || ''}/>
+                   <TextField sx={{mb: 2}} fullWidth label="First Name" variant="standard" focused
+                              classes={{root: styles.input}} value={firstName}
+                              onChange={(e) => setFirstName(e.target.value)}/>
+                   <TextField sx={{mb: 2}} fullWidth label="Last Name" variant="standard" focused
+                              classes={{root: styles.input}} value={lastName}
+                              onChange={(e) => setLastName(e.target.value)}/>
+                   <Box textAlign={"right"}>
+                       <Button onClick={save} variant={"contained"}
+                               startIcon={loading ? <CircularProgress size={20}/> : ''} disabled={loading}>
+                           Save
+                       </Button>
+                   </Box>
+               </Box>
             </CustomCard>
             <Footer/>
         </Grid>

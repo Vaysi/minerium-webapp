@@ -2,9 +2,6 @@ import type {NextPage} from 'next'
 import {
     Box,
     Button,
-    Card,
-    CardContent,
-    CardHeader,
     Checkbox,
     CircularProgress,
     Container,
@@ -12,14 +9,10 @@ import {
     FormControl,
     FormControlLabel,
     Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
     TextField
 } from "@mui/material";
 import Header from "../../components/header/header";
-import {Google, Visibility, VisibilityOff,} from "@mui/icons-material";
+import {Google,} from "@mui/icons-material";
 import Footer from "../../components/footer/footer";
 import {makeStyles} from "@mui/styles";
 import React, {useContext, useEffect, useState} from "react";
@@ -29,20 +22,28 @@ import {$$userRegister} from "../../utils/api";
 import {toast} from "react-toastify";
 import {useRouter} from "next/router";
 import ProtectedRoute from "../../components/ProtectedRoute";
+import CustomCard from "../../components/inline-components/card";
 
 const useStyles: any = makeStyles((theme: any) => ({
-    cardHeader: {
-        backgroundColor: "#043180",
-        color: "#fff"
-    },
-    cardContent: {
-        backgroundColor: "var(--blue-ghost)"
-    },
     button: {
         textTransform: "none",
         paddingLeft: 30,
         paddingRight: 30,
         fontSize: 16
+    },
+    input: {
+        backgroundColor: "#F5F5F7",
+        boxShadow: "inset 0px 1px 10px rgba(0, 0, 0, 0.25)",
+        marginTop: "20px!important"
+    },
+    commonBtn:{
+        width: "310px"
+    },
+    google: {
+        boxShadow: "0px 10px 10px -2px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "#F5F5F7!important",
+        borderRadius: "5px!important",
+        border: "none!important"
     }
 }));
 
@@ -59,166 +60,154 @@ const Register: NextPage = () => {
     const [loading, setLoading] = useState(false);
 
     const ready = () => {
-        if(email.length > 4 && username.length > 4 && password == confirmPassword && agreed) {
+        if (email.length > 4 && username.length > 4 && password == confirmPassword && agreed) {
             return true;
-        }else {
+        } else {
             return false;
         }
     };
 
     const onSubmit = () => {
         setLoading(true);
-        $$userRegister(email,password,confirmPassword,username).then(response => {
+        $$userRegister(email, password, confirmPassword, username).then(response => {
             let urlParams = new URLSearchParams({
                 email: email,
                 expireDate: response.data.expireDate
             }).toString();
             setTimeout(() => {
                 router.push('/auth/verify?' + urlParams);
-            },1000);
-            setUser({...user,email,username});
+            }, 1000);
+            setUser({...user, email, username});
             setLoading(false);
         }).catch(reason => {
             let close = reason.data == 'TRY_LOGIN' ? 7000 : 5000;
-            if('message' in reason){
-                toast.error(reason.message,{autoClose: close});
+            if ('message' in reason) {
+                toast.error(reason.message, {autoClose: close});
 
-                if(reason.data == 'TRY_LOGIN'){
+                if (reason.data == 'TRY_LOGIN') {
                     setTimeout(() => {
                         router.push('/auth/login');
-                    },7500);
+                    }, 7500);
                 }
 
-                if(reason.data == 'NOT_VERIFIED'){
+                if (reason.data == 'NOT_VERIFIED') {
                     let urlParams = new URLSearchParams({
                         email: email,
                         expireDate: reason.data.expireDate
                     }).toString();
                     setTimeout(() => {
                         router.push('/auth/verify?' + urlParams);
-                    },1000);
+                    }, 1000);
                 }
             }
             setLoading(false);
         });
 
     };
-    useEffect(() => {
-        console.log(isLoggedIn());
-    }, [user]);
-
     return (
         <Grid container>
             <Header/>
             <Container sx={{maxWidth: {xs: "xl", md: "md", xl: "sm"}}}>
-                <Card sx={{mt: 3}}>
-                    <CardHeader
-                        className={styles.cardHeader}
-                        title="Register"
-                        titleTypographyProps={{
-                            style: {
-                                fontSize: 17,
-                                color: "#fff"
-                            }
-                        }}
-                    />
-                    <CardContent className={styles.cardContent}>
-                        <Box>
-                            <TextField
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                id="email"
-                                label="Email"
-                                fullWidth
-                                sx={{mb: 2}}
-                            />
-                            <TextField
-                                onChange={(e) => setUsername(e.target.value)}
-                                required
-                                id="username"
-                                label="Username"
-                                fullWidth
-                                sx={{mb: 2}}
-                            />
-                            <FormControl variant="outlined" fullWidth>
-                                <InputLabel htmlFor="password">Password</InputLabel>
-                                <OutlinedInput
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                    type={!showPassword ? 'password' : 'text'}
-                                    id="password"
-                                    label="Password"
-                                    fullWidth
-                                    sx={{mb: 2}}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                onClick={() => setShowPassword(!showPassword)}
-                                                onMouseDown={() => setShowPassword(!showPassword)}
-                                                edge="end"
-                                            >
-                                                {showPassword ? <VisibilityOff/> : <Visibility/>}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </FormControl>
-                            <FormControl variant="outlined" fullWidth>
-                                <InputLabel htmlFor="repeat_password">Confirm Password</InputLabel>
-                                <OutlinedInput
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    required
-                                    type={!showPassword ? 'password' : 'text'}
-                                    id="repeat_password"
-                                    label="Confirm Password"
-                                    fullWidth
-                                    sx={{mb: 2}}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={() => setShowPassword(!showPassword)}
-                                                onMouseDown={() => setShowPassword(!showPassword)}
-                                                edge="end"
-                                            >
-                                                {showPassword ? <VisibilityOff/> : <Visibility/>}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormControlLabel label={(
-                                    <>
-                                        I have read and accept the <a target="_blank" rel={"noreferrer"}
-                                                                      href="https://minerium.com/terms-of-services/">Terms
-                                        and Conditions</a>.</>
-                                )} control={<Checkbox defaultChecked onClick={() => setAgreed(!agreed)}
-                                                      checked={agreed}/>}/>
-                            </FormControl>
-                            <Grid container>
-                                <Grid item xs={12}>
-                                    <Button fullWidth onClick={onSubmit} className={styles.button} variant={"contained"}
-                                            startIcon={loading ? <CircularProgress size={20}/> : ''}
-                                            disabled={!ready() || loading}>
-                                        Register
-                                    </Button>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Divider sx={{mt: 2, mb: 2}}/>
-                                    <Button color={"primary"} variant="outlined" fullWidth>
-                                        <Google sx={{mr: 1, color: "#DE4032"}}/>
-                                        Register With Google
-                                    </Button>
-                                </Grid>
+                <CustomCard titleProps={{title: "Register"}}>
+                    <Box className={"noBorder"}>
+                        <TextField
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            id="email"
+                            label="Email"
+                            fullWidth
+                            sx={{mb: 2}}
+                            variant={"standard"}
+                            focused
+                            classes={{root: styles.input}}
+                        />
+                        <TextField
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                            id="username"
+                            label="Username"
+                            fullWidth
+                            sx={{mb: 2}}
+                            variant={"standard"}
+                            focused
+                            classes={{root: styles.input}}
+                            defaultValue={""}
+                            inputProps={{
+                                autocomplete: 'new-username',
+                                form: {
+                                    autocomplete: 'off',
+                                },
+                            }}
+                        />
+                        <TextField
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            id="password"
+                            label="Password"
+                            type={!showPassword ? 'password' : 'text'}
+                            fullWidth
+                            sx={{mb: 2}}
+                            variant={"standard"}
+                            focused
+                            autoComplete={"off"}
+                            classes={{root: styles.input}}
+                            defaultValue={""}
+                            inputProps={{
+                                autocomplete: 'new-password',
+                                form: {
+                                    autocomplete: 'off',
+                                },
+                            }}
+                        />
+                        <TextField
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                            id="repeat_password"
+                            label="Confirm Password"
+                            fullWidth
+                            sx={{mb: 2}}
+                            variant={"standard"}
+                            type={!showPassword ? 'password' : 'text'}
+                            focused
+                            classes={{root: styles.input}}
+                            defaultValue={""}
+                            inputProps={{
+                                autocomplete: 'new-repeat-password',
+                                form: {
+                                    autocomplete: 'off',
+                                },
+                            }}
+                        />
+                        <FormControl>
+                            <FormControlLabel label={(
+                                <>
+                                    <a target="_blank" rel={"noreferrer"} style={{color:"#043386"}}
+                                       href="https://minerium.com/terms-of-services/">Accept User Agreement</a>.</>
+                            )} control={<Checkbox defaultChecked onClick={() => setAgreed(!agreed)}
+                                                  checked={agreed}/>}/>
+                        </FormControl>
+                        <Grid container textAlign={"center"}>
+                            <Grid item xs={12}>
+                                <Button onClick={onSubmit} className={`${styles.button} ${styles.commonBtn}`} variant={"contained"}
+                                        startIcon={loading ? <CircularProgress size={20}/> : ''}
+                                        disabled={!ready() || loading}>
+                                    Register
+                                </Button>
                             </Grid>
-                        </Box>
-                    </CardContent>
-                </Card>
+                            <Grid item xs={12}>
+                                <Divider sx={{mt: 2, mb: 2}}/>
+                                <Button className={`${styles.commonBtn} ${styles.google}`} color={"primary"} variant="outlined">
+                                    <img src={"/assets/images/google.svg"} style={{width:25,height:25,marginRight:10,paddingTop:4,paddingBottom:4}}  alt={"Google"}/>
+                                    Sign Up With Google
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </CustomCard>
             </Container>
             <Footer/>
         </Grid>
     );
 };
 
-export default ProtectedRoute(Register,true);
+export default ProtectedRoute(Register, true);

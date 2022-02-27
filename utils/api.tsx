@@ -2,6 +2,7 @@ import axios, {AxiosInstance, AxiosRequestConfig, Method} from 'axios';
 import env from "./env";
 import {applyAuthTokenInterceptor, IAuthTokens, TokenRefreshRequest} from 'axios-jwt'
 import {toast} from "react-toastify";
+import router from "next/router";
 
 const axiosConfig: AxiosRequestConfig = {
     baseURL: env.API_URL,
@@ -22,6 +23,9 @@ instance.interceptors.response.use((response) => response, (error) => {
             {error.response.data.message}
         </>
     );
+    if(error.response.data.status == 401){
+        router.push("/auth/login");
+    }
     throw error;
 });
 
