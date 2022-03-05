@@ -23,13 +23,15 @@ const useStyles: any = makeStyles((theme: any) => ({
 interface Props {
     titleProps: any;
     children: any;
+    align?: string;
+    cardProps?: any;
 }
 
 const CustomCard = (props:Props) => {
     const styles = useStyles();
     return (
         <Container maxWidth={"xl"}>
-            <Card className={styles.card} sx={{mt: 3}}>
+            <Card className={styles.card} sx={{mt: 3}} {...props.cardProps}>
                 <CardHeader
                     className={styles.cardHeader}
                     titleTypographyProps={{
@@ -37,7 +39,8 @@ const CustomCard = (props:Props) => {
                             color: "#043180",
                             fontFamily: "var(--font-header)",
                             fontWeight: 600,
-                            fontSize: 30
+                            fontSize: 30,
+                            textAlign: props.align ? props.align : "inherit"
                         }
                     }}
                     {...props.titleProps}

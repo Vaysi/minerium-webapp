@@ -40,6 +40,25 @@ const useStyles:any = makeStyles((theme:any) => ({
     },
     headerTitle: {
 
+    },
+    active: {
+        filter: "drop-shadow(0px 10px 50px rgba(0, 0, 0, 0.25))",
+        boxShadow: "0px 10px 50px rgba(0, 0, 0, 0.25)",
+        backgroundColor: "#043180",
+        borderRadius: "15px",
+        fontFamily: "Open Sans",
+        fontSize: "22px",
+        textTransform: "none"
+    },
+    deactive: {
+        filter: "drop-shadow(0px 10px 50px rgba(0, 0, 0, 0.25))",
+        boxShadow: "0px 10px 50px rgba(0, 0, 0, 0.25)",
+        backgroundColor: "#043180",
+        fontFamily: "Open Sans",
+        borderRadius: "15px",
+        fontSize: "22px",
+        opacity: 0.65,
+        textTransform: "none"
     }
 }));
 
@@ -143,22 +162,22 @@ const HashChart = (props: Props) => {
                    }}
                />
                <CardContent className={styles.cardContent}>
-                   <ButtonGroup fullWidth={true} sx={{mb:2}}>
-                       <Button variant={props.type == 'hour' ? 'contained' : 'outlined'} color={"primary"} onClick={() => {
+                   <Box sx={{mb:2}} textAlign={"right"}>
+                       <Button sx={{mr:2}} variant={"contained"} className={props.type == 'hour' ? styles.active : styles.deactive} color={"primary"} onClick={() => {
                            if(props.type != 'hour'){
                                props.setFilter('hour');
                            }
                        }}>
                           By Hour
                        </Button>
-                       <Button variant={props.type == 'day' ? 'contained' : 'outlined'} color={"primary"} onClick={() => {
+                       <Button variant={"contained"} className={props.type == 'day' ? styles.active : styles.deactive} color={"primary"} onClick={() => {
                            if(props.type != 'day'){
                                props.setFilter('day');
                            }
                        }}>
                            By Day
                        </Button>
-                   </ButtonGroup>
+                   </Box>
                    <Box sx={{height:{xs:450}}}>
                        {
                            //@ts-ignore

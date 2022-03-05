@@ -60,7 +60,7 @@ const Content = () => {
         <div className={styles.footer}>
            <Container maxWidth={"xl"}>
                <Grid container>
-                    <Grid item xs={5}>
+                    <Grid sx={{mb:{xs:3,md:0}}} item xs={12} md={5}>
                         <Logo mode={"white"} styles={{maxWidth:220,display: "block"}} />
                         <Typography variant={"caption"} className={styles.logoSubtitle}>The Most Profitable Multi-Currency Mining Pool</Typography>
                         <Typography  style={{marginTop: 10}}>
@@ -70,7 +70,7 @@ const Content = () => {
                             support@minerium.com
                         </Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid sx={{mb:{xs:3,md:0}}} item xs={12} md={2}>
                         <Typography className={styles.sectionTitle} variant={"caption"}>
                             QUICK LINKS
                         </Typography>
@@ -109,7 +109,7 @@ const Content = () => {
                             </List>
                         </nav>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={12} md={5}>
                         <Typography className={styles.sectionTitle} variant={"caption"}>
                             FRAUD WARNING
                         </Typography>
