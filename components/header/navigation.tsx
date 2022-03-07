@@ -63,7 +63,11 @@ const Navigation = () => {
 
     const checkActivation = (name:string) => {
           if(router.isReady){
-              return router.pathname.startsWith(`/${name.toLowerCase()}`);
+              if(name.toLowerCase() == 'earnings'){
+                  return router.pathname.startsWith(`/${name.toLowerCase()}`) || router.pathname.startsWith(`/payments`);
+              }else {
+                  return router.pathname.startsWith(`/${name.toLowerCase()}`);
+              }
           }else {
               return false;
           }

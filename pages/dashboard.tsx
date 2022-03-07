@@ -32,7 +32,10 @@ const useStyles: any = makeStyles((theme: any) => ({
     primary: {
         color: "var(--header)",
         fontWeight: "bold",
-        fontSize: 20
+        fontSize: 20,
+        "@media (max-width: 800px)": {
+            fontSize: "1rem",
+        },
     },
     secondary: {
         color: "var(--header)",
@@ -50,6 +53,11 @@ const useStyles: any = makeStyles((theme: any) => ({
         "&:hover": {
             backgroundColor: "#D4E2F4",
         }
+    },
+    bodyFont: {
+        "@media (max-width: 800px)": {
+            fontSize: "0.9rem",
+        },
     }
 }));
 
@@ -114,9 +122,7 @@ const Dashboard: NextPage = () => {
 
     const copyButton = (text: string) => (
         <CopyToClipboard text={text} onCopy={() => toast.success('Successfully Copied !')}>
-            <IconButton color="primary" component="span">
-                <ContentCopy/>
-            </IconButton>
+            <Button variant={"contained"}  className={styles.customBtn}>Copy</Button>
         </CopyToClipboard>
     );
 
@@ -170,7 +176,7 @@ const Dashboard: NextPage = () => {
                             </Typography>
                         </CustomCard>
                     </Grid>
-                    <Grid item lg={6} xs={12}>
+                    <Grid item lg={6} xs={12} className={"noOutline"}>
                         <CustomCard titleProps={{title: "Minerium Addresess"}} cardProps={{style: {height: "360px"}}}>
                             <TextField
                                 fullWidth

@@ -92,3 +92,15 @@ input:-webkit-autofill {
 .dashTable .MuiTableRow-root:nth-child(even){
   background-color: #E5ECF6;
 }
+
+.noOutline .MuiOutlinedInput-notchedOutline {
+  border: none;
+}
+
+.MuiButtonGroup-root.MuiButtonGroup-contained + div {
+  z-index: 100000;
+}
+
+.fullWidthBadge .MuiBadge-root{
+  width: 100%;
+}

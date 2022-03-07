@@ -12,6 +12,7 @@ import {themeModeContext, userContext} from "../../utils/context";
 import {useRouter} from "next/router";
 import {makeStyles} from "@mui/styles";
 import {clearAuthTokens} from "axios-jwt";
+import {setCookie} from "../../utils/functions";
 
 const useStyles: any = makeStyles((theme: any) => ({
     topHeader: {
@@ -60,11 +61,17 @@ const TopHeader = () => {
                 <Grid container>
                     <Grid item xs={6}>
                         <IconButton className={`${styles.themeMode} ${mode == 'light' ? styles.active : ''}`}
-                                    aria-label="light mode" component="span" onClick={() => setMode('light')}>
+                                    aria-label="light mode" component="span" onClick={() => {
+                            setMode('light')
+                            setCookie('theme','light',999999);
+                        }}>
                             <LightModeOutlined/>
                         </IconButton>
                         <IconButton className={`${styles.themeMode} ${mode == 'dark' ? styles.active : ''}`}
-                                    aria-label="dark mode" component="span" onClick={() => setMode('dark')}>
+                                    aria-label="dark mode" component="span" onClick={() => {
+                                        setMode('dark')
+                                        setCookie('theme','dark',999999);
+                                    }}>
                             <DarkModeOutlined/>
                         </IconButton>
                     </Grid>

@@ -36,7 +36,15 @@ const useStyles:any = makeStyles((theme:any) => ({
     },
     cardContent: {
         backgroundColor: "var(--blue-ghost)",
-        minHeight: "50vh"
+        minHeight: "50vh",
+        /*"@media (max-width: 900px)": {
+            minHeight: "40vh",
+            maxHeight: "40vh",
+        },
+        "@media (max-width: 700px)": {
+            minHeight: "25vh",
+            maxHeight: "25vh",
+        },*/
     },
     headerTitle: {
 

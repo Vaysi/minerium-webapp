@@ -1,16 +1,18 @@
 import {
     Badge,
     Button,
-    ButtonGroup,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
-    Divider, FormControl,
+    Divider,
+    FormControl,
     Grid,
-    IconButton, MenuItem, Select,
+    MenuItem,
+    Select,
     TextField,
     Typography,
+    useMediaQuery,
 } from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
@@ -22,7 +24,8 @@ import {$$createWatcher, $$createWorkerGroup} from "../../utils/api";
 import {toast} from "react-toastify";
 import AddWorkerStepper from "./stepper";
 import CustomCard from "../inline-components/card";
-import {OpenInNew} from "@mui/icons-material";
+import SplitButton from "../inline-components/split-btn";
+import SplitButtonState from "../inline-components/split-btn-status";
 
 const useStyles: any = makeStyles((theme: any) => ({
     headerTitle: {
@@ -70,6 +73,7 @@ const WorkersList = (props: Props) => {
     const [addWorkerModal, setAddWorkerModal] = useState(false);
     const [selectionModel, setSelectionModel] = useState([]);
     const [watcherLink, setWatcherLink] = useState(null);
+    const nineMatches = useMediaQuery('(max-width:980px)');
 
 
     const openGroupModal = () => {
@@ -265,7 +269,7 @@ const WorkersList = (props: Props) => {
             <CustomCard titleProps={{
                 title: "Workers"
                 , action: (
-                    <FormControl style={{backgroundColor: "#fff",borderRadius: 25,minWidth: 100}}>
+                    <FormControl style={{backgroundColor: "#fff", borderRadius: 25, minWidth: 100}}>
                         <Select
                             id="groupSelect"
                             value={props.states.selected}
@@ -283,27 +287,81 @@ const WorkersList = (props: Props) => {
             }}>
                 <Grid container sx={{mb: 1}}>
                     <Grid item xs={6}>
-                        <Badge sx={{mr: 2}} color="secondary" badgeContent={status.all}>
-                            <Button className={status.activeTab != 'all' ? styles.inactive : ''}
-                                    variant={"contained"} onClick={() => applyFilter('all')}>All</Button>
-                        </Badge>
-                        <Badge sx={{mr: 2}} color="secondary" badgeContent={status.online}>
-                            <Button className={status.activeTab != 'online' ? styles.inactive : ''}
-                                    variant={"contained"} onClick={() => applyFilter('online')}>Online</Button>
-                        </Badge>
-                        <Badge sx={{mr: 2}} color="secondary" badgeContent={status.offline}>
-                            <Button className={status.activeTab != 'offline' ? styles.inactive : ''}
-                                    variant={"contained"} onClick={() => applyFilter('offline')}>Offline</Button>
-                        </Badge>
-                        <Badge sx={{mr: 2}} color="secondary" badgeContent={status.inactive}>
-                            <Button className={status.activeTab != 'inactive' ? styles.inactive : ''}
-                                    variant={"contained"} onClick={() => applyFilter('inactive')}>Inactive</Button>
-                        </Badge>
+                        {
+                            nineMatches ? (
+                                <SplitButtonState options={[
+                                    {
+                                        text:"All",
+                                        action: () => applyFilter('all'),
+                                        badge: status.all,
+                                    },
+                                    {
+                                        text: "Online",
+                                        action: () => applyFilter('online'),
+                                        badge: status.online,
+                                    },
+                                    {
+                                        text: "Offline",
+                                        action: () => applyFilter('offline'),
+                                        badge: status.offline,
+                                    },
+                                    {
+                                        text: "Inactive",
+                                        action: () => applyFilter('inactive'),
+                                        badge: status.inactive
+                                    }
+                                ]}/>
+                            ) : (
+                                <>
+                                    <Badge sx={{mr: 2}} color="secondary" badgeContent={status.all}>
+                                        <Button className={status.activeTab != 'all' ? styles.inactive : ''}
+                                                variant={"contained"} onClick={() => applyFilter('all')}>All</Button>
+                                    </Badge>
+                                    <Badge sx={{mr: 2}} color="secondary" badgeContent={status.online}>
+                                        <Button className={status.activeTab != 'online' ? styles.inactive : ''}
+                                                variant={"contained"}
+                                                onClick={() => applyFilter('online')}>Online</Button>
+                                    </Badge>
+                                    <Badge sx={{mr: 2}} color="secondary" badgeContent={status.offline}>
+                                        <Button className={status.activeTab != 'offline' ? styles.inactive : ''}
+                                                variant={"contained"}
+                                                onClick={() => applyFilter('offline')}>Offline</Button>
+                                    </Badge>
+                                    <Badge sx={{mr: 2}} color="secondary" badgeContent={status.inactive}>
+                                        <Button className={status.activeTab != 'inactive' ? styles.inactive : ''}
+                                                variant={"contained"}
+                                                onClick={() => applyFilter('inactive')}>Inactive</Button>
+                                    </Badge>
+                                </>
+                            )
+                        }
                     </Grid>
-                    <Grid item xs={6} style={{display:"flex",justifyContent:"space-around"}}>
-                        <Button onClick={openGroupModal} variant={"contained"}>Create Group</Button>
-                        <Button onClick={openWatcherModal} variant={"contained"}>Create Watcher</Button>
-                        <Button onClick={openAddWorkerModal} variant={"contained"}>Add Worker</Button>
+                    <Grid item xs={6}
+                          style={{display: "flex", justifyContent: nineMatches ? "flex-end" : "space-around"}}>
+                        {
+                            nineMatches ? (
+                                <SplitButton options={[
+                                    {
+                                        text: "Create Group",
+                                        action: openGroupModal,
+                                    },
+                                    {
+                                        text: "Create Watcher",
+                                        action: openWatcherModal,
+                                    },
+                                    {
+                                        text: "Add Worker",
+                                        action: openAddWorkerModal,
+                                    }
+                                ]}/>
+                            ) : (
+                                <>
+                                    <Button onClick={openGroupModal} variant={"contained"}>Create Group</Button>
+                                    <Button onClick={openWatcherModal} variant={"contained"}>Create Watcher</Button>
+                                    <Button onClick={openAddWorkerModal} variant={"contained"}>Add Worker</Button>
+                                </>
+                            )
+                        }
                     </Grid>
                 </Grid>
                 <div style={{display: 'flex', height: '100%', minHeight: 400}}>

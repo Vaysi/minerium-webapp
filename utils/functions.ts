@@ -48,3 +48,20 @@ export function msToHMS( ms:number ) {
 export function sumUp(string:string,length:number) {
     return string.substring(0,length) + ' ...';
 }
+
+export function setCookie(name:string, value:string, expire:any) {
+    let expireDate = new Date();
+    expireDate.setDate(expireDate.getDate() + expire);
+    document.cookie = name + "=" + escape(value) + "; expires=" + expireDate.toUTCString() + "; path=/";
+}
+
+export function readCookie(name:string) {
+    let nameEQ = name + "=";
+    let ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}

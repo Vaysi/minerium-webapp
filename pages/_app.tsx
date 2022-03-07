@@ -6,6 +6,7 @@ import {getDesignTokens} from "../utils/themes";
 import {themeModeContext, userContext} from "../utils/context";
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from "react-toastify";
+import {readCookie, setCookie} from "../utils/functions";
 
 
 function MyApp({Component, pageProps}: AppProps) {
@@ -33,11 +34,20 @@ function MyApp({Component, pageProps}: AppProps) {
         }
     },[user]);
 
+    useEffect(() => {
+        let themeMode = readCookie('theme');
+        //@ts-ignore
+        setMode(themeMode);
+        //@ts-ignore
+        setCookie('theme',themeMode,999999);
+    },[]);
+
     // set body attribute for light/dark theme
     useEffect(() => {
         // @ts-ignore
-        document.querySelector("body").setAttribute('data-theme', mode)
+        document.getElementsByTagName('html')[0].setAttribute('data-theme', mode);
     }, [mode]);
+
 
 
     return (

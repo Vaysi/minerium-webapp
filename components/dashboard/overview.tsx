@@ -19,16 +19,25 @@ const useStyles: any = makeStyles((theme: any) => ({
         fontSize: "28px",
         fontFamily: "Poppins",
         fontWeight: "bold",
-        color: "#043180"
+        color: "#043180",
+        "@media (max-width: 760px)": {
+            fontSize: "15px"
+        },
     },
     sub: {
         color: "var(--header)",
         fontWeight: "bold",
         fontSize: 22,
-        fontFamily: "Montserrat"
+        fontFamily: "Montserrat",
+        "@media (max-width: 350px)": {
+            fontSize: 18
+        },
     },
     main: {
-        fontFamily: "Montserrat"
+        fontFamily: "Montserrat",
+        "@media (max-width: 350px)": {
+            fontSize: "0.8rem"
+        },
     },
 }));
 

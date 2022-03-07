@@ -1,6 +1,7 @@
 import {Container, Link, Typography} from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import {Tab} from "../../utils/interfaces";
+import {useRouter} from "next/router";
 
 const useStyles:any = makeStyles((theme:any) => ({
     tabs: {
@@ -23,6 +24,7 @@ const useStyles:any = makeStyles((theme:any) => ({
         margin: 4,
         opacity: 0.7,
         transition: "all ease-in 200ms",
+        cursor: "pointer",
         "&:hover" : {
             opacity: 1
         }
@@ -40,11 +42,12 @@ interface Props {
 }
 const Tabs = (props:Props) => {
     const styles = useStyles();
+    const router = useRouter();
     return (
         <div className={styles.tabs}>
            <Container maxWidth={"xl"}>
                {props.data.map(item => {
-                   return (<Link key={item.title} href={item.link ? item.link : ""} onClick={item.onClick ? item.onClick : null} className={`${styles.link} ${item.active ? styles.active : ''}`}>
+                   return (<Link key={item.title} href={item.onClick ? item.link : undefined} onClick={item.onClick ? item.onClick : () => router.push(item.link as string,undefined,{shallow:true})} className={`${styles.link} ${item.active ? styles.active : ''}`}>
                        {item.title.toUpperCase()}
                    </Link>);
                })}
