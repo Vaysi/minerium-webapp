@@ -13,13 +13,18 @@ const useStyles: any = makeStyles((theme: any) => ({
     },
     user: {
         background: "radial-gradient(135.23% 135.23% at 0% 120.45%, #D4E2F4 0%, #B3CEF2 100%)",
-        border: "1px solid rgba(212, 226, 244, 0.18)!important",
+        border: "1px solid rgba(212, 226, 244, 0.18)",
         boxShadow: "6px 12px 20px rgba(0, 0, 0, 0.25)",
         borderRadius: "15px!important",
         padding: "10px!important",
-        color: "var(--primary)!important",
+        color: "var(--primary)",
         fontFamily: "var(--font-header)!important",
-        fontWeight: "500!important"
+        fontWeight: "500!important",
+        "[data-theme=dark] &": {
+            background: "radial-gradient(135.23% 135.23% at 0% 120.45%, #1E1E1E 0%, rgba(30, 30, 30, 0.42) 100%)",
+            border: "1px solid rgba(212, 226, 244, 0.81)!important",
+            color: "#D4E2F4"
+        }
     }
 }));
 

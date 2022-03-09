@@ -1,5 +1,7 @@
 import {Card, CardContent, CardHeader, Container} from "@mui/material";
 import {makeStyles} from "@mui/styles";
+import {useContext} from "react";
+import {themeModeContext} from "../../utils/context";
 
 const useStyles: any = makeStyles((theme: any) => ({
     cardHeader: {
@@ -29,6 +31,7 @@ interface Props {
 
 const CustomCard = (props:Props) => {
     const styles = useStyles();
+    const {mode} = useContext(themeModeContext);
     return (
         <Container maxWidth={"xl"}>
             <Card className={styles.card} sx={{mt: 3}} {...props.cardProps}>
@@ -36,7 +39,7 @@ const CustomCard = (props:Props) => {
                     className={styles.cardHeader}
                     titleTypographyProps={{
                         style: {
-                            color: "#043180",
+                            color: mode != 'dark' ? "#043180" : '#fff',
                             fontFamily: "var(--font-header)",
                             fontWeight: 600,
                             fontSize: 30,

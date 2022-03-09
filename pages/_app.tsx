@@ -12,7 +12,7 @@ import {readCookie, setCookie} from "../utils/functions";
 function MyApp({Component, pageProps}: AppProps) {
     const [mode, setMode] = useState<PaletteMode>('light');
     const [user, setUser] = useState<any>(null);
-    const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+    const theme = useMemo(() => createTheme(getDesignTokens()), [mode]);
 
     // if user exists in local storage
     useEffect(() => {

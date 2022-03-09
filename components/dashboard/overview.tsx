@@ -13,13 +13,19 @@ const useStyles: any = makeStyles((theme: any) => ({
     offline: {
         fontWeight: "normal",
         color: "#043180",
-        marginLeft: 7
+        marginLeft: 7,
+        "[data-theme=dark] &": {
+            color: "#fff",
+        },
     },
     firstBox: {
         fontSize: "28px",
         fontFamily: "Poppins",
         fontWeight: "bold",
         color: "#043180",
+        "[data-theme=dark] &": {
+            color: "#fff",
+        },
         "@media (max-width: 760px)": {
             fontSize: "15px"
         },
@@ -32,11 +38,18 @@ const useStyles: any = makeStyles((theme: any) => ({
         "@media (max-width: 350px)": {
             fontSize: 18
         },
+        "[data-theme=dark] &": {
+            color: "#fff",
+        },
     },
     main: {
         fontFamily: "Montserrat",
         "@media (max-width: 350px)": {
             fontSize: "0.8rem"
+        },
+        "[data-theme=dark] &": {
+            color: "#fff",
+            opacity: 0.7,
         },
     },
 }));

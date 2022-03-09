@@ -10,7 +10,7 @@ const pages = ['Dashboard', 'Calculator', 'Workers', 'Earnings', 'Settings'];
 
 const useStyles: any = makeStyles((theme: any) => ({
     header: {
-        backgroundColor: "var(--header-bg)",
+        backgroundColor: "var(--bg-color)",
     },
     navLink: {
         color: "var(--new-text-color)!important",

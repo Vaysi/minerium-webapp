@@ -24,7 +24,10 @@ const useStyles: any = makeStyles((theme: any) => ({
         color: "#043180",
         fontWeight: 600,
         fontFamily: "Open Sans",
-        fontSize: "22px"
+        fontSize: "22px",
+        "[data-theme=dark] &": {
+            color: "#fff",
+        },
     },
     icon: {
         position: "relative",
@@ -33,7 +36,10 @@ const useStyles: any = makeStyles((theme: any) => ({
     tbody: {
         color: "#043386",
         fontSize: 20,
-        fontFamily: "Open Sans"
+        fontFamily: "Open Sans",
+        "[data-theme=dark] &": {
+            color: "#fff",
+        },
     },
     bodyFont: {
         fontFamily: "Montserrat",
@@ -51,6 +57,23 @@ const useStyles: any = makeStyles((theme: any) => ({
         backgroundColor: "#043386",
         textTransform: "none",
         fontFamily: "Montserrat",
+    },
+    ticker: {
+        color: "#000",
+        "[data-theme=dark] &": {
+            color: "#fff",
+        },
+    },
+    calcIcon: {
+        color: "#043386!important",
+        "[data-theme=dark] &": {
+            color: "#fff!important",
+        },
+    },
+    select: {
+        "[data-theme=dark] &": {
+            backgroundColor: "#fff"
+        },
     }
 }));
 
@@ -90,9 +113,8 @@ const CoinsTable = (props: Props) => {
                                         <TableCell align="center">
                                             <img className={styles.icon} src={`/coins/${k}.svg`} width={25}
                                                  height={25}/>
-                                            <span style={{
+                                            <span className={styles.ticker} style={{
                                                 marginLeft: 10,
-                                                color: "#000",
                                                 fontWeight: "bold",
                                                 fontSize: "18px"
                                             }}>{k.toUpperCase()}</span>
@@ -125,6 +147,7 @@ const CoinsTable = (props: Props) => {
                                                         defaultValue={k == 'btc' ? 'solo' : 'pps'}
                                                         value={k == 'btc' ? 'solo' : 'pps'}
                                                         fullWidth={true}
+                                                        className={styles.select}
                                                         style={{minWidth: 165, maxWidth: 165}}
                                                     >
                                                         <MenuItem value={"pps"}>PPS</MenuItem>
@@ -137,7 +160,7 @@ const CoinsTable = (props: Props) => {
                                                     alignItems: "center"
                                                 }}>
                                                     <Tooltip placement={"top"} title={`${k.toUpperCase()} Calculator`}>
-                                                        <IconButton color={"primary"} onClick={() => router.push({
+                                                        <IconButton className={styles.calcIcon} onClick={() => router.push({
                                                             pathname: "/calculator",
                                                             query: {coin: k}
                                                         })}>

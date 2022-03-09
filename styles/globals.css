@@ -31,6 +31,8 @@ img {
   --balloon-text-color: #fff!important;
   --balloon-font-size: 12px!important;
   --balloon-move: 4px!important;
+  /* Custom Colors */
+  --top-header: #043180;
 }
 [data-theme="dark"] {
   --bg-color: #121212!important;
@@ -42,6 +44,12 @@ img {
   --header-title: #aaaaaa!important;
   --header: #888!important;
   --border: #333!important;
+  /* Custom Colors */
+  --top-header: #000;
+}
+
+body {
+  background-color: var(--bg-color);
 }
 .MuiDataGrid-columnHeadersInner  , .MuiDataGrid-columnHeaderCheckbox {
   background-color: var(--header-bg)!important;
@@ -89,8 +97,22 @@ input:-webkit-autofill {
   margin-left: 10px;
 }
 
-.dashTable .MuiTableRow-root:nth-child(even){
+.dashTable .MuiTableRow-root:nth-child(odd){
   background-color: #E5ECF6;
+}
+
+[data-theme=dark] .dashTable .MuiTableRow-root:nth-child(odd) {
+  background-color: #1E1E1E;
+}
+
+[data-theme=dark] .dashTable .MuiTableRow-root:nth-child(even) {
+  background-color: transparent;
+}
+[data-theme=dark] .MuiTableRow-head {
+  background-color: transparent;
+}
+[data-theme=dark] .MuiTableCell-body {
+  border-bottom: none;
 }
 
 .noOutline .MuiOutlinedInput-notchedOutline {

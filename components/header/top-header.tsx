@@ -17,7 +17,7 @@ import {setCookie} from "../../utils/functions";
 const useStyles: any = makeStyles((theme: any) => ({
     topHeader: {
         backgroundColor: "var(--header-bg)",
-        borderBottom: "3px solid var(--accent)",
+        borderBottom: "3px solid var(--accent-const)",
         width: "100%",
     },
     themeMode: {
