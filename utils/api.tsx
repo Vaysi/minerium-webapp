@@ -292,12 +292,13 @@ const $$getAllPPS = () => {
 }
 
 
-const $$changePaymentPreference = (currency: string) => {
+const $$changePaymentPreference = (currency: string,method?:string) => {
     return instance.request({
         method: routes.earnings.paymentPreference.method as Method,
         url: routes.earnings.paymentPreference.route,
         data: {
-            currency
+            currency,
+            method: method ?? undefined
         }
     }).then(response => response.data).catch(error => {
         throw error.response.data;

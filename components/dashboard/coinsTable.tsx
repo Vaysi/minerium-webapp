@@ -1,6 +1,7 @@
 import {
+    Backdrop,
     Box,
-    Button,
+    Button, CircularProgress,
     Container,
     Grid,
     IconButton,
@@ -17,8 +18,11 @@ import {
 import {makeStyles} from "@mui/styles";
 import {useRouter} from "next/router";
 import CalculatorIcon from "../inline-components/calculator-icon";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {themeModeContext} from "../../utils/context";
+import {$$changePaymentPreference, $$getAllPPS} from "../../utils/api";
+import {AllPPS, Coins} from "../../utils/interfaces";
+import {toast} from "react-toastify";
 const useStyles: any = makeStyles((theme: any) => ({
     thead: {
         color: "#043180",
@@ -103,6 +107,30 @@ const CoinsTable = (props: Props) => {
     const styles = useStyles();
     const router = useRouter();
     const {mode} = useContext(themeModeContext);
+    const [miningMode, setMiningMode] = useState<string>("pps");
+    const [selected, setSelected] = useState<string>('btc');
+    const [loading, setLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        $$getAllPPS().then(response => {
+            let data = response.data;
+            setSelected(data.preference);
+            setMiningMode(data.method);
+        });
+    }, []);
+
+    const updateMiningMode = () => {
+        setLoading(true);
+        $$changePaymentPreference(selected,miningMode).then(response => {
+            toast.success("Changes Saved !");
+            setLoading(false);
+        })
+    };
+
+    useEffect(() => {
+        updateMiningMode();
+    },[miningMode,selected]);
+
     return (
         <Grid container>
             <Container sx={{my: 5}} maxWidth={"xl"}>
@@ -149,22 +177,26 @@ const CoinsTable = (props: Props) => {
                                         <TableCell align="center" className={styles.tbody}>
                                             <Box display={"flex"} justifyContent={"center"}>
                                                 <div>
-                                                    <Button sx={{my: 1, maxWidth: 165, minWidth: 165,display:"block"}}
-                                                            className={`${k == 'btc' ? styles.current : styles.switch}`}
-                                                            variant={"contained"} size={"small"} fullWidth={true}>
+                                                    <Button sx={{my: 1, maxWidth: 165, minWidth: 165,display:"block"}} className={`${k.toLowerCase() == selected.toLowerCase() ? styles.current : styles.switch}`} variant={"contained"} size={"small"} fullWidth={true} onClick={() => {
+                                                        setSelected(k.toLowerCase());
+                                                    }}>
                                                         {
-                                                            k == 'btc' ? 'Current' : 'Switch'
+                                                            k.toLowerCase() == selected.toLowerCase()  ? 'Current' : 'Switch'
                                                         }
                                                     </Button>
                                                     <Select
                                                         id={`${k}-select`}
                                                         label="Age"
                                                         size={"small"}
-                                                        defaultValue={k == 'btc' ? 'solo' : 'pps'}
-                                                        value={k == 'btc' ? 'solo' : 'pps'}
+                                                        defaultValue={miningMode.toLowerCase()}
+                                                        value={miningMode.toLowerCase()}
                                                         fullWidth={true}
                                                         className={styles.select}
                                                         style={{minWidth: 165, maxWidth: 165}}
+                                                        disabled={k.toLowerCase() != 'btc' || selected != 'btc'}
+                                                        onChange={(e) => {
+                                                            setMiningMode(e.target.value);
+                                                        }}
                                                     >
                                                         <MenuItem value={"pps"}>PPS</MenuItem>
                                                         <MenuItem value={"solo"}>SOLO</MenuItem>
@@ -192,6 +224,12 @@ const CoinsTable = (props: Props) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <Backdrop
+                    sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
+                    open={loading}
+                >
+                    <CircularProgress color="primary"/>
+                </Backdrop>
             </Container>
         </Grid>
     );
