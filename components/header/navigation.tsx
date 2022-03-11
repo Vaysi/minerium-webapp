@@ -15,6 +15,9 @@ const useStyles: any = makeStyles((theme: any) => ({
         "@media (min-width: 1980px)": {
             height: "80px"
         },
+        position: "sticky",
+        top: 0,
+        zIndex: 5000
     },
     navLink: {
         color: "var(--new-text-color)!important",
