@@ -4,20 +4,6 @@ import CustomCard from "../inline-components/card";
 
 
 const useStyles: any = makeStyles((theme: any) => ({
-    active: {
-        fontWeight: "bold",
-        color: "#CEA716",
-        marginRight: 7,
-        marginLeft: 7
-    },
-    offline: {
-        fontWeight: "normal",
-        color: "#043180",
-        marginLeft: 7,
-        "[data-theme=dark] &": {
-            color: "#fff",
-        },
-    },
     firstBox: {
         fontSize: "28px",
         fontFamily: "Poppins",
@@ -28,6 +14,9 @@ const useStyles: any = makeStyles((theme: any) => ({
         },
         "@media (max-width: 760px)": {
             fontSize: "15px"
+        },
+        "@media (min-width: 1980px)": {
+            fontSize: "34px"
         },
     },
     sub: {
@@ -41,11 +30,17 @@ const useStyles: any = makeStyles((theme: any) => ({
         "[data-theme=dark] &": {
             color: "#fff",
         },
+        "@media (min-width: 1980px)": {
+            fontSize: "28px"
+        },
     },
     main: {
         fontFamily: "Montserrat",
         "@media (max-width: 350px)": {
             fontSize: "0.8rem"
+        },
+        "@media (min-width: 1980px)": {
+            fontSize: "25px"
         },
         "[data-theme=dark] &": {
             color: "#fff",
@@ -71,16 +66,6 @@ const AccountOverview = (props: Props) => {
                                 <Typography className={styles.firstBox}>
                                     Account Overview
                                 </Typography>
-                                <Typography className={styles.firstBox} align={"right"}>
-                                    Workers:
-                                    <span className={styles.active}>
-                                        {props.info.workers} Active
-                                    </span>
-                                    /
-                                    <span className={styles.offline}>
-                                        {props.info.offline_workers} Offline
-                                    </span>
-                                </Typography>
                             </Box>
                         </Container>
                     </Grid>
@@ -91,33 +76,29 @@ const AccountOverview = (props: Props) => {
                                     <span className={styles.main}>Real-Time</span> <br/>
                                     <big className={styles.sub}>{props.info.hash5m.toFixed(2)}
                                         <small style={{marginLeft: 5}}>TH/s</small></big>
-                                    <br/>
-                                    <big className={styles.sub} style={{fontSize: "23px"}}>&nbsp;</big>
                                 </Typography>
                                 <Typography align={"center"}>
                                     <span className={styles.main}>Average</span> <br/>
                                     <big className={styles.sub}>{props.info.hash1d.toFixed(2)}
                                         <small style={{marginLeft: 5}}>TH/s</small></big>
-                                    <br/>
-                                    <big className={styles.sub} style={{fontSize: "23px"}}>&nbsp;</big>
                                 </Typography>
                             </Box>
                         </CustomCard>
                     </Grid>
                     <Grid item md={6} xs={12}>
-                        <CustomCard titleProps={{title: "Earnings"}} align={"center"}>
+                        <CustomCard titleProps={{title: "Workers"}} align={"center"}>
                             <Box display={"flex"} justifyContent={"space-around"}>
                                 <Typography align={"center"}>
-                                    <span className={styles.main}>Total</span> <br/>
-                                    <big className={styles.sub}>{props.info.workers} BTC</big>
-                                    <br/>
-                                    <big className={styles.sub} style={{fontSize: "23px"}}>7.5 $</big>
+                                    <span className={styles.main}>Active</span> <br/>
+                                    <big className={styles.sub}>{props.info.workers}</big>
                                 </Typography>
                                 <Typography align={"center"}>
-                                    <span className={styles.main}>Yesterday</span> <br/>
-                                    <big className={styles.sub}>{props.info.offline_workers} BTC</big>
-                                    <br/>
-                                    <big className={styles.sub} style={{fontSize: "23px"}}>3.5 $</big>
+                                    <span className={styles.main}>Offline</span> <br/>
+                                    <big className={styles.sub}>{props.info.offline_workers}</big>
+                                </Typography>
+                                <Typography align={"center"}>
+                                    <span className={styles.main}>Inactive</span> <br/>
+                                    <big className={styles.sub}>{props.info.offline_workers}</big>
                                 </Typography>
                             </Box>
                         </CustomCard>

@@ -15,10 +15,10 @@ import {
     TableRow, Tooltip,
 } from "@mui/material";
 import {makeStyles} from "@mui/styles";
-import {Calculate} from "@mui/icons-material";
 import {useRouter} from "next/router";
-
-
+import CalculatorIcon from "../inline-components/calculator-icon";
+import {useContext} from "react";
+import {themeModeContext} from "../../utils/context";
 const useStyles: any = makeStyles((theme: any) => ({
     thead: {
         color: "#043180",
@@ -66,6 +66,7 @@ const useStyles: any = makeStyles((theme: any) => ({
     },
     calcIcon: {
         color: "#043386!important",
+        marginTop:5,
         "[data-theme=dark] &": {
             color: "#fff!important",
         },
@@ -73,6 +74,20 @@ const useStyles: any = makeStyles((theme: any) => ({
     select: {
         "[data-theme=dark] &": {
             backgroundColor: "#fff"
+        },
+        "& .MuiSelect-select": {
+            paddingBottom:4,
+            paddingTop:4
+        },
+        "& .MuiSelect-icon": {
+            top: 0,
+            right:0,
+            padding:2,
+            paddingBottom:5,
+            backgroundColor: "#043386",
+            fill:"#fff",
+            borderTopRightRadius: "3px",
+            borderBottomRightRadius: "3px",
         },
     }
 }));
@@ -87,6 +102,7 @@ interface Props {
 const CoinsTable = (props: Props) => {
     const styles = useStyles();
     const router = useRouter();
+    const {mode} = useContext(themeModeContext);
     return (
         <Grid container>
             <Container sx={{my: 5}} maxWidth={"xl"}>
@@ -131,7 +147,7 @@ const CoinsTable = (props: Props) => {
                                         <TableCell align="center" className={styles.tbody}>{v.balance.toFixed(9)} <br/>
                                             <span>4$</span></TableCell>
                                         <TableCell align="center" className={styles.tbody}>
-                                            <Box display={"flex"} justifyContent={"space-around"}>
+                                            <Box display={"flex"} justifyContent={"center"}>
                                                 <div>
                                                     <Button sx={{my: 1, maxWidth: 165, minWidth: 165,display:"block"}}
                                                             className={`${k == 'btc' ? styles.current : styles.switch}`}
@@ -164,7 +180,7 @@ const CoinsTable = (props: Props) => {
                                                             pathname: "/calculator",
                                                             query: {coin: k}
                                                         })}>
-                                                            <Calculate sx={{width: 50, height: "auto"}}/>
+                                                            <CalculatorIcon styles={{height:60,width:"auto",fill: mode == 'light' ? "#043386" : "#D4E2F4"}} />
                                                         </IconButton>
                                                     </Tooltip>
                                                 </div>

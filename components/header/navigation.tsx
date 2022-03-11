@@ -10,13 +10,20 @@ const pages = ['Dashboard', 'Calculator', 'Workers', 'Earnings', 'Settings'];
 
 const useStyles: any = makeStyles((theme: any) => ({
     header: {
-        backgroundColor: "var(--bg-color)",
+        backgroundColor: "#043180",
+        height: "55px",
+        "@media (min-width: 1980px)": {
+            height: "80px"
+        },
     },
     navLink: {
         color: "var(--new-text-color)!important",
         fontFamily: "var(--font-body)!important",
         transition: "all ease-in 200ms!important",
         position: "relative",
+        "@media (min-width: 1980px)": {
+            fontSize: 24,
+        },
         "&:hover": {
             color: "#CEA716!important",
         },
@@ -77,7 +84,6 @@ const Navigation = () => {
         <AppBar className={styles.header} position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                         <Button
                             size="large"
@@ -126,7 +132,7 @@ const Navigation = () => {
                                     router.push(`/${page.toLowerCase()}`);
                                     handleCloseNavMenu();
                                 }}
-                                sx={{my: 2, display: 'block'}}
+                                sx={{my: 2, display: 'block',mt:"10px"}}
                                 className={`${styles.navLink} ${checkActivation(page) ? styles.activeNavLink : ''}`}
                             >
                                 {page}

@@ -1,36 +1,26 @@
+import {Box, Button,} from "@mui/material";
+import {makeStyles} from "@mui/styles";
 import {
-    Box,
-    Button, ButtonGroup,
-    Card,
-    CardContent,
-    CardHeader,
-    Container,
-} from "@mui/material";
-import {makeStyles, styled} from "@mui/styles";
-import {
-    Chart as ChartJS,
     CategoryScale,
+    Chart as ChartJS,
+    Legend,
     LinearScale,
-    PointElement,
     LineElement,
+    PointElement,
     Title,
     Tooltip,
-    Legend,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import {WorkersGraph} from "../../utils/interfaces";
-import {useEffect, useState} from "react";
+import {Line} from 'react-chartjs-2';
+import {useContext, useEffect, useState} from "react";
 import moment from "moment";
+import CustomCard from "../inline-components/card";
+import {themeModeContext} from "../../utils/context";
 
 
-const useStyles:any = makeStyles((theme:any) => ({
-    earnings: {
-
-    },
-    card: {
-
-    },
-    cardHeader:{
+const useStyles: any = makeStyles((theme: any) => ({
+    earnings: {},
+    card: {},
+    cardHeader: {
         backgroundColor: "#043180",
         color: "#fff"
     },
@@ -46,9 +36,7 @@ const useStyles:any = makeStyles((theme:any) => ({
             maxHeight: "25vh",
         },*/
     },
-    headerTitle: {
-
-    },
+    headerTitle: {},
     active: {
         filter: "drop-shadow(0px 10px 50px rgba(0, 0, 0, 0.25))",
         boxShadow: "0px 10px 50px rgba(0, 0, 0, 0.25)",
@@ -81,27 +69,6 @@ ChartJS.register(
     Legend
 );
 
-const options = {
-    responsive: true,
-    plugins: {
-        legend: {
-            position: 'top' as const,
-        },
-    },
-
-    scales: {
-        y: {
-            ticks: {
-                // Include a dollar sign in the ticks
-                callback: function(value:any, index:number, values:any) {
-                    return value + ' TH/s';
-                }
-            }
-        }
-    },
-    maintainAspectRatio: false,
-};
-
 
 interface Props {
     data: any,
@@ -109,46 +76,77 @@ interface Props {
     type: 'day' | 'hour';
     setFilter: any;
 }
+
 const HashChart = (props: Props) => {
     const styles = useStyles();
 
-    const [labels,setLabels] = useState([]);
-    const [workersData,setWorkersData] = useState(props.data);
+    const [labels, setLabels] = useState([]);
+    const [workersData, setWorkersData] = useState(props.data);
+    const {mode} = useContext(themeModeContext);
+
+    const options = () => {
+        return {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top' as const,
+                },
+            },
+
+            scales: {
+                y: {
+                    ticks: {
+                        // Include a dollar sign in the ticks
+                        callback: function (value: any, index: number, values: any) {
+                            return value + ' TH/s';
+                        },
+                        color: mode == 'dark' ? "#fff" : "#000"
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: mode == 'dark' ? "#fff" : "#000"
+                    }
+                }
+            },
+            maintainAspectRatio: false,
+        };
+    };
 
 
     useEffect(() => {
-        if(props.data && props.data.length > 0){
-            let labelsX:any = [];
-            props.data.map((item:any) => {
-                labelsX.push(props.type == 'hour' ? moment(item.hour,'YYYYMMDDHH').format('MM-DD HH:mm') :  moment(item.day,'YYYYMMDD').format('YYYY-MM-DD'));
+        if (props.data && props.data.length > 0) {
+            let labelsX: any = [];
+            props.data.map((item: any) => {
+                labelsX.push(props.type == 'hour' ? moment(item.hour, 'YYYYMMDDHH').format('MM-DD HH:mm') : moment(item.day, 'YYYYMMDD').format('YYYY-MM-DD'));
             });
             setLabels(labelsX);
             setWorkersData(props.data);
         }
-    },[props.data]);
+    }, [props.data]);
 
     const data = {
         labels: labels,
         datasets: [
             {
                 label: "Hashrate",
-                data: workersData.map((item:any) => {
+                data: workersData.map((item: any) => {
                     return props.type == 'hour' ? item.hash_1h : item.hash_1day;
                 }),
                 fill: true,
                 lineTension: 0.4,
-                backgroundColor: 'rgba(4, 49, 128, 0.4)',
-                borderColor: 'rgba(4, 49, 128, 0.75)',
+                backgroundColor: '#043180',
+                borderColor: '#043180',
                 borderCapStyle: 'butt',
                 borderDash: [],
                 borderDashOffset: 0.0,
                 borderJoinStyle: 'miter',
-                pointBorderColor: 'rgba(4, 49, 128, 0.75)',
+                pointBorderColor: '#043180',
                 pointBackgroundColor: '#fff',
                 pointBorderWidth: 1,
                 pointHoverRadius: 5,
-                pointHoverBackgroundColor: 'rgba(4, 49, 128, 0.75)',
-                pointHoverBorderColor: 'rgba(220,220,220,1)',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: mode == 'light' ? '#043180' : '#fff',
                 pointHoverBorderWidth: 2,
                 pointRadius: 2,
                 pointHitRadius: 20,
@@ -157,44 +155,39 @@ const HashChart = (props: Props) => {
     };
 
     return (
-       <Container maxWidth={"xl"}>
-           <Card className={styles.card} sx={{mt:3}}>
-               <CardHeader
-                   className={styles.cardHeader}
-                   title="Hashrate Chart"
-                   titleTypographyProps={{
-                       style:{
-                           fontSize: 17,
-                           color: "#fff"
-                       }
-                   }}
-               />
-               <CardContent className={styles.cardContent}>
-                   <Box sx={{mb:2}} textAlign={"right"}>
-                       <Button sx={{mr:2}} variant={"contained"} className={props.type == 'hour' ? styles.active : styles.deactive} color={"primary"} onClick={() => {
-                           if(props.type != 'hour'){
-                               props.setFilter('hour');
-                           }
-                       }}>
-                          By Hour
-                       </Button>
-                       <Button variant={"contained"} className={props.type == 'day' ? styles.active : styles.deactive} color={"primary"} onClick={() => {
-                           if(props.type != 'day'){
-                               props.setFilter('day');
-                           }
-                       }}>
-                           By Day
-                       </Button>
-                   </Box>
-                   <Box sx={{height:{xs:450}}}>
-                       {
-                           //@ts-ignore
-                           labels.length > 0 && workersData.length > 0 && (<Line options={props.options ?? options} data={data} />)
-                       }
-                   </Box>
-               </CardContent>
-           </Card>
-       </Container>
+        <CustomCard titleProps={{
+            title: "Hashrate Chart", action: (
+                <>
+                    <Button sx={{mr: 2}} variant={"contained"}
+                            className={props.type == 'hour' ? styles.active : styles.deactive} color={"primary"}
+                            onClick={() => {
+                                if (props.type != 'hour') {
+                                    props.setFilter('hour');
+                                }
+                            }}>
+                        By Hour
+                    </Button>
+                    <Button variant={"contained"} className={props.type == 'day' ? styles.active : styles.deactive}
+                            color={"primary"} onClick={() => {
+                        if (props.type != 'day') {
+                            props.setFilter('day');
+                        }
+                    }}>
+                        By Day
+                    </Button>
+                </>
+            )
+        }}>
+            <Box sx={{mb: 2}} textAlign={"right"}>
+
+            </Box>
+            <Box sx={{height: {xs: 450}}}>
+                {
+                    //@ts-ignore
+                    labels.length > 0 && workersData.length > 0 && (<Line options={props.options ?? options()} data={data}/>)
+                }
+            </Box>
+        </CustomCard>
     );
 }
 

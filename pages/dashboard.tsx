@@ -36,11 +36,17 @@ const useStyles: any = makeStyles((theme: any) => ({
         "@media (max-width: 800px)": {
             fontSize: "1rem",
         },
+        "[data-theme=dark] &": {
+            color: "#fff",
+        },
     },
     secondary: {
         color: "var(--header)",
         fontWeight: "bold",
-        fontSize: 22
+        fontSize: 22,
+        "[data-theme=dark] &": {
+            color: "#fff",
+        },
     },
     customBtn: {
         backgroundColor: "#D4E2F4",
@@ -52,12 +58,25 @@ const useStyles: any = makeStyles((theme: any) => ({
         fontFamily: "Montserrat",
         "&:hover": {
             backgroundColor: "#D4E2F4",
+        },
+        "[data-theme=dark] &": {
+            backgroundColor: "#043180",
+            color: "#fff",
         }
     },
     bodyFont: {
         "@media (max-width: 800px)": {
             fontSize: "0.9rem",
         },
+        "[data-theme=dark] &": {
+            color: "#fff!important",
+            "& .MuiOutlinedInput-input": {
+                color: "#fff",
+            }
+        },
+        fontFamily: "Montserrat",
+        display:"flex",
+        justifyContent:"space-between"
     }
 }));
 
@@ -137,116 +156,111 @@ const Dashboard: NextPage = () => {
                 <HashChart setFilter={setSocketFilter} type={socketFiler}
                            data={socketFiler == 'day' ? dashboardData.graphDay : dashboardData.graphHour}/>
             }
-            <Container maxWidth={"xl"} style={{paddingLeft:0,paddingRight:0}}>
-                <Grid container>
-                    <Grid item lg={6} xs={12}>
-                        <CustomCard titleProps={{title: "Pool Info"}} cardProps={{style: {height: "360px"}}}>
-                            <Typography className={styles.bodyFont}
-                                        style={{display: "flex", justifyContent: "space-between"}}>
-                            <span>
-                                Miner Config
-                            </span>
-                                <Typography className={styles.primary}>
-                                    {user && user.username || 'username'}.001, {user && user.username || 'username'}.002
-                                </Typography>
-                            </Typography>
-                            <Divider sx={{my: 1}}/>
-                            <Typography className={styles.bodyFont}
-                                        style={{display: "flex", justifyContent: "space-between"}}>
-                                <span>Fee PPS+</span>
-                                <Typography className={styles.primary}>
-                                    2%
-                                </Typography>
-                            </Typography>
-                            <Divider sx={{my: 1}}/>
-                            <Typography className={styles.bodyFont}
-                                        style={{display: "flex", justifyContent: "space-between"}}>
-                                <span>Minimum Payout</span>
-                                <Typography className={styles.primary}>
-                                    0.005 BTC
-                                </Typography>
-                            </Typography>
-                            <Divider sx={{my: 1}}/>
-                            <Typography className={styles.bodyFont}
-                                        style={{display: "flex", justifyContent: "space-between"}}>
-                                <span>Payment Time</span>
-                                <Typography className={styles.primary}>
-                                    During 00:00-01:00 (UTC)
-                                </Typography>
-                            </Typography>
-                        </CustomCard>
-                    </Grid>
-                    <Grid item lg={6} xs={12} className={"noOutline"}>
-                        <CustomCard titleProps={{title: "Minerium Addresess"}} cardProps={{style: {height: "360px"}}}>
-                            <TextField
-                                fullWidth
-                                className={styles.bodyFont}
-                                id="address"
-                                sx={{my: 1}}
-                                value="stratum+tcp://stratum.minerium.com:3333"
-                                InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:3333")}}
-                            />
-                            <TextField
-                                fullWidth
-                                id="address2"
-                                className={styles.bodyFont}
-                                sx={{my: 1}}
-                                value="stratum+tcp://stratum.minerium.com:4444"
-                                InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:4444")}}
-                            />
-                            <TextField
-                                fullWidth
-                                id="address3"
-                                className={styles.bodyFont}
-                                sx={{mt: 1, mb: 2}}
-                                value="stratum+tcp://stratum.minerium.com:44443"
-                                InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:44443")}}
-                            />
-                        </CustomCard>
-                    </Grid>
-                </Grid>
-                <Grid container>
-                    <Grid item lg={6} xs={12} sx={{px: 1}}>
-                        <CustomCard titleProps={{title: "Contact Us"}}>
-                            <Typography
-                                style={{display: "flex", justifyContent: "space-between", fontSize: 20, color: "#043180",marginBottom:25}}
-                                className={styles.bodyFont}>
-                                <span>Report Problems:</span>
-                                <Typography onClick={() => router.push('mailto:support@minerium.com')}
-                                            component={"span"} className={styles.primary}
-                                            style={{
-                                                cursor: "pointer",
-                                                fontWeight: "bold"
-                                            }}>support@minerium.com</Typography>
-                            </Typography>
-                            <Typography
-                                style={{display: "flex", justifyContent: "space-between", fontSize: 20, color: "#043180"}}
-                                className={styles.bodyFont}>
-                                <span>Customer Service:</span>
-                                <Typography
-                                    onClick={() => router.push('https://wa.me/message/M7A2O5XJEHDMH1')} component={"span"}
-                                    className={styles.primary}
-                                    style={{cursor: "pointer", fontWeight: "bold"}}>WhatsApp</Typography>
-                            </Typography>
-                        </CustomCard>
-                    </Grid>
-                    <Grid item lg={6} xs={12} sx={{px: 1}}>
-                        <CustomCard titleProps={{title: "Help"}}>
-                            <Grid container>
-                                <Grid item md={9} xs={8}>
-                                    <Typography className={styles.bodyFont}>
-                                        Here find some of the most frequent quesitons about minerium, coins and pools.
+            <Grid container>
+                <Container maxWidth={"xl"} style={{paddingLeft:0,paddingRight:0}}>
+                    <Grid container>
+                        <Grid item lg={6} xs={12}>
+                            <CustomCard titleProps={{title: "Pool Info"}} cardProps={{style: {height: "360px"}}}>
+                                <Typography className={styles.bodyFont}>
+                                <span>
+                                    Miner Config
+                                </span>
+                                    <Typography className={styles.primary}>
+                                        {user && user.username || 'username'}.001, {user && user.username || 'username'}.002
                                     </Typography>
+                                </Typography>
+                                <Divider sx={{my: 1}}/>
+                                <Typography className={styles.bodyFont}>
+                                    <span>Fee PPS+</span>
+                                    <Typography className={styles.primary}>
+                                        2%
+                                    </Typography>
+                                </Typography>
+                                <Divider sx={{my: 1}}/>
+                                <Typography className={styles.bodyFont}>
+                                    <span>Minimum Payout</span>
+                                    <Typography className={styles.primary}>
+                                        0.005 BTC
+                                    </Typography>
+                                </Typography>
+                                <Divider sx={{my: 1}}/>
+                                <Typography className={styles.bodyFont}>
+                                    <span>Payment Time</span>
+                                    <Typography className={styles.primary}>
+                                        00:00-01:00 (UTC)
+                                    </Typography>
+                                </Typography>
+                            </CustomCard>
+                        </Grid>
+                        <Grid item lg={6} xs={12} className={"noOutline"}>
+                            <CustomCard titleProps={{title: "Minerium Addresess"}} cardProps={{style: {height: "360px"}}}>
+                                <TextField
+                                    fullWidth
+                                    className={styles.bodyFont}
+                                    id="address"
+                                    sx={{my: 1}}
+                                    value="stratum+tcp://stratum.minerium.com:3333"
+                                    InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:3333")}}
+                                />
+                                <TextField
+                                    fullWidth
+                                    id="address2"
+                                    className={styles.bodyFont}
+                                    sx={{my: 1}}
+                                    value="stratum+tcp://stratum.minerium.com:4444"
+                                    InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:4444")}}
+                                />
+                                <TextField
+                                    fullWidth
+                                    id="address3"
+                                    className={styles.bodyFont}
+                                    sx={{mt: 1, mb: 2}}
+                                    value="stratum+tcp://stratum.minerium.com:44443"
+                                    InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:44443")}}
+                                />
+                            </CustomCard>
+                        </Grid>
+                        <Grid item lg={6} xs={12} sx={{px: 1}}>
+                            <CustomCard titleProps={{title: "Contact Us"}}>
+                                <Typography
+                                    style={{display: "flex", justifyContent: "space-between", fontSize: 20, color: "#043180",marginBottom:25}} className={styles.bodyFont}>
+                                    <span>Report Problems:</span>
+                                    <Typography onClick={() => router.push('mailto:support@minerium.com')}
+                                                component={"span"} className={styles.primary}
+                                                style={{
+                                                    cursor: "pointer",
+                                                    fontWeight: "bold"
+                                                }}>support@minerium.com</Typography>
+                                </Typography>
+                                <Typography
+                                    style={{display: "flex", justifyContent: "space-between", fontSize: 20, color: "#043180"}}
+                                    className={styles.bodyFont}>
+                                    <span>Customer Service:</span>
+                                    <Typography
+                                        onClick={() => router.push('https://wa.me/message/M7A2O5XJEHDMH1')} component={"span"}
+                                        className={styles.primary}
+                                        style={{cursor: "pointer", fontWeight: "bold"}}>WhatsApp</Typography>
+                                </Typography>
+                            </CustomCard>
+                        </Grid>
+                        <Grid item lg={6} xs={12} sx={{px: 1}}>
+                            <CustomCard titleProps={{title: "Help"}}>
+                                <Grid container>
+                                    <Grid item md={9} xs={8}>
+                                        <Typography className={styles.bodyFont}>
+                                            Here find some of the most frequent quesitons about minerium, coins and pools.
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item md={3} xs={4}>
+                                        <Button sx={{mb:1}} fullWidth={true} variant={"contained"} className={styles.customBtn}>FAQ</Button>
+                                        <Button fullWidth={true} variant={"contained"}  className={styles.customBtn}>About</Button>
+                                    </Grid>
                                 </Grid>
-                                <Grid item md={3} xs={4}>
-                                    <Button sx={{mb:1}} fullWidth={true} variant={"contained"} className={styles.customBtn}>FAQ</Button>
-                                    <Button fullWidth={true} variant={"contained"}  className={styles.customBtn}>About</Button>
-                                </Grid>
-                            </Grid>
-                        </CustomCard>
+                            </CustomCard>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Container>
+                </Container>
+            </Grid>
             <Backdrop
                 sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
                 open={messageHistory.length < 2}

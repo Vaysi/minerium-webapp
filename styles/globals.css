@@ -114,7 +114,9 @@ input:-webkit-autofill {
 [data-theme=dark] .MuiTableCell-body {
   border-bottom: none;
 }
-
+.dashTable .MuiTableRow-head {
+  background-color: transparent!important;
+}
 .noOutline .MuiOutlinedInput-notchedOutline {
   border: none;
 }
