@@ -7,7 +7,12 @@ const ProtectedRoute = (ProtectedComponent:any,forUsers:boolean) => {
         const Router = useRouter();
 
         if (typeof window !== "undefined") {
-
+            if(Router.isReady) {
+                let {logout} = Router.query;
+                if (logout){
+                    return <ProtectedComponent {...props} />;
+                }
+            }
             if(forUsers){
                 if (isLoggedIn()) {
                     Router.push("/");
