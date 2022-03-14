@@ -24,7 +24,7 @@ instance.interceptors.response.use((response) => response, (error) => {
         </>
     );
     if(error.response.data.status == 401){
-        router.push("/auth/logout");
+        router.push("/auth/login?logout=false");
     }
     throw error;
 });

@@ -19,10 +19,12 @@ import {makeStyles} from "@mui/styles";
 import React, {useContext, useEffect, useState} from "react";
 import {$$userLogin} from "../../utils/api";
 import {toast} from "react-toastify";
-import {isLoggedIn, setAuthTokens} from "axios-jwt";
+import {clearAuthTokens, isLoggedIn, setAuthTokens} from "axios-jwt";
 import {themeModeContext, userContext} from "../../utils/context";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import CustomCard from "../../components/inline-components/card";
+import {useRouter} from "next/router";
+import {readCookie, setCookie} from "../../utils/functions";
 
 const useStyles: any = makeStyles((theme: any) => ({
     cardHeader: {
@@ -61,6 +63,7 @@ const Login: NextPage = () => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const {mode} = useContext(themeModeContext);
+    const router = useRouter();
 
     const onSubmit = () => {
         setLoading(true);
@@ -76,6 +79,21 @@ const Login: NextPage = () => {
             setLoading(false);
         })
     };
+
+    useEffect(() => {
+        if(router.isReady){
+            const {logout} = router.query;
+            if(logout) {
+                clearAuthTokens();
+                setUser({...user,loggedIn:false});
+                let isLogout = readCookie('logout');
+                if(isLogout == 'false'){
+                    toast.warning('You Logged out automatically , login again to continue');
+                    setCookie('logout',"true",10000);
+                }
+            }
+        }
+    },[router.isReady]);
 
 
     return (
