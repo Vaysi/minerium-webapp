@@ -20,7 +20,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {$$userLogin} from "../../utils/api";
 import {toast} from "react-toastify";
 import {isLoggedIn, setAuthTokens} from "axios-jwt";
-import {userContext} from "../../utils/context";
+import {themeModeContext, userContext} from "../../utils/context";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import CustomCard from "../../components/inline-components/card";
 
@@ -60,6 +60,7 @@ const Login: NextPage = () => {
     const [identifier, setIdentifier] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const {mode} = useContext(themeModeContext);
 
     const onSubmit = () => {
         setLoading(true);
@@ -124,7 +125,7 @@ const Login: NextPage = () => {
                         </form>
                         <Grid container>
                             <Grid item xs={12}>
-                                <Button className={styles.button} style={{paddingLeft: 5}}>
+                                <Button sx={{color: mode == 'dark' ? "#fff!important" : undefined}} className={styles.button} style={{paddingLeft: 5}}>
                                     Forgot Password ?
                                 </Button>
                             </Grid>

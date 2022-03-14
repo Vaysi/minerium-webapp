@@ -17,7 +17,7 @@ import Footer from "../../components/footer/footer";
 import {makeStyles} from "@mui/styles";
 import React, {useContext, useEffect, useState} from "react";
 import {isLoggedIn} from "axios-jwt";
-import {userContext} from "../../utils/context";
+import {themeModeContext, userContext} from "../../utils/context";
 import {$$userRegister} from "../../utils/api";
 import {toast} from "react-toastify";
 import {useRouter} from "next/router";
@@ -58,7 +58,7 @@ const Register: NextPage = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
-
+    const {mode} = useContext(themeModeContext);
     const ready = () => {
         if (email.length > 4 && username.length > 4 && password == confirmPassword && agreed) {
             return true;
@@ -181,9 +181,9 @@ const Register: NextPage = () => {
                         <FormControl>
                             <FormControlLabel label={(
                                 <>
-                                    <a target="_blank" rel={"noreferrer"} style={{color:"#043386"}}
+                                    <a target="_blank" rel={"noreferrer"} style={{color: mode =='dark' ? "#fff" : "#043386"}}
                                        href="https://minerium.com/terms-of-services/">Accept User Agreement</a>.</>
-                            )} control={<Checkbox defaultChecked onClick={() => setAgreed(!agreed)}
+                            )} control={<Checkbox style={{color: mode == 'dark' ? "#fff" : "#000"}} defaultChecked onClick={() => setAgreed(!agreed)}
                                                   checked={agreed}/>}/>
                         </FormControl>
                         <Grid container textAlign={"center"}>

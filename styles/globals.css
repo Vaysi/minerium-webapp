@@ -86,6 +86,10 @@ body {
   font-size: 20px;
 }
 
+[data-theme=dark] .noBorder .MuiInputLabel-root {
+  color: #fff!important;
+}
+
 .noBorder .MuiInput-root {
   margin-top: 5px;
   padding-left: 10px;
@@ -186,4 +190,8 @@ input:-webkit-autofill {
 [data-theme=dark] .notifications  .unit {
   color: #fff;
   font-weight: bold;
+}
+
+[data-theme=dark] .darkText {
+  color: #fff;
 }
