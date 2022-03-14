@@ -9,7 +9,8 @@ const useStyles:any = makeStyles((theme:any) => ({
         width: "100%",
         padding: "4px 0 2px",
         boxShadow: "inset 1px 0 5px -5px rgb(0 0 0 / 50%)",
-        paddingTop: 14
+        paddingTop: 14,
+        paddingBottom: 7,
     },
     title: {
         color: "#fff",

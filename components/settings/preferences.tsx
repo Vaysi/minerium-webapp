@@ -10,11 +10,12 @@ import {
     Typography
 } from "@mui/material";
 import CustomCard from "../../components/inline-components/card";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {$$changePaymentPreference, $$getAllPPS} from "../../utils/api";
 import Image from 'next/image';
 import {makeStyles} from "@mui/styles";
 import {AllPPS, Coins} from "../../utils/interfaces";
+import {themeModeContext} from "../../utils/context";
 
 
 const useStyles: any = makeStyles((theme: any) => ({
@@ -34,6 +35,7 @@ const Preferences: NextPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [done, setDone] = useState<boolean>(false);
     const [open, setOpen] = useState(false);
+    const {mode} = useContext(themeModeContext);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -82,10 +84,10 @@ const Preferences: NextPage = () => {
                         </Alert>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{pl: {xs:0,md:2}}}>
-                        <Typography sx={{my: 2}}>
+                        <Typography sx={{my: 2,color: mode == 'dark' ? "#fff" : undefined}}>
                             Preferred Payment Currency
                         </Typography>
-                        <Select value={selected} onChange={(e) => {
+                        <Select sx={{backgroundColor: mode == 'dark' ? "#fff" : undefined}} value={selected} onChange={(e) => {
                             setSelected(e.target.value);
                             setDone(false);
                         }} variant={"outlined"}>

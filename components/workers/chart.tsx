@@ -19,8 +19,9 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import {WorkersGraph} from "../../utils/interfaces";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import CustomCard from "../inline-components/card";
+import {themeModeContext} from "../../utils/context";
 
 
 const useStyles:any = makeStyles((theme:any) => ({
@@ -36,27 +37,6 @@ ChartJS.register(
     Tooltip,
     Legend
 );
-
-const options = {
-    responsive: true,
-    plugins: {
-        legend: {
-            position: 'top' as const,
-        },
-    },
-
-    scales: {
-        y: {
-            ticks: {
-                // Include a dollar sign in the ticks
-                callback: function(value:any, index:number, values:any) {
-                    return value + ' TH/s';
-                }
-            }
-        }
-    },
-    maintainAspectRatio: false,
-};
 
 function format_time(timestamp:number) {
     const dtFormat = new Intl.DateTimeFormat('en-US', {
@@ -77,6 +57,7 @@ interface Props {
 }
 const HashChart = (props: Props) => {
     const styles = useStyles();
+    const {mode} = useContext(themeModeContext);
 
     const workersToGraph = (data:Array<any>) => {
       return data.map((item:any) => {
@@ -95,11 +76,39 @@ const HashChart = (props: Props) => {
                   pointBorderWidth: 1,
                   pointHoverRadius: 5,
                   pointHoverBackgroundColor: 'rgba(4, 49, 128, 0.75)',
-                  pointHoverBorderColor: 'rgba(220,220,220,1)',
+                  pointHoverBorderColor: mode == 'light' ? '#043180' : '#fff',
                   pointHoverBorderWidth: 2,
               }};
       });
     };
+
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top' as const,
+            },
+        },
+
+        scales: {
+            y: {
+                ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value:any, index:number, values:any) {
+                        return value + ' TH/s';
+                    },
+                    color: mode == 'dark' ? "#fff" : "#000"
+                }
+            },
+            x: {
+                ticks: {
+                    color: mode == 'dark' ? "#fff" : "#000"
+                }
+            }
+        },
+        maintainAspectRatio: false,
+    };
+
     const [workersData,setWorkersData] = useState(workersToGraph(props.data.workers));
 
 

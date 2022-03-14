@@ -110,6 +110,7 @@ const CoinsTable = (props: Props) => {
     const [miningMode, setMiningMode] = useState<string>("pps");
     const [selected, setSelected] = useState<string>('btc');
     const [loading, setLoading] = useState<boolean>(false);
+    const [saved,setSaved] = useState<boolean>(false);
 
     useEffect(() => {
         $$getAllPPS().then(response => {
@@ -128,7 +129,10 @@ const CoinsTable = (props: Props) => {
     };
 
     useEffect(() => {
-        updateMiningMode();
+        if (saved) {
+            updateMiningMode();
+        }
+        setSaved(false);
     },[miningMode,selected]);
 
     return (
@@ -178,6 +182,7 @@ const CoinsTable = (props: Props) => {
                                             <Box display={"flex"} justifyContent={"center"}>
                                                 <div>
                                                     <Button sx={{my: 1, maxWidth: 165, minWidth: 165,display:"block"}} className={`${k.toLowerCase() == selected.toLowerCase() ? styles.current : styles.switch}`} variant={"contained"} size={"small"} fullWidth={true} onClick={() => {
+                                                        setSaved(true);
                                                         setSelected(k.toLowerCase());
                                                     }}>
                                                         {
@@ -195,6 +200,7 @@ const CoinsTable = (props: Props) => {
                                                         style={{minWidth: 165, maxWidth: 165}}
                                                         disabled={k.toLowerCase() != 'btc' || selected != 'btc'}
                                                         onChange={(e) => {
+                                                            setSaved(true);
                                                             setMiningMode(e.target.value);
                                                         }}
                                                     >

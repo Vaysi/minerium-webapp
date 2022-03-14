@@ -72,7 +72,7 @@ const Balance = () => {
     return (
         <Container maxWidth={"xl"}>
             <CustomCard titleProps={{title: "Earnings"}}>
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} className={"tableContainer"} sx={{backgroundColor:"transparent"}}>
                     <Table sx={{width: "100%"}} aria-label="customized table">
                         <TableHead>
                             <TableRow style={{borderRadius: "3px 3px 0 0"}}>

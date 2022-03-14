@@ -253,7 +253,7 @@ const Calculator: NextPage = () => {
     return (
         <Grid container>
             <Header/>
-            <Container maxWidth={"xl"}>
+            <Container maxWidth={"xl"} className={"calculator"}>
                 <CustomCard titleProps={{title: "Mining Reward Calculator"}}>
                     <Grid container>
                         <Grid item xs={12}>
@@ -414,8 +414,8 @@ const Calculator: NextPage = () => {
                             </Grid>
                         </Grid>
                         <Grid item xs={12}>
-                            <TableContainer style={{border: "1px solid #043386", borderRadius: 5}} component={Paper}
-                                            sx={{mt: 5}}>
+                            <TableContainer style={{border: "1px solid #043386", borderRadius: 5}} component={Paper} className={"tableContainer"}
+                                            sx={{mt: 5,backgroundColor:"transparent"}}>
                                 <Table sx={{minWidth: 700}} aria-label="customized table">
                                     <TableHead>
                                         <TableRow>

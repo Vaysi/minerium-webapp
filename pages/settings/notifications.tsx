@@ -24,7 +24,7 @@ const useStyles: any = makeStyles((theme: any) => ({
         alignItems: "center",
         color: "#043386",
         fontWeight: 500
-    }
+    },
 }));
 
 const SettingsPage: NextPage = () => {
@@ -84,7 +84,7 @@ const SettingsPage: NextPage = () => {
         }
     ];
     return (
-        <Grid container>
+        <Grid container className={"notifications"}>
             <Header/>
             <Tabs data={tabLinks}/>
             <CustomCard titleProps={{title: "Notifications"}}>
@@ -108,7 +108,7 @@ const SettingsPage: NextPage = () => {
                         className={styles.input}
                         disabled={!showHashrate}
                     />
-                    <span className={styles.units}>TH/s</span>
+                    <span className={styles.units + ` unit`}>TH/s</span>
                 </FormGroup>
                 <FormGroup row={true} style={{justifyContent: "flex-start"}}>
                     <FormControlLabel control={<Checkbox checked={showActiveWorkers}
@@ -124,7 +124,7 @@ const SettingsPage: NextPage = () => {
                         disabled={!showActiveWorkers}
                         className={styles.input}
                     />
-                    <span className={styles.units}>miners</span>
+                    <span className={styles.units + ` unit`}>miners</span>
                 </FormGroup>
                 <FormGroup row={true} style={{justifyContent: "flex-start"}}>
                     <FormControlLabel control={<Checkbox checked={showTotalHashrate}
@@ -140,7 +140,7 @@ const SettingsPage: NextPage = () => {
                         disabled={!showTotalHashrate}
                         className={styles.input}
                     />
-                    <span className={styles.units}>TH/s</span>
+                    <span className={styles.units + ` unit`}>TH/s</span>
                 </FormGroup>
                 <Box sx={{mt: 2}} textAlign={"right"}>
                     <Button onClick={submit} variant={"contained"}
