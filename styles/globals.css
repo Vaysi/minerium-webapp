@@ -212,3 +212,7 @@ input:-webkit-autofill {
     padding-right: 15px!important;
   }
 }
+
+.calcIcon {
+  fill: #043386;
+}
