@@ -84,6 +84,7 @@ body {
   color: #043386!important;
   font-weight: 500;
   font-size: 20px;
+  font-family: var(--font-body);
 }
 
 [data-theme=dark] .noBorder .MuiInputLabel-root {
@@ -153,15 +154,20 @@ input:-webkit-autofill {
   border: none!important;
 }
 
-[data-theme=dark]  .calculator .MuiTextField-root ,[data-theme=dark]  .calculator .MuiFormControl-root   {
+  .calculator .MuiTextField-root ,  .calculator .MuiFormControl-root   {
   margin-bottom: 30px;
 }
 
-[data-theme=dark] .calculator .MuiInputLabel-root {
+.calculator .MuiInputLabel-root {
   top: -12px;
   left: -12px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #043180;
+  font-family: var(--font-body);
+}
+[data-theme=dark] .calculator .MuiInputLabel-root {
   color: #fff;
-  font-size: 1.2rem;
 }
 
 .MuiDataGrid-columnHeaderTitleContainer .MuiCheckbox-root .MuiSvgIcon-root  , [data-theme=dark] .MuiDataGrid-root .MuiCheckbox-root .MuiSvgIcon-root  {
@@ -194,4 +200,15 @@ input:-webkit-autofill {
 
 [data-theme=dark] .darkText {
   color: #fff;
+}
+
+.customHeader,.customBody {
+  padding-left: 25px!important;
+  padding-right: 25px!important;
+}
+@media (max-width: 800px){
+  .customHeader,.customBody {
+    padding-left: 15px!important;
+    padding-right: 15px!important;
+  }
 }

@@ -46,7 +46,7 @@ const useStyles: any = makeStyles((theme: any) => ({
         },
     },
     bodyFont: {
-        fontFamily: "Montserrat",
+        fontFamily: "var(--font-body)",
         fontSize: 20
     },
     current: {
@@ -55,12 +55,12 @@ const useStyles: any = makeStyles((theme: any) => ({
             backgroundColor: "#CEA716"
         },
         textTransform: "none",
-        fontFamily: "Montserrat",
+        fontFamily: "var(--font-body)",
     },
     switch: {
         backgroundColor: "#043386",
         textTransform: "none",
-        fontFamily: "Montserrat",
+        fontFamily: "var(--font-body)",
     },
     ticker: {
         color: "#000",

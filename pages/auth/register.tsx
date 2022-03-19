@@ -107,7 +107,7 @@ const Register: NextPage = () => {
     return (
         <Grid container>
             <Header/>
-            <Container sx={{maxWidth: {xs: "xl", md: "md", xl: "sm"}}}>
+            <Container sx={{maxWidth: {xs: "xl", md: "sm"}}}>
                 <CustomCard titleProps={{title: "Register"}}>
                     <Box className={"noBorder"}>
                         <TextField

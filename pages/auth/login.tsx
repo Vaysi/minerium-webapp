@@ -99,7 +99,7 @@ const Login: NextPage = () => {
     return (
         <Grid container>
             <Header/>
-            <Container sx={{maxWidth: {xs: "xl", md: "md", xl: "sm"}}}>
+            <Container sx={{maxWidth: {xs: "xl", md: "sm"}}}>
                 <CustomCard titleProps={{title:"Login"}}>
                     <Box className={"noBorder"}>
                         <form noValidate>
@@ -143,8 +143,8 @@ const Login: NextPage = () => {
                         </form>
                         <Grid container>
                             <Grid item xs={12}>
-                                <Button sx={{color: mode == 'dark' ? "#fff!important" : undefined}} className={styles.button} style={{paddingLeft: 5}}>
-                                    Forgot Password ?
+                                <Button sx={{color: mode == 'dark' ? "#fff!important" : undefined,fontWeight:600,borderBottom:"1px solid  rgba(4, 49, 128, 0.61)",padding:0,marginTop:1,textTransform: "none",marginBottom:2,borderRadius:0}} className={styles.button} style={{paddingLeft: 5}}>
+                                    Forgot Password?
                                 </Button>
                             </Grid>
                             <Grid justifyContent={"end"} style={{textAlign: "center"}} item xs={12}>

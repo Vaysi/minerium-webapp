@@ -269,7 +269,7 @@ const WorkersList = (props: Props) => {
             <CustomCard titleProps={{
                 title: "Workers"
                 , action: (
-                    <FormControl style={{backgroundColor: "#fff", borderRadius: 25, minWidth: 100}}>
+                    <FormControl style={{backgroundColor: "#fff", borderRadius: 25, minWidth: 100,marginRight:10}}>
                         <Select
                             id="groupSelect"
                             value={props.states.selected}
@@ -337,7 +337,7 @@ const WorkersList = (props: Props) => {
                         }
                     </Grid>
                     <Grid item xs={6}
-                          style={{display: "flex", justifyContent: nineMatches ? "flex-end" : "space-around"}}>
+                          style={{display: "flex", justifyContent:  "flex-end" }}>
                         {
                             nineMatches ? (
                                 <SplitButton options={[
@@ -356,9 +356,9 @@ const WorkersList = (props: Props) => {
                                 ]}/>
                             ) : (
                                 <>
-                                    <Button onClick={openGroupModal} variant={"contained"}>Create Group</Button>
-                                    <Button onClick={openWatcherModal} variant={"contained"}>Create Watcher</Button>
-                                    <Button onClick={openAddWorkerModal} variant={"contained"}>Add Worker</Button>
+                                    <Button sx={{ml:2}} onClick={openGroupModal} variant={"contained"}>Create Group</Button>
+                                    <Button sx={{ml:2}} onClick={openWatcherModal} variant={"contained"}>Create Watcher</Button>
+                                    <Button sx={{ml:2}} onClick={openAddWorkerModal} variant={"contained"}>Add Worker</Button>
                                 </>
                             )
                         }

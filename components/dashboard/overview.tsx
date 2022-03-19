@@ -23,7 +23,7 @@ const useStyles: any = makeStyles((theme: any) => ({
         color: "var(--header)",
         fontWeight: "bold",
         fontSize: 22,
-        fontFamily: "Montserrat",
+        fontFamily: "var(--font-body)",
         "@media (max-width: 350px)": {
             fontSize: 18
         },
@@ -35,7 +35,7 @@ const useStyles: any = makeStyles((theme: any) => ({
         },
     },
     main: {
-        fontFamily: "Montserrat",
+        fontFamily: "var(--font-body)",
         "@media (max-width: 350px)": {
             fontSize: "0.8rem"
         },

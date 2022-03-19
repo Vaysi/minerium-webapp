@@ -36,7 +36,7 @@ const CustomCard = (props:Props) => {
         <Container maxWidth={"xl"}>
             <Card className={styles.card} sx={{mt: 3}} {...props.cardProps}>
                 <CardHeader
-                    className={styles.cardHeader}
+                    className={`${styles.cardHeader} customHeader`}
                     titleTypographyProps={{
                         style: {
                             color: mode != 'dark' ? "#043180" : '#fff',
@@ -48,7 +48,7 @@ const CustomCard = (props:Props) => {
                     }}
                     {...props.titleProps}
                 />
-                <CardContent className={styles.cardContent}>
+                <CardContent className={`${styles.cardContent} customBody`}>
                     {props.children}
                 </CardContent>
             </Card>
