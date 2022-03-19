@@ -214,5 +214,9 @@ input:-webkit-autofill {
 }
 
 .calcIcon {
-  fill: #043386;
+  fill: #043386!important;
+}
+
+[data-theme=dark] .calcIcon {
+  fill:  #D4E2F4!important;
 }

@@ -218,7 +218,7 @@ const CoinsTable = (props: Props) => {
                                                             pathname: "/calculator",
                                                             query: {coin: k}
                                                         })}>
-                                                            <CalculatorIcon styles={{height:60,width:"auto",fill: mode == 'light' ? "#043386" : "#D4E2F4"}} />
+                                                            <CalculatorIcon styles={{height:60,width:"auto"}} />
                                                         </IconButton>
                                                     </Tooltip>
                                                 </div>
