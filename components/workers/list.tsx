@@ -15,7 +15,7 @@ import {
     useMediaQuery,
 } from "@mui/material";
 import {makeStyles} from "@mui/styles";
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {DataGrid, GridColDef, GridRenderCellParams} from '@mui/x-data-grid';
 import {useEffect, useState} from "react";
 import {Hashrate} from "../../utils/functions";
 import {WorkerGroups, WorkersList as WorkersListType} from "../../utils/interfaces";
@@ -26,6 +26,7 @@ import AddWorkerStepper from "./stepper";
 import CustomCard from "../inline-components/card";
 import SplitButton from "../inline-components/split-btn";
 import SplitButtonState from "../inline-components/split-btn-status";
+import {Circle} from "@mui/icons-material";
 
 const useStyles: any = makeStyles((theme: any) => ({
     headerTitle: {
@@ -39,7 +40,8 @@ const useStyles: any = makeStyles((theme: any) => ({
         transition: "all ease-in 200ms",
         "&:hover": {
             opacity: 1
-        }
+        },
+        paddingRight: 25
     },
     selector: {
         "& fieldset": {
@@ -170,7 +172,15 @@ const WorkersList = (props: Props) => {
             flex: 1,
             align: "center",
             headerAlign: "center",
-            headerClassName: styles.headerTitle
+            headerClassName: styles.headerTitle,
+            renderCell: (params: GridRenderCellParams<Date>) => {
+                return (
+                    <strong>
+                        <Circle style={{color: params.row.hash1m > 0 ? "green" : "red" , width:15,height:15,marginRight:5,position:"relative",top:3}} />
+                        {params.row.worker_name}
+                    </strong>
+                );
+            },
         },
         {
             field: 'hash1m',
@@ -313,22 +323,22 @@ const WorkersList = (props: Props) => {
                                 ]}/>
                             ) : (
                                 <>
-                                    <Badge sx={{mr: 2}} color="secondary" badgeContent={status.all}>
-                                        <Button className={status.activeTab != 'all' ? styles.inactive : ''}
+                                    <Badge className={"badgeContainer"} sx={{mr: 2}} color="secondary" badgeContent={status.all}>
+                                        <Button className={status.activeTab != 'all' ? styles.inactive : 'badgeBTN'}
                                                 variant={"contained"} onClick={() => applyFilter('all')}>All</Button>
                                     </Badge>
-                                    <Badge sx={{mr: 2}} color="secondary" badgeContent={status.online}>
-                                        <Button className={status.activeTab != 'online' ? styles.inactive : ''}
+                                    <Badge className={"badgeContainer"} sx={{mr: 2}} color="secondary" badgeContent={status.online}>
+                                        <Button className={status.activeTab != 'online' ? styles.inactive : 'badgeBTN'}
                                                 variant={"contained"}
                                                 onClick={() => applyFilter('online')}>Online</Button>
                                     </Badge>
-                                    <Badge sx={{mr: 2}} color="secondary" badgeContent={status.offline}>
-                                        <Button className={status.activeTab != 'offline' ? styles.inactive : ''}
+                                    <Badge className={"badgeContainer"} sx={{mr: 2}} color="secondary" badgeContent={status.offline}>
+                                        <Button className={status.activeTab != 'offline' ? styles.inactive : 'badgeBTN'}
                                                 variant={"contained"}
                                                 onClick={() => applyFilter('offline')}>Offline</Button>
                                     </Badge>
-                                    <Badge sx={{mr: 2}} color="secondary" badgeContent={status.inactive}>
-                                        <Button className={status.activeTab != 'inactive' ? styles.inactive : ''}
+                                    <Badge className={"badgeContainer"} sx={{mr: 2}} color="secondary" badgeContent={status.inactive}>
+                                        <Button className={status.activeTab != 'inactive' ? styles.inactive : 'badgeBTN'}
                                                 variant={"contained"}
                                                 onClick={() => applyFilter('inactive')}>Inactive</Button>
                                     </Badge>

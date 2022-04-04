@@ -17,7 +17,7 @@ img {
   --bg-color: #f5f5f7!important;
   --new-text-color: E5ECF6!important;
   --text-color: #333333!important;
-  --blue-ghost: #e9ecf2!important;
+  --blue-ghost: #E5ECF6!important;
   --semi-white: #aaaaaa!important;
   --grey: #777777!important;
   --accent: #cea716!important;
@@ -142,6 +142,14 @@ input:-webkit-autofill {
   background-color: #111111;
 }
 
+[data-theme=light] .tableContainer .MuiTableRow-root:nth-child(odd) , [data-theme=light] .MuiDataGrid-row:nth-child(odd) {
+  background-color: #fff;
+}
+
+[data-theme=light] .tableContainer .MuiTableRow-root:nth-child(even) , [data-theme=light] .MuiDataGrid-row:nth-child(even) {
+  background-color: var(--blue-ghost);
+}
+
 [data-theme=dark] .tableContainer .MuiTableRow-root .MuiTableCell-body , [data-theme=dark] .MuiDataGrid-row .MuiDataGrid-cell {
   color: #fff;
 }
@@ -219,4 +227,20 @@ input:-webkit-autofill {
 
 [data-theme=dark] .calcIcon {
   fill:  #D4E2F4!important;
+}
+
+.MuiInputBase-adornedEnd  .MuiInput-underline::before {
+  border: none!important;
+}
+
+.badgeBTN {
+  padding-right: 25px;
+}
+
+.badgeContainer .MuiBadge-overlapRectangular {
+  background-color: transparent;
+  color: #fff;
+  font-weight: bold;
+  right: 12px;
+  top: 12px;
 }

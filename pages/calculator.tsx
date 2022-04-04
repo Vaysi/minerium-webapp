@@ -131,6 +131,8 @@ const Calculator: NextPage = () => {
     const [poolFee, setPoolFee] = useState<string | number>(4);
     const [coinValue, setCoinValue] = useState<string | number>(0);
     const [pps, setPps] = useState<number>(0);
+    const [hashUnit, setHashUnit] = useState<string>("TH/s");
+    const [powerUnit, setPowerUnit] = useState<string>("W");
     const [power, setPower] = useState<string | number>(0);
     const [powerCost, setPowerCost] = useState<string | number>(0);
     const [rows, setRows] = useState<Array<any>>([]);
@@ -167,6 +169,26 @@ const Calculator: NextPage = () => {
     ) => {
         if (i_currency_to_usd_rate === 0) {
             return false;
+        }
+
+        if(hashUnit != "TH/s"){
+            if(hashUnit == 'GH/s'){
+                i_hashrate /= 1000;
+            }else if(hashUnit == 'MH/s'){
+                i_hashrate /= 1000000;
+            }else if(hashUnit == 'KH/s'){
+                i_hashrate /= 1000000000;
+            }else if(hashUnit == 'H/s'){
+                i_hashrate /= 1000000000;
+            }
+        }
+
+        if(powerUnit != "W"){
+            if(powerUnit == 'KW'){
+                i_electricity_Wh *= 1000;
+            }else if(powerUnit == 'MW'){
+                i_electricity_Wh *= 1000000;
+            }
         }
 
         // Watt to kW
@@ -239,7 +261,7 @@ const Calculator: NextPage = () => {
 
     useEffect(() => {
         calculate(hashrate, power, powerCost, poolFee, coinValue, networkDiff);
-    }, [networkDiff, hashrate, poolFee, power, powerCost, coinValue, coin]);
+    }, [networkDiff, hashrate, poolFee, power, powerCost, coinValue, coin,hashUnit,powerUnit]);
 
     useEffect(() => {
         $$getPps(coin).then(res => {
@@ -249,6 +271,7 @@ const Calculator: NextPage = () => {
             calculate(hashrate, power, powerCost, poolFee, res.data.exchangeRate, res.data.difficulty);
         })
     }, []);
+
 
     return (
         <Grid container>
@@ -287,7 +310,20 @@ const Calculator: NextPage = () => {
                                         sx={{m: 1}}
                                         InputProps={{
                                             endAdornment: <InputAdornment className={styles.adornment}
-                                                                          position="end">TH/s</InputAdornment>,
+                                                                          position="end">
+                                                <Select
+                                                    defaultValue={hashUnit}
+                                                    value={hashUnit}
+                                                    onChange={(e) => setHashUnit(e.target.value)}
+                                                    variant={"standard"}
+                                                >
+                                                    <MenuItem value={"H/s"}>H/s</MenuItem>
+                                                    <MenuItem value={"KH/s"}>KH/s</MenuItem>
+                                                    <MenuItem value={"MH/s"}>MH/s</MenuItem>
+                                                    <MenuItem value={"GH/s"}>GH/s</MenuItem>
+                                                    <MenuItem value={"TH/s"}>TH/s</MenuItem>
+                                                </Select>
+                                            </InputAdornment>,
                                             classes: {
                                                 notchedOutline: styles.notchedOutline,
                                                 input: styles.input,
@@ -310,7 +346,18 @@ const Calculator: NextPage = () => {
                                         sx={{m: 1}}
                                         InputProps={{
                                             endAdornment: <InputAdornment className={styles.adornment}
-                                                                          position="end">W</InputAdornment>,
+                                                                          position="end">
+                                                <Select
+                                                    defaultValue={powerUnit}
+                                                    value={powerUnit}
+                                                    onChange={(e) => setPowerUnit(e.target.value)}
+                                                    variant={"standard"}
+                                                >
+                                                    <MenuItem value={"W"}>W</MenuItem>
+                                                    <MenuItem value={"KW"}>KW</MenuItem>
+                                                    <MenuItem value={"MW"}>MW</MenuItem>
+                                                </Select>
+                                            </InputAdornment>,
                                             classes: {
                                                 notchedOutline: styles.notchedOutline,
                                                 input: styles.input,
