@@ -154,6 +154,28 @@ input:-webkit-autofill {
   color: #fff;
 }
 
+.tableContainer .MuiDataGrid-row .MuiDataGrid-cell {
+  border-right: 1px solid #8F9CB3;
+  border-bottom: 1px solid #8F9CB3;
+}
+
+.tableContainer .MuiDataGrid-row .MuiDataGrid-cell:last-child {
+  border-right: none;
+}
+
+.tableContainer .MuiDataGrid-columnHeader {
+  border-right: 1px solid #8F9CB3;
+}
+
+.tableContainer .MuiDataGrid-columnHeader:last-child {
+  border-right: none;
+}
+
+.tableContainer .MuiDataGrid-columnSeparator  {
+  display: none!important;
+}
+
+
 [data-theme=dark] .tableContainer .MuiTableRow-root .MuiTableCell-head {
   background-color: #111111;
   border: none;

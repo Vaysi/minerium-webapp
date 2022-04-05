@@ -375,7 +375,7 @@ const WorkersList = (props: Props) => {
                     </Grid>
                 </Grid>
                 <div style={{display: 'flex', height: '100%', minHeight: 400}}>
-                    <div style={{flexGrow: 1}}>
+                    <div style={{flexGrow: 1}} className={"tableContainer"}>
                         <DataGrid
                             rows={workers}
                             columns={columns}

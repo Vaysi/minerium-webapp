@@ -17,9 +17,11 @@ import CustomCard from "../inline-components/card";
 
 const useStyles: any = makeStyles((theme: any) => ({
     subtitle: {
-        backgroundColor: "rgba(3, 37, 97, 0.1)",
+        backgroundColor: "rgba(143, 156, 179, 0.5)",
         borderRadius: 3,
-        padding: "0 3px"
+        padding: "0 3px",
+        color: "#043386",
+        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
     }
 }));
 
@@ -32,6 +34,9 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.body}`]: {
         color: "#043180",
         textAlign: "center"
+    },
+    [`& .MuiTableCell-body`]: {
+        color: "#043180",
     },
 }));
 
@@ -88,7 +93,7 @@ const Balance = () => {
                             {balances.map((row) => (
                                 <StyledTableRow key={row.currency}>
                                     <StyledTableCell>
-                                        {row.currency.toUpperCase()}
+                                        <b>{row.currency.toUpperCase()}</b>
                                     </StyledTableCell>
                                     <StyledTableCell align="center">{row.yesterday}</StyledTableCell>
                                     <StyledTableCell align="center">{status(row)}</StyledTableCell>

@@ -80,7 +80,8 @@ const useStyles: any = makeStyles((theme: any) => ({
         backgroundColor: "#CCD9F0"
     },
     input: {
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
+        height: 16
     },
     adornment: {
         width: "50px",
@@ -295,6 +296,7 @@ const Calculator: NextPage = () => {
                                                 setCoin(e.target.value);
                                             }}
                                             className={styles.select}
+                                            inputProps={{style:{height:10}}}
                                         >
                                             <MenuItem value={"btc"}>BTC</MenuItem>
                                             <MenuItem value={"bch"}>BCH</MenuItem>
