@@ -1,5 +1,5 @@
 import type {NextPage} from 'next'
-import {Grid} from "@mui/material";
+import {Backdrop, CircularProgress, Grid} from "@mui/material";
 import Header from "../components/header/header";
 import Footer from "../components/footer/footer";
 import WorkersList from "../components/workers/list";
@@ -50,6 +50,12 @@ const Workers: NextPage = () => {
             <WorkersList states={{groups, setGroups, getWorkersList, selected, setSelected}} data={workers}/>}
             {Boolean(workerGraph) && <HashChart data={workerGraph}/>}
             <Footer/>
+            <Backdrop
+                sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
+                open={workers.length < 1}
+            >
+                <CircularProgress color="primary"/>
+            </Backdrop>
         </Grid>
     );
 };

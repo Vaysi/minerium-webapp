@@ -1,5 +1,7 @@
 import type {NextPage} from 'next'
 import {
+    Backdrop, Box,
+    CircularProgress,
     Container,
     FormControl,
     Grid,
@@ -95,6 +97,13 @@ const useStyles: any = makeStyles((theme: any) => ({
             backgroundColor: "#fff"
         }
     },
+    parent: {
+        position: "relative",
+        minHeight: 200
+    },
+    backdrop: {
+        position: "absolute"
+    }
 }));
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
@@ -173,6 +182,7 @@ const Calculator: NextPage = () => {
         i_pool_fee: any,
         i_currency_to_usd_rate: any,
         i_network_diff: any,
+        i_pps: any=0,
     ) => {
         if (i_currency_to_usd_rate === 0) {
             return false;
@@ -219,13 +229,13 @@ const Calculator: NextPage = () => {
         const fee_in_percent = (fee: number) => 1.0 - fee * 0.01;
         const EARNING_CURRENCY_DAY =
             i_hashrate *
-            pps *
+            (i_pps || pps) *
             fee_in_percent(i_pool_fee) *
             (networkDiff / i_network_diff);
 
         const EARNING_CURRENCY_DAY_NO_FEE =
             i_hashrate *
-            pps *
+            (i_pps || pps) *
             (networkDiff / i_network_diff);
         const earning_currency = {
             daily: EARNING_CURRENCY_DAY,
@@ -295,7 +305,7 @@ const Calculator: NextPage = () => {
             setNetworkDiff(res.data.difficulty);
             setCoinValue(res.data.exchangeRate);
             setPps(res.data.pps);
-            calculate(hashrate, power, powerCost, poolFee, res.data.exchangeRate, res.data.difficulty);
+            calculate(hashrate, power, powerCost, poolFee, res.data.exchangeRate, res.data.difficulty,res.data.pps);
         })
     }, []);
 
@@ -489,8 +499,13 @@ const Calculator: NextPage = () => {
                             </Grid>
                         </Grid>
                         <Grid item xs={12}>
-                            <TableContainer style={{border: "1px solid #043386", borderRadius: 5}} component={Paper} className={"tableContainer"}
+                            <TableContainer style={{border: "1px solid #043386", borderRadius: 5}} component={Paper} className={"tableContainer " + styles.parent}
                                             sx={{mt: 5,backgroundColor:"transparent"}}>
+                                {rows.length < 1 &&  (
+                                    <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1,px:5,py:5}} className={styles.backdrop} open={rows.length < 1 }>
+                                        <CircularProgress color="inherit" />
+                                    </Backdrop>
+                                ) }
                                 <Table sx={{minWidth: 700}} aria-label="customized table">
                                     <TableHead>
                                         <TableRow>
@@ -504,7 +519,7 @@ const Calculator: NextPage = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {rows.map((row) => (
+                                        {rows.length > 0 && rows.map((row) => (
                                             <StyledTableRow key={row.name}>
                                                 <StyledTableCell align={"center"} style={{fontWeight: "bold"}}>
                                                     {row.per}
