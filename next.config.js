@@ -1,8 +1,4 @@
 /** @type {import('next').NextConfig} */
-const withOffline = require('next-offline')
-
-const nextConfig = {
+module.exports = {
   assetPrefix: "/"
 }
-
-module.exports = withOffline(nextConfig);
