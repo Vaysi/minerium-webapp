@@ -153,6 +153,12 @@ const Calculator: NextPage = () => {
         monthly: 0,
         yearly: 0
     };
+    let earning_currency_after_electricity_no_fee = {
+        daily: 0,
+        weekly: 0,
+        monthly: 0,
+        yearly: 0
+    };
     let earning_usd_after_electricity = {
         daily: 0,
         weekly: 0,
@@ -216,11 +222,23 @@ const Calculator: NextPage = () => {
             pps *
             fee_in_percent(i_pool_fee) *
             (networkDiff / i_network_diff);
+
+        const EARNING_CURRENCY_DAY_NO_FEE =
+            i_hashrate *
+            pps *
+            (networkDiff / i_network_diff);
         const earning_currency = {
             daily: EARNING_CURRENCY_DAY,
             weekly: EARNING_CURRENCY_DAY * DAYS_IN_WEEK,
             monthly: EARNING_CURRENCY_DAY * DAYS_IN_MONTH,
             yearly: EARNING_CURRENCY_DAY * DAYS_IN_YEAR,
+        };
+
+        const earning_currency_no_fee = {
+            daily: EARNING_CURRENCY_DAY_NO_FEE,
+            weekly: EARNING_CURRENCY_DAY_NO_FEE * DAYS_IN_WEEK,
+            monthly: EARNING_CURRENCY_DAY_NO_FEE * DAYS_IN_MONTH,
+            yearly: EARNING_CURRENCY_DAY_NO_FEE * DAYS_IN_YEAR,
         };
 
         const earning_usd = {
@@ -237,17 +255,25 @@ const Calculator: NextPage = () => {
             yearly: earning_currency.yearly - electricity_cost_currency.yearly,
         };
 
+        earning_currency_after_electricity_no_fee = {
+            daily: earning_currency_no_fee.daily - electricity_cost_currency.daily,
+            weekly: earning_currency_no_fee.weekly - electricity_cost_currency.weekly,
+            monthly: earning_currency_no_fee.monthly - electricity_cost_currency.monthly,
+            yearly: earning_currency_no_fee.yearly - electricity_cost_currency.yearly,
+        };
+
         earning_usd_after_electricity = {
             daily: earning_usd.daily - electricity_cost_usd.daily,
             weekly: earning_usd.weekly - electricity_cost_usd.weekly,
             monthly: earning_usd.monthly - electricity_cost_usd.monthly,
             yearly: earning_usd.yearly - electricity_cost_usd.yearly,
         };
+        const calcFeeInBtc =  (reward:any) => reward * (i_pool_fee * 0.01);
         setRows([
-            createData('Day', 0, 0, humanize(earning_currency_after_electricity.daily), humanize(earning_usd_after_electricity.daily, 2), 0, 0),
-            createData('Weekly', 0, 0, humanize(earning_currency_after_electricity.weekly), humanize(earning_usd_after_electricity.weekly, 2), 0, 0),
-            createData('Monthly', 0, 0, humanize(earning_currency_after_electricity.monthly), humanize(earning_usd_after_electricity.monthly, 2), 0, 0),
-            createData('Yearly', 0, 0, humanize(earning_currency_after_electricity.yearly), humanize(earning_usd_after_electricity.yearly, 2), 0, 0),
+            createData('Day', humanize(calcFeeInBtc(earning_currency_after_electricity.daily)), humanize(earning_currency_after_electricity_no_fee.daily), humanize(earning_currency_after_electricity.daily), humanize(earning_usd_after_electricity.daily, 2), 0, 0),
+            createData('Weekly', humanize(calcFeeInBtc(earning_currency_after_electricity.weekly)), humanize(earning_currency_after_electricity_no_fee.weekly), humanize(earning_currency_after_electricity.weekly), humanize(earning_usd_after_electricity.weekly, 2), 0, 0),
+            createData('Monthly', humanize(calcFeeInBtc(earning_currency_after_electricity.monthly)), humanize(earning_currency_after_electricity_no_fee.monthly), humanize(earning_currency_after_electricity.monthly), humanize(earning_usd_after_electricity.monthly, 2), 0, 0),
+            createData('Yearly', humanize(calcFeeInBtc(earning_currency_after_electricity.yearly)), humanize(earning_currency_after_electricity_no_fee.yearly), humanize(earning_currency_after_electricity.yearly), humanize(earning_usd_after_electricity.yearly, 2), 0, 0),
         ]);
         return true;
     };
