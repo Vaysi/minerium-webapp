@@ -23,6 +23,7 @@ import {themeModeContext} from "../../utils/context";
 import {$$changePaymentPreference, $$getAllPPS} from "../../utils/api";
 import {AllPPS, Coins} from "../../utils/interfaces";
 import {toast} from "react-toastify";
+import {arrayMove} from "../../utils/functions";
 const useStyles: any = makeStyles((theme: any) => ({
     thead: {
         color: "#043180",
@@ -152,7 +153,7 @@ const CoinsTable = (props: Props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {Object.entries(props.info).map(([k, v]) => {
+                            {Object.entries(props.info).length > 0 && arrayMove(Object.entries(props.info),2,0).map(([k, v]) => {
                                 return (
                                     <TableRow
                                         key={k}

@@ -13,7 +13,7 @@ import {DefaultSeo} from "next-seo";
 function MyApp({Component, pageProps}: AppProps) {
     const [mode, setMode] = useState<PaletteMode>('light');
     const [user, setUser] = useState<any>(null);
-    const theme = useMemo(() => createTheme(getDesignTokens()), [mode]);
+    const theme = createTheme(getDesignTokens());
 
     // if user exists in local storage
     useEffect(() => {

@@ -89,15 +89,15 @@ const AccountOverview = (props: Props) => {
                         <CustomCard titleProps={{title: "Workers"}} align={"center"}>
                             <Box display={"flex"} justifyContent={"space-around"}>
                                 <Typography align={"center"}>
-                                    <span className={styles.main}>Active</span> <br/>
+                                    <span className={styles.main}>All</span> <br/>
                                     <big className={styles.sub}>{props.info.workers}</big>
                                 </Typography>
                                 <Typography align={"center"}>
-                                    <span className={styles.main}>Offline</span> <br/>
-                                    <big className={styles.sub}>{props.info.offline_workers}</big>
+                                    <span className={styles.main}>Active</span> <br/>
+                                    <big className={styles.sub}>{props.info.workers - props.info.offline_workers}</big>
                                 </Typography>
                                 <Typography align={"center"}>
-                                    <span className={styles.main}>Inactive</span> <br/>
+                                    <span className={styles.main}>Offline</span> <br/>
                                     <big className={styles.sub}>{props.info.offline_workers}</big>
                                 </Typography>
                             </Box>

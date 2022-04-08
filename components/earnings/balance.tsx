@@ -1,4 +1,5 @@
 import {
+    Backdrop, CircularProgress,
     Container,
     Paper,
     Table,
@@ -22,6 +23,13 @@ const useStyles: any = makeStyles((theme: any) => ({
         padding: "0 3px",
         color: "#043386",
         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+    },
+    parent: {
+        position: "relative",
+        minHeight: 200
+    },
+    backdrop: {
+        position: "absolute"
     }
 }));
 
@@ -76,6 +84,11 @@ const Balance = () => {
 
     return (
         <Container maxWidth={"xl"}>
+            {balances.length < 1 &&  (
+                <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1,px:5,py:5}} className={styles.backdrop} open={balances.length < 1 }>
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+            ) }
             <CustomCard titleProps={{title: "Earnings"}}>
                 <TableContainer component={Paper} className={"tableContainer"} sx={{backgroundColor:"transparent"}}>
                     <Table sx={{width: "100%"}} aria-label="customized table">
