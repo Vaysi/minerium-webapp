@@ -280,10 +280,10 @@ const Calculator: NextPage = () => {
         };
         const calcFeeInBtc =  (reward:any) => reward * (i_pool_fee * 0.01);
         setRows([
-            createData('Day', humanize(calcFeeInBtc(earning_currency_after_electricity.daily)), humanize(earning_currency_after_electricity_no_fee.daily), humanize(earning_currency_after_electricity.daily), humanize(earning_usd_after_electricity.daily, 2), 0, 0),
-            createData('Weekly', humanize(calcFeeInBtc(earning_currency_after_electricity.weekly)), humanize(earning_currency_after_electricity_no_fee.weekly), humanize(earning_currency_after_electricity.weekly), humanize(earning_usd_after_electricity.weekly, 2), 0, 0),
-            createData('Monthly', humanize(calcFeeInBtc(earning_currency_after_electricity.monthly)), humanize(earning_currency_after_electricity_no_fee.monthly), humanize(earning_currency_after_electricity.monthly), humanize(earning_usd_after_electricity.monthly, 2), 0, 0),
-            createData('Yearly', humanize(calcFeeInBtc(earning_currency_after_electricity.yearly)), humanize(earning_currency_after_electricity_no_fee.yearly), humanize(earning_currency_after_electricity.yearly), humanize(earning_usd_after_electricity.yearly, 2), 0, 0),
+            createData('Day', humanize(calcFeeInBtc(earning_currency_after_electricity.daily)), humanize(earning_currency_after_electricity_no_fee.daily), humanize(earning_currency_after_electricity.daily), humanize(earning_usd.daily, 2), humanize(electricity_cost_usd.daily,2), humanize(earning_usd_after_electricity.daily, 2)),
+            createData('Weekly', humanize(calcFeeInBtc(earning_currency_after_electricity.weekly)), humanize(earning_currency_after_electricity_no_fee.weekly), humanize(earning_currency_after_electricity.weekly), humanize(earning_usd.weekly, 2), humanize(electricity_cost_usd.weekly,2), humanize(earning_usd_after_electricity.weekly, 2)),
+            createData('Monthly', humanize(calcFeeInBtc(earning_currency_after_electricity.monthly)), humanize(earning_currency_after_electricity_no_fee.monthly), humanize(earning_currency_after_electricity.monthly), humanize(earning_usd.monthly, 2), humanize(electricity_cost_usd.monthly,2), humanize(earning_usd_after_electricity.monthly, 2)),
+            createData('Yearly', humanize(calcFeeInBtc(earning_currency_after_electricity.yearly)), humanize(earning_currency_after_electricity_no_fee.yearly), humanize(earning_currency_after_electricity.yearly), humanize(earning_usd.yearly, 2), humanize(electricity_cost_usd.yearly,2), humanize(earning_usd_after_electricity.yearly, 2)),
         ]);
         return true;
     };
@@ -528,8 +528,8 @@ const Calculator: NextPage = () => {
                                                 <StyledTableCell align="center">{row.reward}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.btc}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.usd}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.cost}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.profit}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.cost} <b>$</b></StyledTableCell>
+                                                <StyledTableCell align="center">{row.profit} <b>$</b></StyledTableCell>
                                             </StyledTableRow>
                                         ))}
                                     </TableBody>

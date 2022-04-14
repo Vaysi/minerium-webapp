@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type {AppProps} from 'next/app'
-import {useEffect, useMemo, useState} from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
 import {createTheme, PaletteMode, ThemeProvider} from "@mui/material";
 import {getDesignTokens} from "../utils/themes";
 import {themeModeContext, userContext} from "../utils/context";
@@ -8,11 +8,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from "react-toastify";
 import {readCookie, setCookie} from "../utils/functions";
 import {DefaultSeo} from "next-seo";
+import {useRouter} from "next/router";
 
 
 function MyApp({Component, pageProps}: AppProps) {
     const [mode, setMode] = useState<PaletteMode>('light');
     const [user, setUser] = useState<any>(null);
+    const router = useRouter();
     const theme = createTheme(getDesignTokens());
 
     // if user exists in local storage
@@ -48,6 +50,14 @@ function MyApp({Component, pageProps}: AppProps) {
         // @ts-ignore
         document.getElementsByTagName('html')[0].setAttribute('data-theme', mode);
     }, [mode]);
+
+    const {user:cUser} = useContext(userContext);
+
+    useEffect(() => {
+        if(!cUser?.loggedIn && !router.pathname.startsWith(`/auth`)){
+            router.push('/auth/login');
+        }
+    },[]);
 
     useEffect(() => {
         if ('serviceWorker' in navigator) {
