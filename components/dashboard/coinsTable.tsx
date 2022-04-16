@@ -36,7 +36,7 @@ const useStyles: any = makeStyles((theme: any) => ({
     },
     icon: {
         position: "relative",
-        top: 5
+        top: 10
     },
     tbody: {
         color: "#043386",
@@ -149,7 +149,7 @@ const CoinsTable = (props: Props) => {
                                 <TableCell className={styles.thead} align="center">Yesterday Earning</TableCell>
                                 <TableCell className={styles.thead} align="center">Total Earning</TableCell>
                                 <TableCell className={styles.thead} align="center">Balance</TableCell>
-                                <TableCell className={styles.thead} align="center">Preferred Currency</TableCell>
+                                <TableCell className={styles.thead} align="center">Earning Method</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -160,8 +160,8 @@ const CoinsTable = (props: Props) => {
                                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                     >
                                         <TableCell align="center">
-                                            <img className={styles.icon} src={`/coins/${k}.svg`} width={25}
-                                                 height={25}/>
+                                            <img className={styles.icon} src={`/coins/${k}.svg`} width={35}
+                                                 height={35}/>
                                             <span className={styles.ticker} style={{
                                                 marginLeft: 10,
                                                 fontWeight: "bold",
