@@ -76,7 +76,9 @@ const useStyles: any = makeStyles((theme: any) => ({
         },
         fontFamily: "Montserrat",
         display:"flex",
-        justifyContent:"space-between"
+        justifyContent:"space-between",
+        fontSize: 20,
+        color: "#043180"
     }
 }));
 
@@ -200,7 +202,7 @@ const Dashboard: NextPage = () => {
                                     id="address"
                                     sx={{my: 1}}
                                     value="stratum+tcp://stratum.minerium.com:3333"
-                                    InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:3333")}}
+                                    InputProps={{style:{fontSize: 20, color: "#043180"},endAdornment: copyButton("stratum+tcp://stratum.minerium.com:3333")}}
                                 />
                                 <TextField
                                     fullWidth
@@ -208,7 +210,7 @@ const Dashboard: NextPage = () => {
                                     className={styles.bodyFont}
                                     sx={{my: 1}}
                                     value="stratum+tcp://stratum.minerium.com:4444"
-                                    InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:4444")}}
+                                    InputProps={{style:{fontSize: 20, color: "#043180"},endAdornment: copyButton("stratum+tcp://stratum.minerium.com:4444")}}
                                 />
                                 <TextField
                                     fullWidth
@@ -216,14 +218,14 @@ const Dashboard: NextPage = () => {
                                     className={styles.bodyFont}
                                     sx={{mt: 1, mb: 2}}
                                     value="stratum+tcp://stratum.minerium.com:44443"
-                                    InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:44443")}}
+                                    InputProps={{style:{fontSize: 20, color: "#043180"},endAdornment: copyButton("stratum+tcp://stratum.minerium.com:44443")}}
                                 />
                             </CustomCard>
                         </Grid>
                         <Grid item lg={6} xs={12} sx={{px: 1}}>
                             <CustomCard titleProps={{title: "Contact Us"}}>
                                 <Typography
-                                    style={{display: "flex", justifyContent: "space-between", fontSize: 20, color: "#043180",marginBottom:25}} className={styles.bodyFont}>
+                                    style={{display: "flex", justifyContent: "space-between",marginBottom:25}} className={styles.bodyFont}>
                                     <span>Report Problems:</span>
                                     <Typography onClick={() => router.push('mailto:support@minerium.com')}
                                                 component={"span"} className={styles.primary}
@@ -233,7 +235,7 @@ const Dashboard: NextPage = () => {
                                                 }}>support@minerium.com</Typography>
                                 </Typography>
                                 <Typography
-                                    style={{display: "flex", justifyContent: "space-between", fontSize: 20, color: "#043180"}}
+                                    style={{display: "flex", justifyContent: "space-between"}}
                                     className={styles.bodyFont}>
                                     <span>Customer Service:</span>
                                     <Typography
@@ -244,16 +246,15 @@ const Dashboard: NextPage = () => {
                             </CustomCard>
                         </Grid>
                         <Grid item lg={6} xs={12} sx={{px: 1}}>
-                            <CustomCard titleProps={{title: "Help"}}>
+                            <CustomCard titleProps={{title: "Help"}} cardProps={{style:{minHeight:198}}}>
                                 <Grid container>
                                     <Grid item md={9} xs={8}>
                                         <Typography className={styles.bodyFont}>
-                                            Here find some of the most frequent quesitons about minerium, coins and pools.
+                                            Here find some of the most frequent questions about minerium, coins and pools.
                                         </Typography>
                                     </Grid>
                                     <Grid item md={3} xs={4}>
                                         <Button sx={{mb:1}} fullWidth={true} variant={"contained"} className={styles.customBtn}>FAQ</Button>
-                                        <Button fullWidth={true} variant={"contained"}  className={styles.customBtn}>About</Button>
                                     </Grid>
                                 </Grid>
                             </CustomCard>

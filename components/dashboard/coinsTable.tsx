@@ -2,7 +2,7 @@ import {
     Backdrop,
     Box,
     Button, CircularProgress,
-    Container,
+    Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
     Grid,
     IconButton,
     MenuItem,
@@ -26,10 +26,10 @@ import {toast} from "react-toastify";
 import {arrayMove} from "../../utils/functions";
 const useStyles: any = makeStyles((theme: any) => ({
     thead: {
-        color: "#043180",
-        fontWeight: 600,
-        fontFamily: "Open Sans",
-        fontSize: "22px",
+        color: "rgba(4, 49, 128, 1)!important",
+        fontWeight: "600!important",
+        fontFamily: "Open Sans!important",
+        fontSize: "18px!important",
         "[data-theme=dark] &": {
             color: "#fff",
         },
@@ -51,9 +51,9 @@ const useStyles: any = makeStyles((theme: any) => ({
         fontSize: 20
     },
     current: {
-        backgroundColor: "#CEA716",
+        backgroundColor: "#CEA716!important",
         "&:hover": {
-            backgroundColor: "#CEA716"
+            backgroundColor: "#CEA716!important"
         },
         textTransform: "none",
         fontFamily: "var(--font-body)",
@@ -112,6 +112,8 @@ const CoinsTable = (props: Props) => {
     const [selected, setSelected] = useState<string>('btc');
     const [loading, setLoading] = useState<boolean>(false);
     const [saved,setSaved] = useState<boolean>(false);
+    const [ask,setAsk] = useState<boolean>(false);
+    const [tempVal,setTempVal] = useState<any>('');
 
     useEffect(() => {
         $$getAllPPS().then(response => {
@@ -125,8 +127,9 @@ const CoinsTable = (props: Props) => {
         setLoading(true);
         $$changePaymentPreference(selected,miningMode).then(response => {
             toast.success("Changes Saved !");
+        }).finally(() => {
             setLoading(false);
-        })
+        });
     };
 
     useEffect(() => {
@@ -150,6 +153,7 @@ const CoinsTable = (props: Props) => {
                                 <TableCell className={styles.thead} align="center">Total Earning</TableCell>
                                 <TableCell className={styles.thead} align="center">Balance</TableCell>
                                 <TableCell className={styles.thead} align="center">Earning Method</TableCell>
+                                <TableCell className={styles.thead} align="center">Calculator</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -183,8 +187,8 @@ const CoinsTable = (props: Props) => {
                                             <Box display={"flex"} justifyContent={"center"}>
                                                 <div>
                                                     <Button sx={{my: 1, maxWidth: 165, minWidth: 165,display:"block"}} className={`${k.toLowerCase() == selected.toLowerCase() ? styles.current : styles.switch}`} variant={"contained"} size={"small"} fullWidth={true} onClick={() => {
-                                                        setSaved(true);
-                                                        setSelected(k.toLowerCase());
+                                                        setTempVal(k.toLowerCase());
+                                                        setAsk(true);
                                                     }}>
                                                         {
                                                             k.toLowerCase() == selected.toLowerCase()  ? 'Current' : 'Switch'
@@ -202,28 +206,30 @@ const CoinsTable = (props: Props) => {
                                                         disabled={k.toLowerCase() != 'btc' || selected != 'btc'}
                                                         onChange={(e) => {
                                                             setSaved(true);
-                                                            setMiningMode(e.target.value);
+                                                            setMiningMode(tempVal);
                                                         }}
                                                     >
                                                         <MenuItem value={"pps"}>PPS</MenuItem>
                                                         <MenuItem value={"solo"}>SOLO</MenuItem>
                                                     </Select>
                                                 </div>
-                                                <div style={{
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    alignItems: "center"
-                                                }}>
-                                                    <Tooltip placement={"top"} title={`${k.toUpperCase()} Calculator`}>
-                                                        <IconButton className={styles.calcIcon} onClick={() => router.push({
-                                                            pathname: "/calculator",
-                                                            query: {coin: k}
-                                                        })}>
-                                                            <CalculatorIcon styles={{height:60,width:"auto"}} />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                </div>
                                             </Box>
+                                        </TableCell>
+                                        <TableCell>
+                                            <div style={{
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center"
+                                            }}>
+                                                <Tooltip placement={"top"} title={`${k.toUpperCase()} Calculator`}>
+                                                    <IconButton className={styles.calcIcon} onClick={() => router.push({
+                                                        pathname: "/calculator",
+                                                        query: {coin: k}
+                                                    })}>
+                                                        <CalculatorIcon styles={{height:60,width:"auto"}} />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </div>
                                         </TableCell>
                                     </TableRow>
                                 );
@@ -237,6 +243,31 @@ const CoinsTable = (props: Props) => {
                 >
                     <CircularProgress color="primary"/>
                 </Backdrop>
+                <Dialog
+                    open={ask}
+                    onClose={() => setAsk(false)}
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        Changing Earning Method
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            We will change how we calculate your earnings from the next hour by switching the earning method.
+                            Do you want to proceed?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setAsk(false)}>Cancel</Button>
+                        <Button onClick={() => {
+                            setSaved(true);
+                            setSelected(tempVal);
+                            setTempVal('');
+                            setAsk(false);
+                        }} autoFocus>
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Container>
         </Grid>
     );
