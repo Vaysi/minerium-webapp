@@ -8,11 +8,11 @@ import {
     Divider,
     FormControl,
     FormControlLabel,
-    Grid,
+    Grid, IconButton, InputAdornment,
     TextField
 } from "@mui/material";
 import Header from "../../components/header/header";
-import {Google,} from "@mui/icons-material";
+import {Google, Visibility, VisibilityOff,} from "@mui/icons-material";
 import Footer from "../../components/footer/footer";
 import {makeStyles} from "@mui/styles";
 import React, {useContext, useEffect, useState} from "react";
@@ -158,6 +158,20 @@ const Register: NextPage = () => {
                                     autocomplete: 'off',
                                 },
                             }}
+                            InputProps={{
+                                endAdornment:(
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            onMouseDown={() => setShowPassword(!showPassword)}
+                                            edge="end"
+                                            sx={{mr:0}}
+                                        >
+                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
                         />
                         <TextField
                             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -176,6 +190,20 @@ const Register: NextPage = () => {
                                 form: {
                                     autocomplete: 'off',
                                 },
+                            }}
+                            InputProps={{
+                                endAdornment:(
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            onMouseDown={() => setShowPassword(!showPassword)}
+                                            edge="end"
+                                            sx={{mr:0}}
+                                        >
+                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
                             }}
                         />
                         <FormControl>

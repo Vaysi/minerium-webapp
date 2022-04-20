@@ -8,12 +8,12 @@ import {
     CircularProgress,
     Container,
     Divider,
-    Grid,
+    Grid, IconButton, InputAdornment,
     TextField
 } from "@mui/material";
 import Header from "../../components/header/header";
 import PageTitle from "../../components/inline-components/page-title";
-import {Google, Login as LoginIcon} from "@mui/icons-material";
+import {Google, Login as LoginIcon, Visibility, VisibilityOff} from "@mui/icons-material";
 import Footer from "../../components/footer/footer";
 import {makeStyles} from "@mui/styles";
 import React, {useContext, useEffect, useState} from "react";
@@ -46,13 +46,14 @@ const useStyles: any = makeStyles((theme: any) => ({
         marginTop: "20px!important"
     },
     commonBtn:{
-        width: "310px"
+        width: "250px"
     },
     google: {
         boxShadow: "0px 10px 10px -2px rgba(0, 0, 0, 0.1)",
         backgroundColor: "#F5F5F7!important",
-        borderRadius: "5px!important",
-        border: "none!important"
+        borderRadius: "7px!important",
+        border: "none!important",
+        textTransform: "none"
     }
 }));
 
@@ -62,6 +63,7 @@ const Login: NextPage = () => {
     const [identifier, setIdentifier] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const {mode} = useContext(themeModeContext);
     const router = useRouter();
 
@@ -124,7 +126,7 @@ const Login: NextPage = () => {
                         <TextField
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            type={"password"}
+                            type={!showPassword ? 'password' : 'text'}
                             id="password"
                             label="Password"
                             fullWidth
@@ -139,11 +141,25 @@ const Login: NextPage = () => {
                                     autocomplete: 'off',
                                 },
                             }}
+                            InputProps={{
+                                endAdornment:(
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            onMouseDown={() => setShowPassword(!showPassword)}
+                                            edge="end"
+                                            sx={{mr:0}}
+                                        >
+                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
                         />
                         </form>
                         <Grid container>
                             <Grid item xs={12}>
-                                <Button sx={{color: mode == 'dark' ? "#fff!important" : undefined,fontWeight:600,borderBottom:"1px solid  rgba(4, 49, 128, 0.61)",padding:0,marginTop:1,textTransform: "none",marginBottom:2,borderRadius:0}} className={styles.button} style={{paddingLeft: 5}}>
+                                <Button sx={{color: mode == 'dark' ? "#fff!important" : undefined,fontWeight:600,borderBottom:"1px solid  rgba(4, 49, 128, 0.61)",padding:0,marginTop:1,textTransform: "none",marginBottom:2,borderRadius:0}} className={styles.button} style={{paddingLeft: 5,paddingRight:5}}>
                                     Forgot Password?
                                 </Button>
                             </Grid>
@@ -156,7 +172,7 @@ const Login: NextPage = () => {
                                 <Divider sx={{mt: 2, mb: 2}}/>
                                 <Button className={`${styles.commonBtn} ${styles.google}`} color={"primary"} variant="outlined">
                                     <img src={"/assets/images/google.svg"} style={{width:25,height:25,marginRight:10,paddingTop:4,paddingBottom:4}}  alt={"Google"}/>
-                                    Sign In With Google
+                                    Sign in with Google
                                 </Button>
                             </Grid>
                         </Grid>

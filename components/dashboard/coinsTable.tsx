@@ -1,8 +1,14 @@
 import {
     Backdrop,
     Box,
-    Button, CircularProgress,
-    Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+    Button,
+    CircularProgress,
+    Container,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     Grid,
     IconButton,
     MenuItem,
@@ -13,17 +19,18 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    TableRow, Tooltip,
+    TableRow,
+    Tooltip,
 } from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import {useRouter} from "next/router";
 import CalculatorIcon from "../inline-components/calculator-icon";
 import {useContext, useEffect, useState} from "react";
 import {themeModeContext} from "../../utils/context";
-import {$$changePaymentPreference, $$getAllPPS} from "../../utils/api";
-import {AllPPS, Coins} from "../../utils/interfaces";
+import {$$changePaymentPreference, $$earningsBalance, $$getAllPPS, $$getPps} from "../../utils/api";
 import {toast} from "react-toastify";
 import {arrayMove} from "../../utils/functions";
+
 const useStyles: any = makeStyles((theme: any) => ({
     thead: {
         color: "rgba(4, 49, 128, 1)!important",
@@ -71,7 +78,8 @@ const useStyles: any = makeStyles((theme: any) => ({
     },
     calcIcon: {
         color: "#043386!important",
-        marginTop:5,
+        position: "relative",
+        marginTop: 5,
         "[data-theme=dark] &": {
             color: "#fff!important",
         },
@@ -81,19 +89,24 @@ const useStyles: any = makeStyles((theme: any) => ({
             backgroundColor: "#fff"
         },
         "& .MuiSelect-select": {
-            paddingBottom:4,
-            paddingTop:4
+            paddingBottom: 4,
+            paddingTop: 4
         },
         "& .MuiSelect-icon": {
             top: 0,
-            right:0,
-            padding:2,
-            paddingBottom:5,
+            right: 0,
+            padding: 2,
+            paddingBottom: 5,
             backgroundColor: "#043386",
-            fill:"#fff",
+            fill: "#fff",
             borderTopRightRadius: "3px",
             borderBottomRightRadius: "3px",
         },
+    },
+    floatingIcon: {
+        position: "absolute",
+        left: 10,
+        bottom: 10
     }
 }));
 
@@ -111,9 +124,10 @@ const CoinsTable = (props: Props) => {
     const [miningMode, setMiningMode] = useState<string>("pps");
     const [selected, setSelected] = useState<string>('btc');
     const [loading, setLoading] = useState<boolean>(false);
-    const [saved,setSaved] = useState<boolean>(false);
-    const [ask,setAsk] = useState<boolean>(false);
-    const [tempVal,setTempVal] = useState<any>('');
+    const [saved, setSaved] = useState<boolean>(false);
+    const [ask, setAsk] = useState<boolean>(false);
+    const [tempVal, setTempVal] = useState<any>('');
+    const [balance, setBalance] = useState<Array<any>>([]);
 
     useEffect(() => {
         $$getAllPPS().then(response => {
@@ -121,11 +135,14 @@ const CoinsTable = (props: Props) => {
             setSelected(data.preference);
             setMiningMode(data.method);
         });
+        $$earningsBalance().then(res => {
+            setBalance(res.data);
+        });
     }, []);
 
     const updateMiningMode = () => {
         setLoading(true);
-        $$changePaymentPreference(selected,miningMode).then(response => {
+        $$changePaymentPreference(selected, miningMode).then(response => {
             toast.success("Changes Saved !");
         }).finally(() => {
             setLoading(false);
@@ -137,7 +154,31 @@ const CoinsTable = (props: Props) => {
             updateMiningMode();
         }
         setSaved(false);
-    },[miningMode,selected]);
+    }, [miningMode, selected]);
+
+    const getBalance = (currency: string) => {
+        let out = balance.filter((item: any) => {
+            return item.currency == currency;
+        });
+        return out.length ? out[0] : null;
+    };
+
+    useEffect(() => {
+        balance.map((item:any) => {
+            if (item.total > 0) {
+                $$getPps(item.currency).then(res => {
+                    setBalance([...balance].map((i:any) => {
+                        if (item.currency == i.currency) {
+                            i.price = res.data.exchangeRate;
+                        }else {
+                            i.price = 1;
+                        }
+                        return i;
+                    }));
+                });
+            }
+        })
+    }, []);
 
     return (
         <Grid container>
@@ -157,7 +198,7 @@ const CoinsTable = (props: Props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {Object.entries(props.info).length > 0 && arrayMove(Object.entries(props.info),2,0).map(([k, v]) => {
+                            {Object.entries(props.info).length > 0 && arrayMove(Object.entries(props.info), 2, 0).map(([k, v]) => {
                                 return (
                                     <TableRow
                                         key={k}
@@ -172,26 +213,37 @@ const CoinsTable = (props: Props) => {
                                                 fontSize: "18px"
                                             }}>{k.toUpperCase()}</span>
                                         </TableCell>
-                                        <TableCell align="center" className={styles.tbody}>{v.yesterday.toFixed(8)}
+                                        <TableCell align="center" className={styles.tbody}>
+                                            {v.yesterday.toFixed(8)}
                                             <br/>
-                                            <span>4$</span></TableCell>
-                                        <TableCell align="center" className={styles.tbody}>{v.yesterday.toFixed(8)}
+                                            <span>{(v.yesterday.toFixed(8) * ((getBalance(k) != null ? getBalance(k).price : 1))).toFixed(2)}$</span>
+                                        </TableCell>
+                                        <TableCell align="center" className={styles.tbody}>
+                                            {v.yesterday.toFixed(8)}
                                             <br/>
-                                            <span>4$</span></TableCell>
-                                        <TableCell align="center"
-                                                   className={styles.tbody}>{(v.yesterday * 10).toFixed(8)} <br/>
-                                            <span>4$</span></TableCell>
-                                        <TableCell align="center" className={styles.tbody}>{v.balance.toFixed(9)} <br/>
-                                            <span>4$</span></TableCell>
+                                            <span>{(v.yesterday.toFixed(8) * ((getBalance(k) != null ? getBalance(k).price : 1))).toFixed(2)}$</span>
+                                        </TableCell>
+                                        <TableCell align="center" className={styles.tbody}>
+                                            {((getBalance(k) != null ? getBalance(k).total : 0)).toFixed(8)}
+                                            <br/>
+                                            <span>{(((getBalance(k) != null ? getBalance(k).total : 0)).toFixed(8) * ((getBalance(k) != null ? getBalance(k).price : 1))).toFixed(2)}$</span>
+                                        </TableCell>
+                                        <TableCell align="center" className={styles.tbody}>
+                                            {v.balance.toFixed(9)} <br/>
+                                            <span>{(v.balance.toFixed(9) * ((getBalance(k) != null ? getBalance(k).price : 1))).toFixed(2)}$</span>
+                                        </TableCell>
                                         <TableCell align="center" className={styles.tbody}>
                                             <Box display={"flex"} justifyContent={"center"}>
                                                 <div>
-                                                    <Button sx={{my: 1, maxWidth: 165, minWidth: 165,display:"block"}} className={`${k.toLowerCase() == selected.toLowerCase() ? styles.current : styles.switch}`} variant={"contained"} size={"small"} fullWidth={true} onClick={() => {
-                                                        setTempVal(k.toLowerCase());
-                                                        setAsk(true);
-                                                    }}>
+                                                    <Button sx={{my: 1, maxWidth: 165, minWidth: 165, display: "block"}}
+                                                            className={`${k.toLowerCase() == selected.toLowerCase() ? styles.current : styles.switch}`}
+                                                            variant={"contained"} size={"small"} fullWidth={true}
+                                                            onClick={() => {
+                                                                setTempVal(k.toLowerCase());
+                                                                setAsk(true);
+                                                            }}>
                                                         {
-                                                            k.toLowerCase() == selected.toLowerCase()  ? 'Current' : 'Switch'
+                                                            k.toLowerCase() == selected.toLowerCase() ? 'Current' : 'Switch'
                                                         }
                                                     </Button>
                                                     <Select
@@ -226,7 +278,9 @@ const CoinsTable = (props: Props) => {
                                                         pathname: "/calculator",
                                                         query: {coin: k}
                                                     })}>
-                                                        <CalculatorIcon styles={{height:60,width:"auto"}} />
+                                                        <CalculatorIcon styles={{height: 60, width: "auto"}}/>
+                                                        <img className={styles.floatingIcon} src={`/coins/${k}.svg`}
+                                                             width={30} height={30}/>
                                                     </IconButton>
                                                 </Tooltip>
                                             </div>
@@ -252,7 +306,8 @@ const CoinsTable = (props: Props) => {
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            We will change how we calculate your earnings from the next hour by switching the earning method.
+                            We will change how we calculate your earnings from the next hour by switching the earning
+                            method.
                             Do you want to proceed?
                         </DialogContentText>
                     </DialogContent>

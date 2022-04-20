@@ -51,13 +51,6 @@ function MyApp({Component, pageProps}: AppProps) {
         document.getElementsByTagName('html')[0].setAttribute('data-theme', mode);
     }, [mode]);
 
-    const {user:cUser} = useContext(userContext);
-
-    useEffect(() => {
-        if(!cUser?.loggedIn && !router.pathname.startsWith(`/auth`)){
-            router.push('/auth/login');
-        }
-    },[]);
 
     useEffect(() => {
         if ('serviceWorker' in navigator) {
