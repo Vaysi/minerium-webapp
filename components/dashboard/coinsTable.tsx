@@ -29,6 +29,7 @@ import {useEffect, useState} from "react";
 import {$$changePaymentPreference, $$earningsBalance, $$getAllPPS, $$getPps} from "../../utils/api";
 import {toast} from "react-toastify";
 import {arrayMove} from "../../utils/functions";
+import {ArrowRightAlt} from "@mui/icons-material";
 
 const useStyles: any = makeStyles((theme: any) => ({
     thead: {
@@ -293,10 +294,18 @@ const CoinsTable = (props: Props) => {
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                                <img src={`/coins/${selected}.svg`}
-                                     width={30} height={30}/>
-                                <img src={`/coins/${tempVal}.svg`}
-                                     width={30} height={30}/>
+                                <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
+                                    <img src={`/coins/${selected}.svg`}
+                                         width={40} height={40}/>
+                                    <ArrowRightAlt sx={{mx:1}} />
+                                    <img src={`/coins/${tempVal}.svg`}
+                                         width={40} height={40}/>
+                                </Box>
+                            <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
+                                <span>{selected.toUpperCase()}</span>
+                                <ArrowRightAlt sx={{mx:1.5}} />
+                                <span>{tempVal.toUpperCase()}</span>
+                            </Box>
                             We will change how we calculate your earnings from the next hour by switching the earning
                             method.
                             Do you want to proceed?
