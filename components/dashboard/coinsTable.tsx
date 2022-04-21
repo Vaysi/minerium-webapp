@@ -25,8 +25,7 @@ import {
 import {makeStyles} from "@mui/styles";
 import {useRouter} from "next/router";
 import CalculatorIcon from "../inline-components/calculator-icon";
-import {useContext, useEffect, useState} from "react";
-import {themeModeContext} from "../../utils/context";
+import {useEffect, useState} from "react";
 import {$$changePaymentPreference, $$earningsBalance, $$getAllPPS, $$getPps} from "../../utils/api";
 import {toast} from "react-toastify";
 import {arrayMove} from "../../utils/functions";
@@ -120,7 +119,6 @@ interface Props {
 const CoinsTable = (props: Props) => {
     const styles = useStyles();
     const router = useRouter();
-    const {mode} = useContext(themeModeContext);
     const [miningMode, setMiningMode] = useState<string>("pps");
     const [selected, setSelected] = useState<string>('btc');
     const [loading, setLoading] = useState<boolean>(false);
@@ -163,22 +161,6 @@ const CoinsTable = (props: Props) => {
         return out.length ? out[0] : null;
     };
 
-    useEffect(() => {
-        balance.map((item:any) => {
-            if (item.total > 0) {
-                $$getPps(item.currency).then(res => {
-                    setBalance([...balance].map((i:any) => {
-                        if (item.currency == i.currency) {
-                            i.price = res.data.exchangeRate;
-                        }else {
-                            i.price = 1;
-                        }
-                        return i;
-                    }));
-                });
-            }
-        })
-    }, []);
 
     return (
         <Grid container>
@@ -216,21 +198,21 @@ const CoinsTable = (props: Props) => {
                                         <TableCell align="center" className={styles.tbody}>
                                             {v.yesterday.toFixed(8)}
                                             <br/>
-                                            <span>{(v.yesterday.toFixed(8) * ((getBalance(k) != null ? getBalance(k).price : 1))).toFixed(2)}$</span>
+                                            { v?.price > 0 && (<span>{(v.yesterday.toFixed(8) * v.price).toFixed(2)}$</span>)}
                                         </TableCell>
                                         <TableCell align="center" className={styles.tbody}>
                                             {v.yesterday.toFixed(8)}
                                             <br/>
-                                            <span>{(v.yesterday.toFixed(8) * ((getBalance(k) != null ? getBalance(k).price : 1))).toFixed(2)}$</span>
+                                            { v?.price > 0 && (<span>{(v.yesterday.toFixed(8) * v.price).toFixed(2)}$</span>)}
                                         </TableCell>
                                         <TableCell align="center" className={styles.tbody}>
                                             {((getBalance(k) != null ? getBalance(k).total : 0)).toFixed(8)}
                                             <br/>
-                                            <span>{(((getBalance(k) != null ? getBalance(k).total : 0)).toFixed(8) * ((getBalance(k) != null ? getBalance(k).price : 1))).toFixed(2)}$</span>
+                                            { v?.price > 0 && (<span>{(((getBalance(k) != null ? getBalance(k).total : 0)).toFixed(8) * v.price).toFixed(2)}$</span>)}
                                         </TableCell>
                                         <TableCell align="center" className={styles.tbody}>
                                             {v.balance.toFixed(9)} <br/>
-                                            <span>{(v.balance.toFixed(9) * ((getBalance(k) != null ? getBalance(k).price : 1))).toFixed(2)}$</span>
+                                            { v?.price > 0 && (<span>{(v.balance.toFixed(9) * v.price).toFixed(2)}$</span>)}
                                         </TableCell>
                                         <TableCell align="center" className={styles.tbody}>
                                             <Box display={"flex"} justifyContent={"center"}>
@@ -300,12 +282,21 @@ const CoinsTable = (props: Props) => {
                 <Dialog
                     open={ask}
                     onClose={() => setAsk(false)}
+                    PaperProps={{
+                        style: {
+                            backgroundColor: '#F5F5F7',
+                        },
+                    }}
                 >
                     <DialogTitle id="alert-dialog-title">
                         Changing Earning Method
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
+                                <img src={`/coins/${selected}.svg`}
+                                     width={30} height={30}/>
+                                <img src={`/coins/${tempVal}.svg`}
+                                     width={30} height={30}/>
                             We will change how we calculate your earnings from the next hour by switching the earning
                             method.
                             Do you want to proceed?
@@ -313,7 +304,7 @@ const CoinsTable = (props: Props) => {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => setAsk(false)}>Cancel</Button>
-                        <Button onClick={() => {
+                        <Button color={"primary"} variant={"contained"} onClick={() => {
                             setSaved(true);
                             setSelected(tempVal);
                             setTempVal('');

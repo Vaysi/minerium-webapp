@@ -210,7 +210,6 @@ const Calculator: NextPage = () => {
 
         // Watt to kW
         const w2kw = (w: number) => w / 1000;
-
         let electricity_per_hour_usd = i_electricity_Wh * w2kw(i_kWh_usd_rate);
         const electricity_cost_usd = {
             daily: electricity_per_hour_usd * HOURS_IN_DAY,
@@ -280,10 +279,10 @@ const Calculator: NextPage = () => {
         };
         const calcFeeInBtc =  (reward:any) => reward * (i_pool_fee * 0.01);
         setRows([
-            createData('Day', humanize(calcFeeInBtc(earning_currency_after_electricity.daily)), humanize(earning_currency_after_electricity_no_fee.daily), humanize(earning_currency_after_electricity.daily), humanize(earning_usd.daily, 2), humanize(electricity_cost_usd.daily,2), humanize(earning_usd_after_electricity.daily, 2)),
-            createData('Weekly', humanize(calcFeeInBtc(earning_currency_after_electricity.weekly)), humanize(earning_currency_after_electricity_no_fee.weekly), humanize(earning_currency_after_electricity.weekly), humanize(earning_usd.weekly, 2), humanize(electricity_cost_usd.weekly,2), humanize(earning_usd_after_electricity.weekly, 2)),
-            createData('Monthly', humanize(calcFeeInBtc(earning_currency_after_electricity.monthly)), humanize(earning_currency_after_electricity_no_fee.monthly), humanize(earning_currency_after_electricity.monthly), humanize(earning_usd.monthly, 2), humanize(electricity_cost_usd.monthly,2), humanize(earning_usd_after_electricity.monthly, 2)),
-            createData('Yearly', humanize(calcFeeInBtc(earning_currency_after_electricity.yearly)), humanize(earning_currency_after_electricity_no_fee.yearly), humanize(earning_currency_after_electricity.yearly), humanize(earning_usd.yearly, 2), humanize(electricity_cost_usd.yearly,2), humanize(earning_usd_after_electricity.yearly, 2)),
+            createData('Day', humanize(calcFeeInBtc(earning_currency_no_fee.daily)), humanize(earning_currency_no_fee.daily), humanize(earning_currency_after_electricity.daily), humanize(earning_usd.daily, 2), humanize(electricity_cost_usd.daily,2), humanize(earning_usd_after_electricity.daily, 2)),
+            createData('Week', humanize(calcFeeInBtc(earning_currency_no_fee.weekly)), humanize(earning_currency_no_fee.weekly), humanize(earning_currency_after_electricity.weekly), humanize(earning_usd.weekly, 2), humanize(electricity_cost_usd.weekly,2), humanize(earning_usd_after_electricity.weekly, 2)),
+            createData('Month', humanize(calcFeeInBtc(earning_currency_no_fee.monthly)), humanize(earning_currency_no_fee.monthly), humanize(earning_currency_after_electricity.monthly), humanize(earning_usd.monthly, 2), humanize(electricity_cost_usd.monthly,2), humanize(earning_usd_after_electricity.monthly, 2)),
+            createData('Year', humanize(calcFeeInBtc(earning_currency_no_fee.yearly)), humanize(earning_currency_no_fee.yearly), humanize(earning_currency_after_electricity.yearly), humanize(earning_usd.yearly, 2), humanize(electricity_cost_usd.yearly,2), humanize(earning_usd_after_electricity.yearly, 2)),
         ]);
         return true;
     };
@@ -307,6 +306,10 @@ const Calculator: NextPage = () => {
             setPps(res.data.pps);
             calculate(hashrate, power, powerCost, poolFee, res.data.exchangeRate, res.data.difficulty,res.data.pps);
         })
+        setTimeout(() => {
+            setHashUnit('GH/s');
+            setHashUnit('TH/s');
+        },2000);
     }, []);
 
 
@@ -510,9 +513,9 @@ const Calculator: NextPage = () => {
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell align="center">Per</StyledTableCell>
+                                            <StyledTableCell align="center">Est.Rewards</StyledTableCell>
                                             <StyledTableCell align="center">Fee</StyledTableCell>
-                                            <StyledTableCell align="center">Est.Reward</StyledTableCell>
-                                            <StyledTableCell align="center">Rev.BTC</StyledTableCell>
+                                            <StyledTableCell align="center">Rev.{coin.toUpperCase()}</StyledTableCell>
                                             <StyledTableCell align="center">Rev.$</StyledTableCell>
                                             <StyledTableCell align="center">Cost</StyledTableCell>
                                             <StyledTableCell align="center">Profit</StyledTableCell>
@@ -524,10 +527,10 @@ const Calculator: NextPage = () => {
                                                 <StyledTableCell align={"center"} style={{fontWeight: "bold"}}>
                                                     {row.per}
                                                 </StyledTableCell>
-                                                <StyledTableCell align="center">{row.fee}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.reward}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.fee}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.btc}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.usd}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.usd} <b>$</b></StyledTableCell>
                                                 <StyledTableCell align="center">{row.cost} <b>$</b></StyledTableCell>
                                                 <StyledTableCell align="center">{row.profit} <b>$</b></StyledTableCell>
                                             </StyledTableRow>

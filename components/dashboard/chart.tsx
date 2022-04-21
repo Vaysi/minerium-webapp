@@ -43,7 +43,7 @@ const useStyles: any = makeStyles((theme: any) => ({
         backgroundColor: "#043180",
         borderRadius: "15px",
         fontFamily: "Open Sans",
-        fontSize: "22px",
+        fontSize: "17px",
         textTransform: "none"
     },
     deactive: {
@@ -52,7 +52,7 @@ const useStyles: any = makeStyles((theme: any) => ({
         backgroundColor: "#043180",
         fontFamily: "Open Sans",
         borderRadius: "15px",
-        fontSize: "22px",
+        fontSize: "17px",
         opacity: 0.65,
         textTransform: "none"
     }

@@ -27,6 +27,7 @@ import {toast} from "react-toastify";
 import {useRouter} from "next/router";
 import AccountOverview from "../components/dashboard/overview";
 import CoinsTable from "../components/dashboard/coinsTable";
+import {$$getPps} from "../utils/api";
 
 const useStyles: any = makeStyles((theme: any) => ({
     primary: {
@@ -105,7 +106,7 @@ const Dashboard: NextPage = () => {
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve(env.SOCKET_URL);
-            }, 2000);
+            }, 1000);
         });
     }, []);
 
@@ -126,6 +127,24 @@ const Dashboard: NextPage = () => {
                 let data = JSON.parse(lastMessage.data);
                 if ('type' in data && data.type.includes('dashboard') && 'data' in data) {
                     setDashboardData(data.data);
+                    if(data.data.userEarning){
+                        for (let key in data.data.userEarning) {
+                            // @ts-ignore
+                            if(data.data.userEarning[key].balance > 0){
+                                $$getPps(key).then(item => {
+                                    let newInfo = {...data.data};
+                                    // @ts-ignore
+                                    newInfo.userEarning[key].price = item.data.exchangeRate;
+                                    setDashboardData({...newInfo});
+                                });
+                            }else {
+                                let newInfo = {...data.data};
+                                // @ts-ignore
+                                newInfo.userEarning[key].price = 0;
+                                setDashboardData({...newInfo});
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -146,6 +165,7 @@ const Dashboard: NextPage = () => {
             <Button variant={"contained"}  className={styles.customBtn}>Copy</Button>
         </CopyToClipboard>
     );
+
 
     return (
         <Grid container>
