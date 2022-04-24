@@ -104,9 +104,7 @@ const Dashboard: NextPage = () => {
 
     const getSocketUrl = useCallback(() => {
         return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(env.SOCKET_URL);
-            }, 1000);
+            resolve(env.SOCKET_URL);
         });
     }, []);
 

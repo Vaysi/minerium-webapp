@@ -38,7 +38,10 @@ const useStyles: any = makeStyles((theme: any) => ({
         textTransform: "none",
         paddingLeft: 30,
         paddingRight: 30,
-        fontSize: 16
+        fontSize: 16,
+        "&:hover,&:active": {
+            backgroundColor: "transparent!important"
+        }
     },
     input: {
         backgroundColor: "#F5F5F7",

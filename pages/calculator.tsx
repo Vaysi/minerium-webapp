@@ -111,10 +111,11 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
         backgroundColor: "#043386",
         color: "#fff",
         fontFamily: "var(--font-body)",
-        fontWeight: 600
+        fontWeight: 600,
+        fontSize: 20
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
+        fontSize: 16,
         color: "#043180"
     },
 }));
@@ -279,10 +280,10 @@ const Calculator: NextPage = () => {
         };
         const calcFeeInBtc =  (reward:any) => reward * (i_pool_fee * 0.01);
         setRows([
-            createData('Day', humanize(calcFeeInBtc(earning_currency_no_fee.daily)), humanize(earning_currency_no_fee.daily), humanize(earning_currency_after_electricity.daily), humanize(earning_usd.daily, 2), humanize(electricity_cost_usd.daily,2), humanize(earning_usd_after_electricity.daily, 2)),
-            createData('Week', humanize(calcFeeInBtc(earning_currency_no_fee.weekly)), humanize(earning_currency_no_fee.weekly), humanize(earning_currency_after_electricity.weekly), humanize(earning_usd.weekly, 2), humanize(electricity_cost_usd.weekly,2), humanize(earning_usd_after_electricity.weekly, 2)),
-            createData('Month', humanize(calcFeeInBtc(earning_currency_no_fee.monthly)), humanize(earning_currency_no_fee.monthly), humanize(earning_currency_after_electricity.monthly), humanize(earning_usd.monthly, 2), humanize(electricity_cost_usd.monthly,2), humanize(earning_usd_after_electricity.monthly, 2)),
-            createData('Year', humanize(calcFeeInBtc(earning_currency_no_fee.yearly)), humanize(earning_currency_no_fee.yearly), humanize(earning_currency_after_electricity.yearly), humanize(earning_usd.yearly, 2), humanize(electricity_cost_usd.yearly,2), humanize(earning_usd_after_electricity.yearly, 2)),
+            createData('Day', humanize(calcFeeInBtc(earning_currency_no_fee.daily)), humanize(earning_currency_no_fee.daily), humanize(earning_currency.daily), humanize(earning_usd.daily, 2), humanize(electricity_cost_usd.daily,2), humanize(earning_usd_after_electricity.daily, 2)),
+            createData('Week', humanize(calcFeeInBtc(earning_currency_no_fee.weekly)), humanize(earning_currency_no_fee.weekly), humanize(earning_currency.weekly), humanize(earning_usd.weekly, 2), humanize(electricity_cost_usd.weekly,2), humanize(earning_usd_after_electricity.weekly, 2)),
+            createData('Month', humanize(calcFeeInBtc(earning_currency_no_fee.monthly)), humanize(earning_currency_no_fee.monthly), humanize(earning_currency.monthly), humanize(earning_usd.monthly, 2), humanize(electricity_cost_usd.monthly,2), humanize(earning_usd_after_electricity.monthly, 2)),
+            createData('Year', humanize(calcFeeInBtc(earning_currency_no_fee.yearly)), humanize(earning_currency_no_fee.yearly), humanize(earning_currency.yearly), humanize(earning_usd.yearly, 2), humanize(electricity_cost_usd.yearly,2), humanize(earning_usd_after_electricity.yearly, 2)),
         ]);
         return true;
     };
@@ -321,7 +322,7 @@ const Calculator: NextPage = () => {
                     <Grid container>
                         <Grid item xs={12}>
                             <Grid container>
-                                <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <FormControl sx={{m: 1}} fullWidth>
                                         <InputLabel id="demo-simple-select-label">Currency</InputLabel>
                                         <Select
@@ -344,7 +345,7 @@ const Calculator: NextPage = () => {
                                         </Select>
                                     </FormControl>
                                 </Grid>
-                                <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Hashrate"
                                         id="filled-start-adornment"
@@ -379,7 +380,7 @@ const Calculator: NextPage = () => {
                                         variant="outlined"
                                     />
                                 </Grid>
-                                <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Power"
                                         id="filled-start-adornment"
@@ -412,7 +413,7 @@ const Calculator: NextPage = () => {
                                         className={styles.field}
                                     />
                                 </Grid>
-                                <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Power Cost"
                                         id="filled-start-adornment"
@@ -434,7 +435,7 @@ const Calculator: NextPage = () => {
                                         className={styles.field}
                                     />
                                 </Grid>
-                                <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Pool Fee"
                                         id="filled-start-adornment"
@@ -456,7 +457,7 @@ const Calculator: NextPage = () => {
                                         className={styles.field}
                                     />
                                 </Grid>
-                                <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label={`${coin.toUpperCase()} Value`}
                                         id="filled-start-adornment"
@@ -478,7 +479,7 @@ const Calculator: NextPage = () => {
                                         className={styles.field}
                                     />
                                 </Grid>
-                                <Grid item xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Net Difficulty"
                                         id="filled-start-adornment"
@@ -512,19 +513,19 @@ const Calculator: NextPage = () => {
                                 <Table sx={{minWidth: 700}} aria-label="customized table">
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell align="center">Per</StyledTableCell>
-                                            <StyledTableCell align="center">Est.Rewards</StyledTableCell>
-                                            <StyledTableCell align="center">Fee</StyledTableCell>
-                                            <StyledTableCell align="center">Rev.{coin.toUpperCase()}</StyledTableCell>
-                                            <StyledTableCell align="center">Rev.$</StyledTableCell>
-                                            <StyledTableCell align="center">Cost</StyledTableCell>
-                                            <StyledTableCell align="center">Profit</StyledTableCell>
+                                            <StyledTableCell className={styles.thead} align="left" style={{width:0}}>Per</StyledTableCell>
+                                            <StyledTableCell className={styles.thead} align="center">Est.Rewards</StyledTableCell>
+                                            <StyledTableCell className={styles.thead} align="center">Fee</StyledTableCell>
+                                            <StyledTableCell className={styles.thead} align="center">Rev.{coin.toUpperCase()}</StyledTableCell>
+                                            <StyledTableCell className={styles.thead} align="center">Rev.$</StyledTableCell>
+                                            <StyledTableCell className={styles.thead} align="center">Cost</StyledTableCell>
+                                            <StyledTableCell className={styles.thead} align="center">Profit</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {rows.length > 0 && rows.map((row) => (
                                             <StyledTableRow key={row.name}>
-                                                <StyledTableCell align={"center"} style={{fontWeight: "bold"}}>
+                                                <StyledTableCell align={"left"} style={{fontWeight: "bold"}}>
                                                     {row.per}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center">{row.reward}</StyledTableCell>
