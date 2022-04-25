@@ -231,17 +231,16 @@ const CoinsTable = (props: Props) => {
                                                     </Button>
                                                     <Select
                                                         id={`${k}-select`}
-                                                        label="Age"
                                                         size={"small"}
-                                                        defaultValue={miningMode.toLowerCase()}
-                                                        value={miningMode.toLowerCase()}
+                                                        defaultValue={miningMode ? miningMode.toLowerCase() : ""}
+                                                        value={miningMode ? miningMode.toLowerCase() : ""}
                                                         fullWidth={true}
                                                         className={styles.select}
                                                         style={{minWidth: 165, maxWidth: 165}}
                                                         disabled={k.toLowerCase() != 'btc' || selected != 'btc'}
                                                         onChange={(e) => {
                                                             setSaved(true);
-                                                            setMiningMode(tempVal);
+                                                            setMiningMode(e.target.value);
                                                         }}
                                                     >
                                                         <MenuItem value={"pps"}>PPS</MenuItem>
