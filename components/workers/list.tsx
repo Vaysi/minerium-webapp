@@ -144,14 +144,15 @@ const WorkersList = (props: Props) => {
     };
 
 
-    const workersStatus = () => {
+    const workersStatus = (data:any=null) => {
+        let newRows = data || rows;
         let status = {
-            all: rows.length,
+            all: newRows.length,
             online: 0,
             offline: 0,
             inactive: 0,
         };
-        rows.map(worker => {
+        newRows.map((worker:any) => {
             status.online += worker.hash1m > 0 ? 1 : 0;
             status.offline += worker.hash5m === 0 ? 1 : 0;
             status.inactive += worker.hash1d === 0 ? 1 : 0;
@@ -160,7 +161,7 @@ const WorkersList = (props: Props) => {
     };
 
     useEffect(() => {
-        setStatus({...status, ...workersStatus()});
+        setStatus({...status, ...workersStatus(props.data)});
         setWorkers([...props.data]);
         setRows([...props.data]);
     }, [props.data]);
