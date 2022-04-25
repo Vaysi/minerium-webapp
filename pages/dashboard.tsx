@@ -79,7 +79,9 @@ const useStyles: any = makeStyles((theme: any) => ({
         display:"flex",
         justifyContent:"space-between",
         fontSize: 20,
-        color: "#043180"
+        color: "#043180",
+        marginTop:0,
+        marginBottom: 8
     }
 }));
 
@@ -180,7 +182,7 @@ const Dashboard: NextPage = () => {
                 <Container maxWidth={"xl"} style={{paddingLeft:0,paddingRight:0}}>
                     <Grid container>
                         <Grid item lg={6} xs={12}>
-                            <CustomCard titleProps={{title: "Pool Info"}} cardProps={{style: {height: "360px"}}}>
+                            <CustomCard titleProps={{title: "Pool Info"}} cardProps={{style: {height: "290px"}}}>
                                 <Typography className={styles.bodyFont}>
                                 <span>
                                     Miner Config
@@ -213,12 +215,12 @@ const Dashboard: NextPage = () => {
                             </CustomCard>
                         </Grid>
                         <Grid item lg={6} xs={12} className={"noOutline"}>
-                            <CustomCard titleProps={{title: "Minerium Addresess"}} cardProps={{style: {height: "360px"}}}>
+                            <CustomCard titleProps={{title: "Minerium Addresess"}} cardProps={{style: {height: "290px"}}}>
                                 <TextField
                                     fullWidth
                                     className={styles.bodyFont}
                                     id="address"
-                                    sx={{my: 1}}
+                                    sx={{py:0}}
                                     value="stratum+tcp://stratum.minerium.com:3333"
                                     InputProps={{style:{fontSize: 20, color: "#043180"},endAdornment: copyButton("stratum+tcp://stratum.minerium.com:3333")}}
                                 />
@@ -226,7 +228,7 @@ const Dashboard: NextPage = () => {
                                     fullWidth
                                     id="address2"
                                     className={styles.bodyFont}
-                                    sx={{my: 1}}
+                                    sx={{py:0}}
                                     value="stratum+tcp://stratum.minerium.com:4444"
                                     InputProps={{style:{fontSize: 20, color: "#043180"},endAdornment: copyButton("stratum+tcp://stratum.minerium.com:4444")}}
                                 />
@@ -234,7 +236,7 @@ const Dashboard: NextPage = () => {
                                     fullWidth
                                     id="address3"
                                     className={styles.bodyFont}
-                                    sx={{mt: 1, mb: 2}}
+                                    sx={{py:0}}
                                     value="stratum+tcp://stratum.minerium.com:44443"
                                     InputProps={{style:{fontSize: 20, color: "#043180"},endAdornment: copyButton("stratum+tcp://stratum.minerium.com:44443")}}
                                 />
@@ -267,12 +269,12 @@ const Dashboard: NextPage = () => {
                             <CustomCard titleProps={{title: "Help"}} cardProps={{style:{minHeight:198}}}>
                                 <Grid container>
                                     <Grid item md={9} xs={8}>
-                                        <Typography className={styles.bodyFont}>
+                                        <Typography className={styles.bodyFont} sx={{lineHeight:45,marginBottom:3}}>
                                             Here find some of the most frequent questions about minerium, coins and pools.
                                         </Typography>
                                     </Grid>
-                                    <Grid item md={3} xs={4}>
-                                        <Button sx={{mb:1}} fullWidth={true} variant={"contained"} className={styles.customBtn}>FAQ</Button>
+                                    <Grid item md={3} xs={4} justifyContent={"end"} textAlign={"right"}>
+                                        <Button sx={{mb:1}} variant={"contained"} className={styles.customBtn}>&nbsp; FAQ &nbsp;</Button>
                                     </Grid>
                                 </Grid>
                             </CustomCard>
