@@ -280,7 +280,7 @@ const WorkersList = (props: Props) => {
             <CustomCard titleProps={{
                 title: "Workers"
                 , action: (
-                    <FormControl style={{backgroundColor: "#fff", borderRadius: 25, minWidth: 100,marginRight:10}}>
+                    <FormControl className={"groupFilter"} style={{backgroundColor: "#fff", borderRadius: 25, minWidth: 100,marginRight:10}}>
                         <Select
                             id="groupSelect"
                             value={props.states.selected}
@@ -288,6 +288,7 @@ const WorkersList = (props: Props) => {
                             onChange={(e) => props.states.setSelected(e.target.value)}
                             classes={{select: styles.select}}
                             className={styles.selector}
+                            size={"small"}
                         >
                             <MenuItem value={'all'}>All&nbsp;&nbsp;&nbsp;</MenuItem>
                             {props.states.groups.map((item: WorkerGroups) => (

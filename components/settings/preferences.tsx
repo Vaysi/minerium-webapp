@@ -68,7 +68,6 @@ const Preferences: NextPage = () => {
     return (
         <>
             <CustomCard titleProps={{title: "Preferred Payment Currency"}}>
-
                 <Grid container>
                     <Grid item xs={12} md={6}>
                         <Alert icon={false} severity="info" className={styles.alert}>

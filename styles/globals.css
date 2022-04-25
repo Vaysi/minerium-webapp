@@ -295,3 +295,12 @@ input:-webkit-autofill {
   content: "Sort Z to A";
   font-size: 1rem;
 }
+
+.groupFilter .MuiSvgIcon-root {
+  background-color: #043180;
+  color: #fff;
+  height: 100%;
+  top: 0;
+  right: 0;
+  width: 1.2em;
+}
