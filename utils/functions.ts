@@ -72,3 +72,7 @@ export function arrayMove(arr:any[], fromIndex:number, toIndex:number) {
     arr.splice(toIndex, 0, element);
     return arr;
 }
+
+export function addThousandSep(num:number) {
+    return new Intl.NumberFormat().format(num);
+}

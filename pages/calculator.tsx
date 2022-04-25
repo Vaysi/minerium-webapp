@@ -25,7 +25,7 @@ import Footer from "../components/footer/footer";
 import {makeStyles, styled} from "@mui/styles";
 import {useEffect, useState} from "react";
 import {$$getPps} from "../utils/api";
-import {humanize} from "../utils/functions";
+import {addThousandSep, humanize} from "../utils/functions";
 import {useRouter} from "next/router";
 import CustomCard from "../components/inline-components/card";
 
@@ -190,14 +190,10 @@ const Calculator: NextPage = () => {
         }
 
         if(hashUnit != "TH/s"){
-            if(hashUnit == 'GH/s'){
-                i_hashrate /= 1000;
-            }else if(hashUnit == 'MH/s'){
-                i_hashrate /= 1000000;
-            }else if(hashUnit == 'KH/s'){
-                i_hashrate /= 1000000000;
-            }else if(hashUnit == 'H/s'){
-                i_hashrate /= 1000000000;
+            if(hashUnit == 'PH/s'){
+                i_hashrate *= 1000;
+            }else if(hashUnit == 'EH/s'){
+                i_hashrate *= 1000000;
             }
         }
 
@@ -308,7 +304,7 @@ const Calculator: NextPage = () => {
             calculate(hashrate, power, powerCost, poolFee, res.data.exchangeRate, res.data.difficulty,res.data.pps);
         })
         setTimeout(() => {
-            setHashUnit('GH/s');
+            setHashUnit('PH/s');
             setHashUnit('TH/s');
         },2000);
     }, []);
@@ -359,11 +355,9 @@ const Calculator: NextPage = () => {
                                                     onChange={(e) => setHashUnit(e.target.value)}
                                                     variant={"standard"}
                                                 >
-                                                    <MenuItem value={"H/s"}>H/s</MenuItem>
-                                                    <MenuItem value={"KH/s"}>KH/s</MenuItem>
-                                                    <MenuItem value={"MH/s"}>MH/s</MenuItem>
-                                                    <MenuItem value={"GH/s"}>GH/s</MenuItem>
                                                     <MenuItem value={"TH/s"}>TH/s</MenuItem>
+                                                    <MenuItem value={"PH/s"}>PH/s</MenuItem>
+                                                    <MenuItem value={"EH/s"}>EH/s</MenuItem>
                                                 </Select>
                                             </InputAdornment>,
                                             classes: {
@@ -531,9 +525,9 @@ const Calculator: NextPage = () => {
                                                 <StyledTableCell align="center">{row.reward}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.fee}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.btc}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.usd} <b>$</b></StyledTableCell>
-                                                <StyledTableCell align="center">{row.cost} <b>$</b></StyledTableCell>
-                                                <StyledTableCell align="center">{row.profit} <b>$</b></StyledTableCell>
+                                                <StyledTableCell align="center">{addThousandSep(row.usd)} <b>$</b></StyledTableCell>
+                                                <StyledTableCell align="center">{addThousandSep(row.cost)} <b>$</b></StyledTableCell>
+                                                <StyledTableCell align="center">{addThousandSep(row.profit)} <b>$</b></StyledTableCell>
                                             </StyledTableRow>
                                         ))}
                                     </TableBody>

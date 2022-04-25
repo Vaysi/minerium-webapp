@@ -86,7 +86,7 @@ const HashChart = (props: Props) => {
         responsive: true,
         plugins: {
             legend: {
-                position: 'top' as const,
+                position: 'bottom' as const,
             },
         },
 
