@@ -279,3 +279,19 @@ input:-webkit-autofill {
 .MuiDataGrid-columnHeader:not(.MuiDataGrid-columnHeader--sorted) .MuiDataGrid-sortIcon {
   opacity: 1!important;
 }
+
+.MuiDataGrid-menu  .MuiList-root  .MuiMenuItem-root[data-value="asc"] {
+  font-size: 0;
+}
+.MuiDataGrid-menu  .MuiList-root  .MuiMenuItem-root[data-value="asc"]::after {
+  content: "Sort A to Z";
+  font-size: 1rem;
+}
+.MuiDataGrid-menu  .MuiList-root  .MuiMenuItem-root[data-value="desc"] {
+  font-size: 0;
+}
+
+.MuiDataGrid-menu  .MuiList-root  .MuiMenuItem-root[data-value="desc"]::after {
+  content: "Sort Z to A";
+  font-size: 1rem;
+}
