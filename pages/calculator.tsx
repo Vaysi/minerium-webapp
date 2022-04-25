@@ -79,7 +79,12 @@ const useStyles: any = makeStyles((theme: any) => ({
         border: "none"
     },
     field: {
-        backgroundColor: "#CCD9F0"
+        backgroundColor: "#CCD9F0",
+        borderRadius: 5,
+        "& .MuiInputBase-input": {
+            borderTopLeftRadius: 5,
+            borderBottomLeftRadius: 5,
+        }
     },
     input: {
         backgroundColor: "#fff",
@@ -318,7 +323,7 @@ const Calculator: NextPage = () => {
                     <Grid container>
                         <Grid item xs={12}>
                             <Grid container>
-                                <Grid item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid sx={{px:2,xs:{px:0}}} item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <FormControl sx={{m: 1}} fullWidth>
                                         <InputLabel id="demo-simple-select-label">Currency</InputLabel>
                                         <Select
@@ -341,7 +346,7 @@ const Calculator: NextPage = () => {
                                         </Select>
                                     </FormControl>
                                 </Grid>
-                                <Grid item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid sx={{px:2,xs:{px:0}}} item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Hashrate"
                                         id="filled-start-adornment"
@@ -374,7 +379,7 @@ const Calculator: NextPage = () => {
                                         variant="outlined"
                                     />
                                 </Grid>
-                                <Grid item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid sx={{px:2,xs:{px:0}}} item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Power"
                                         id="filled-start-adornment"
@@ -407,7 +412,7 @@ const Calculator: NextPage = () => {
                                         className={styles.field}
                                     />
                                 </Grid>
-                                <Grid item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid sx={{px:2,xs:{px:0}}} item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Power Cost"
                                         id="filled-start-adornment"
@@ -429,7 +434,7 @@ const Calculator: NextPage = () => {
                                         className={styles.field}
                                     />
                                 </Grid>
-                                <Grid item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid sx={{px:2,xs:{px:0}}} item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Pool Fee"
                                         id="filled-start-adornment"
@@ -451,7 +456,7 @@ const Calculator: NextPage = () => {
                                         className={styles.field}
                                     />
                                 </Grid>
-                                <Grid item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid sx={{px:2,xs:{px:0}}} item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label={`${coin.toUpperCase()} Value`}
                                         id="filled-start-adornment"
@@ -473,7 +478,7 @@ const Calculator: NextPage = () => {
                                         className={styles.field}
                                     />
                                 </Grid>
-                                <Grid item md={6} xs={12} alignItems={"center"} display={"flex"}>
+                                <Grid sx={{px:2,xs:{px:0}}} item md={6} xs={12} alignItems={"center"} display={"flex"}>
                                     <TextField
                                         label="Net Difficulty"
                                         id="filled-start-adornment"
