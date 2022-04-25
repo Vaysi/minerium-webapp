@@ -266,3 +266,16 @@ input:-webkit-autofill {
   right: 12px;
   top: 12px;
 }
+
+.MuiDataGrid-main  .MuiDataGrid-menuIcon .MuiSvgIcon-root , .MuiButtonBase-root[aria-label="Sort"] svg{
+  fill: #fff;
+}
+
+ .MuiDataGrid-columnHeader .MuiDataGrid-menuIcon {
+   visibility: visible!important;
+   width: auto!important;
+ }
+
+.MuiDataGrid-columnHeader:not(.MuiDataGrid-columnHeader--sorted) .MuiDataGrid-sortIcon {
+  opacity: 1!important;
+}
