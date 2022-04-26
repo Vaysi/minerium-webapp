@@ -73,6 +73,6 @@ export function arrayMove(arr:any[], fromIndex:number, toIndex:number) {
     return arr;
 }
 
-export function addThousandSep(num:number) {
-    return new Intl.NumberFormat().format(num);
+export function addThousandSep(num:number|string) {
+    return new Intl.NumberFormat().format(num as number);
 }

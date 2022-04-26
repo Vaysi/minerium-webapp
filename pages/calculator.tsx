@@ -384,9 +384,9 @@ const Calculator: NextPage = () => {
                                                 input: styles.input,
                                             }
                                         }}
-                                        value={hashrate}
+                                        value={addThousandSep(hashrate)}
                                         onChange={(e) => {
-                                            setHashrate(e.target.value);
+                                            setHashrate(e.target.value.replace(/,/g,""));
                                         }}
                                         fullWidth
                                         className={styles.field}
@@ -419,9 +419,9 @@ const Calculator: NextPage = () => {
                                             }
                                         }}
                                         onChange={(e) => {
-                                            setPower(e.target.value);
+                                            setPower(e.target.value.replace(/,/g,""));
                                         }}
-                                        value={power}
+                                        value={addThousandSep(power)}
                                         variant="outlined"
                                         className={styles.field}
                                     />
@@ -441,9 +441,9 @@ const Calculator: NextPage = () => {
                                             }
                                         }}
                                         onChange={(e) => {
-                                            setPowerCost(e.target.value);
+                                            setPowerCost(e.target.value.replace(/,/g,""));
                                         }}
-                                        value={powerCost}
+                                        value={addThousandSep(powerCost)}
                                         variant="outlined"
                                         className={styles.field}
                                     />
@@ -463,7 +463,7 @@ const Calculator: NextPage = () => {
                                             }
                                         }}
                                         onChange={(e) => {
-                                            setPoolFee(e.target.value);
+                                            setPoolFee(e.target.value.replace(/,/g,""));
                                         }}
                                         value={poolFee}
                                         variant="outlined"
@@ -485,9 +485,9 @@ const Calculator: NextPage = () => {
                                             }
                                         }}
                                         onChange={(e) => {
-                                            setCoinValue(e.target.value);
+                                            setCoinValue(e.target.value.replace(/,/g,""));
                                         }}
-                                        value={coinValue}
+                                        value={addThousandSep(coinValue)}
                                         variant="outlined"
                                         className={styles.field}
                                     />
@@ -500,9 +500,9 @@ const Calculator: NextPage = () => {
                                         sx={{m: 1}}
                                         onChange={(e) => {
                                             //@ts-ignore
-                                            setNetworkDiff(e.target.value);
+                                            setNetworkDiff(e.target.value.replace(/,/g,""));
                                         }}
-                                        value={networkDiff}
+                                        value={addThousandSep(networkDiff)}
                                         variant="outlined"
                                         InputProps={{
                                             classes: {
