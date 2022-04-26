@@ -27,6 +27,7 @@ import CustomCard from "../inline-components/card";
 import SplitButton from "../inline-components/split-btn";
 import SplitButtonState from "../inline-components/split-btn-status";
 import {Circle} from "@mui/icons-material";
+import {useRouter} from "next/router";
 
 const useStyles: any = makeStyles((theme: any) => ({
     headerTitle: {
@@ -76,7 +77,7 @@ const WorkersList = (props: Props) => {
     const [selectionModel, setSelectionModel] = useState([]);
     const [watcherLink, setWatcherLink] = useState(null);
     const nineMatches = useMediaQuery('(max-width:980px)');
-
+    const router = useRouter();
 
     const openGroupModal = () => {
         if (selectionModel.length) {
@@ -274,6 +275,15 @@ const WorkersList = (props: Props) => {
             props.states.getWorkersList(props.states.selected);
         }
     }, [props.states.selected]);
+
+    useEffect(() => {
+        if(router.isReady && router.query && rows.length){
+            const {filter} = router.query;
+            if(filter){
+                applyFilter(filter as string)
+            }
+        }
+    },[router.isReady,rows]);
 
     return (
         <>

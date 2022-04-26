@@ -1,6 +1,7 @@
 import {Box, Container, Grid, Typography,} from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import CustomCard from "../inline-components/card";
+import {useRouter} from "next/router";
 
 
 const useStyles: any = makeStyles((theme: any) => ({
@@ -55,7 +56,7 @@ interface Props {
 
 const AccountOverview = (props: Props) => {
     const styles = useStyles();
-
+    const router = useRouter();
     return (
         <Grid container>
             <Container maxWidth={"xl"} style={{paddingLeft: 0, paddingRight: 0}}>
@@ -87,16 +88,16 @@ const AccountOverview = (props: Props) => {
                     </Grid>
                     <Grid item md={6} xs={12}>
                         <CustomCard titleProps={{title: "Workers"}} align={"center"}>
-                            <Box display={"flex"} justifyContent={"space-around"}>
-                                <Typography align={"center"}>
+                            <Box display={"flex"} justifyContent={"space-around"} onClick={() => router.push('/workers')}>
+                                <Typography sx={{cursor:"pointer"}} align={"center"}>
                                     <span className={styles.main}>All</span> <br/>
                                     <big className={styles.sub}>{props.info.workers}</big>
                                 </Typography>
-                                <Typography align={"center"}>
+                                <Typography sx={{cursor:"pointer"}} align={"center"} onClick={() => router.push('/workers?filter=online')}>
                                     <span className={styles.main}>Active</span> <br/>
                                     <big className={styles.sub}>{props.info.workers - props.info.offline_workers}</big>
                                 </Typography>
-                                <Typography align={"center"}>
+                                <Typography sx={{cursor:"pointer"}} align={"center"}  onClick={() => router.push('/workers?filter=offline')}>
                                     <span className={styles.main}>Offline</span> <br/>
                                     <big className={styles.sub}>{props.info.offline_workers}</big>
                                 </Typography>
