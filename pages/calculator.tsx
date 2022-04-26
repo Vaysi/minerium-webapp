@@ -324,7 +324,7 @@ const Calculator: NextPage = () => {
                         <Grid item xs={12}>
                             <Grid container>
                                 <Grid sx={{px:2,xs:{px:0}}} item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
-                                    <FormControl sx={{m: 1}} fullWidth>
+                                    <FormControl sx={{m: 1}} fullWidth className={"currencySelect"}>
                                         <InputLabel id="demo-simple-select-label">Currency</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
@@ -337,12 +337,26 @@ const Calculator: NextPage = () => {
                                                 setCoin(e.target.value);
                                             }}
                                             className={styles.select}
-                                            inputProps={{style:{height:10}}}
                                         >
-                                            <MenuItem value={"btc"}>BTC</MenuItem>
-                                            <MenuItem value={"bch"}>BCH</MenuItem>
-                                            <MenuItem value={"dgb"}>DGB</MenuItem>
-                                            <MenuItem value={"bsv"}>BSV</MenuItem>
+                                            <MenuItem value={"btc"}>
+                                                <img style={{paddingRight:10}} src={`/coins/btc.svg`} width={20}
+                                                     height={20}/> BTC
+                                            </MenuItem>
+                                            <MenuItem value={"bch"}>
+                                                <img style={{paddingRight:10}} src={`/coins/bch.svg`} width={20}
+                                                     height={20}/>
+                                                BCH
+                                            </MenuItem>
+                                            <MenuItem value={"dgb"}>
+                                                <img style={{paddingRight:10}} src={`/coins/dgb.svg`} width={20}
+                                                     height={20}/>
+                                                DGB
+                                            </MenuItem>
+                                            <MenuItem value={"bsv"}>
+                                                <img style={{paddingRight:10}} src={`/coins/bsv.svg`} width={20}
+                                                     height={20}/>
+                                                BSV
+                                            </MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Grid>

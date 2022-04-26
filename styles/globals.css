@@ -296,11 +296,15 @@ input:-webkit-autofill {
   font-size: 1rem;
 }
 
-.groupFilter .MuiSvgIcon-root {
+.groupFilter .MuiSvgIcon-root , .currencySelect .MuiSvgIcon-root{
   background-color: #043180;
   color: #fff;
   height: 100%;
   top: 0;
   right: 0;
   width: 1.2em;
+}
+
+#demo-simple-select img {
+  display: none;
 }
