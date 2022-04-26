@@ -303,8 +303,15 @@ input:-webkit-autofill {
   top: 0;
   right: 0;
   width: 1.2em;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 #demo-simple-select img {
   display: none;
+}
+
+.MuiDataGrid-columnHeader .MuiDataGrid-iconButtonContainer {
+  visibility: visible;
+  width: auto;
 }
