@@ -162,7 +162,7 @@ const Login: NextPage = () => {
                         </form>
                         <Grid container>
                             <Grid item xs={12}>
-                                <Button sx={{color: mode == 'dark' ? "#fff!important" : undefined,fontWeight:600,borderBottom:"1px solid  rgba(4, 49, 128, 0.61)",padding:0,marginTop:1,textTransform: "none",marginBottom:2,borderRadius:0}} className={styles.button} style={{paddingLeft: 5,paddingRight:5}}>
+                                <Button onClick={() => router.push('/auth/forget')} sx={{color: mode == 'dark' ? "#fff!important" : undefined,fontWeight:600,borderBottom:"1px solid  rgba(4, 49, 128, 0.61)",padding:0,marginTop:1,textTransform: "none",marginBottom:2,borderRadius:0}} className={styles.button} style={{paddingLeft: 5,paddingRight:5}}>
                                     Forgot Password?
                                 </Button>
                             </Grid>

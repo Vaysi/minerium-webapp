@@ -85,6 +85,10 @@ const routes = {
         updatePassword: {
             route: "users/update-password",
             method: POST
+        },
+        resetPassword: {
+            route: "users/reset-password",
+            method: POST
         }
     },
     earnings: {
@@ -430,6 +434,19 @@ const $$updatePassword = (old_password:string,password:string,repeat_password:st
     });
 }
 
+
+const $$resetPassword = (email:string) => {
+    return instance.request({
+        method: routes.users.resetPassword.method as Method,
+        url: routes.users.resetPassword.route,
+        data: {
+            email: email
+        }
+    }).then(response => response.data).catch(error => {
+        throw error.response.data;
+    });
+}
+
 const $$getPps = (coin:string) => {
     return instance.request({
         method: routes.pool.pps.method as Method,
@@ -493,5 +510,6 @@ export {
     $$updatePassword,
     $$getPps,
     $$verifyEmail,
-    $$resendVerification
+    $$resendVerification,
+    $$resetPassword
 };
