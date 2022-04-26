@@ -70,6 +70,7 @@ const HashChart = (props: Props) => {
           item.borderColor = color;
           //@ts-ignore
           item.backgroundColor = color;
+          item.lineTension = 0.4;
           return {...item,...{
                   pointBorderColor: r(),
                   pointBackgroundColor: '#fff',
