@@ -1,10 +1,10 @@
 import {
     Box,
-    Button,
+    Button, ButtonGroup,
     Card,
     CardContent,
     CardHeader,
-    Container,
+    Container, Pagination,
 } from "@mui/material";
 import {makeStyles, styled} from "@mui/styles";
 import {
@@ -22,6 +22,8 @@ import {WorkersGraph} from "../../utils/interfaces";
 import {useContext, useEffect, useState} from "react";
 import CustomCard from "../inline-components/card";
 import {themeModeContext} from "../../utils/context";
+import {ArrowLeft, ArrowRight} from "@mui/icons-material";
+import moment from "moment";
 
 
 const useStyles:any = makeStyles((theme:any) => ({
@@ -54,6 +56,7 @@ const r = () => {
 interface Props {
     data: WorkersGraph,
     options?: any;
+    since: any;
 }
 const HashChart = (props: Props) => {
     const styles = useStyles();
@@ -112,6 +115,9 @@ const HashChart = (props: Props) => {
 
     const [workersData,setWorkersData] = useState(workersToGraph(props.data.workers));
 
+    const [start,setStart] = useState(0);
+
+    const {since,setSince} = props.since;
 
     useEffect(() => {
         setWorkersData(workersToGraph(props.data.workers));
@@ -123,17 +129,42 @@ const HashChart = (props: Props) => {
 
     const data = {
         labels,
-        datasets: workersData,
+        datasets: workersData.slice(start,start+5),
     };
+
+    const nextWorkers = () => {
+      setStart(start+5);
+    };
+
+    const prevWorkers = () => {
+        setStart(start-5);
+    };
+
+    const canGoNext = start+5 > workersData.length;
 
     return (
        <>
            <CustomCard titleProps={{title:"Hashrate Chart"}}>
+               <Box display={"flex"} justifyContent={"space-between"}>
+                   <Button sx={{textTransform: "none"}} onClick={prevWorkers} disabled={start < 1 } size={"small"} variant="contained" startIcon={<ArrowLeft />}>
+                       Prev 5 Workers
+                   </Button>
+                   <Button sx={{textTransform: "none"}} disabled={canGoNext} onClick={nextWorkers} size={"small"} variant="contained" endIcon={<ArrowRight />}>
+                       Next 5 Workers
+                   </Button>
+               </Box>
                <Box style={{minHeight: "50vh"}}>
                    {
                        //@ts-ignore
                        (<Line options={props.options ?? options} data={data} />)
                    }
+               </Box>
+               <Box display={"flex"} justifyContent={"center"}>
+                   <ButtonGroup sx={{mt:2}} variant="contained" aria-label="outlined primary button group">
+                       <Button onClick={() => setSince(since+1)} variant={"outlined"} sx={{textTransform: "none"}}>Previous Day</Button>
+                       <Button sx={{textTransform: "none"}}>{moment().subtract(since-1,'d').format("YYYY-MM-DD")}</Button>
+                       <Button onClick={() => setSince(since-1)} variant={"outlined"} sx={{textTransform: "none"}} disabled={since == 1}>Next Day</Button>
+                   </ButtonGroup>
                </Box>
            </CustomCard>
        </>

@@ -20,6 +20,9 @@ const Workers: NextPage = () => {
 
     const [selected, setSelected] = useState('all');
 
+    // Workers Pagination
+    const [since, setSince] = useState(1);
+
 
     useEffect(() => {
         getWorkersList();
@@ -28,8 +31,12 @@ const Workers: NextPage = () => {
         })
     }, []);
 
+    useEffect(() => {
+        getWorkersList();
+    }, [since]);
+
     const getWorkersList = async (groupId: number | null = null) => {
-        await $$workersList(groupId).then(response => {
+        await $$workersList(groupId,since).then(response => {
             let rows = response.data.workers.map((item: any) => {
                 item.id = item.worker_id;
                 let time = new Date(item.lastupdate * 1000);
@@ -48,7 +55,7 @@ const Workers: NextPage = () => {
             <Header/>
             {workers.length > 0 &&
             <WorkersList states={{groups, setGroups, getWorkersList, selected, setSelected}} data={workers}/>}
-            {Boolean(workerGraph) && <HashChart data={workerGraph}/>}
+            {Boolean(workerGraph) && <HashChart data={workerGraph} since={{since,setSince}}/>}
             <Footer/>
             <Backdrop
                 sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}

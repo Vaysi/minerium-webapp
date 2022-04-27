@@ -219,14 +219,14 @@ const $$paymentHistory = () => {
     });
 }
 
-const $$workersList = (groupId: Number | null | string = null) => {
+const $$workersList = (groupId: Number | null | string = null,since: number=1) => {
     let method = groupId != null ? routes.workers.byGroup.method : routes.workers.list.method;
     let route = groupId != null ? routes.workers.byGroup.route.replace(":groupId", String(groupId)) : routes.workers.list.route;
     return instance.request({
         method: method as Method,
         url: route,
         params: {
-            since: 2
+            since
         }
     }).then(response => response.data).catch(error => {
         throw error.response.data;
