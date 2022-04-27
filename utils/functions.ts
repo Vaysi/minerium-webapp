@@ -76,3 +76,11 @@ export function arrayMove(arr:any[], fromIndex:number, toIndex:number) {
 export function addThousandSep(num:number|string) {
     return new Intl.NumberFormat().format(num as number);
 }
+
+export function hasUpper(str:string) {
+    return /[A-Z]/g.test(str);
+}
+
+export function hasLower(str:string) {
+    return (/[a-z]/g.test(str));
+}

@@ -124,7 +124,7 @@ const HashChart = (props: Props) => {
     },[props.data]);
 
     const labels = props.data.timestamps.map(item => {
-        return format_time(item)
+        return moment(item,"YYYYMMDDhh").format("MM-DD hh:mm")
     });
 
     const data = {
@@ -162,7 +162,7 @@ const HashChart = (props: Props) => {
                <Box display={"flex"} justifyContent={"center"}>
                    <ButtonGroup sx={{mt:2}} variant="contained" aria-label="outlined primary button group">
                        <Button onClick={() => setSince(since+1)} variant={"outlined"} sx={{textTransform: "none"}}>Previous Day</Button>
-                       <Button sx={{textTransform: "none"}}>{moment().subtract(since-1,'d').format("YYYY-MM-DD")}</Button>
+                       <Button sx={{textTransform: "none"}}>{moment().subtract(since,'d').format("YYYY-MM-DD")}</Button>
                        <Button onClick={() => setSince(since-1)} variant={"outlined"} sx={{textTransform: "none"}} disabled={since == 1}>Next Day</Button>
                    </ButtonGroup>
                </Box>

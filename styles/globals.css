@@ -315,3 +315,32 @@ input:-webkit-autofill {
   visibility: visible;
   width: auto;
 }
+
+.authInput .MuiInput-root {
+  background-color: #F5F5F7;
+  box-shadow: inset 0px 1px 10px rgba(0, 0, 0, 0.25);
+  margin-top: 20px!important;
+  border-radius: 5px;
+}
+
+
+
+.new-noBorder .Mui-focused:after , .new-noBorder .Mui-focused:before {
+  border-bottom: none;
+}
+
+.new-noBorder .MuiInputLabel-root {
+  color: #043386!important;
+  font-weight: 500;
+  font-size: 20px;
+  font-family: var(--font-body);
+}
+
+[data-theme=dark] .new-noBorder .MuiInputLabel-root {
+  color: #fff!important;
+}
+
+.new-noBorder .MuiInput-root {
+  margin-top: 5px;
+  padding-left: 10px;
+}

@@ -9,10 +9,10 @@ import {
     FormControl,
     FormControlLabel,
     Grid, IconButton, InputAdornment,
-    TextField
+    TextField, Typography
 } from "@mui/material";
 import Header from "../../components/header/header";
-import {Google, Visibility, VisibilityOff,} from "@mui/icons-material";
+import {Check, Close, Google, Visibility, VisibilityOff,} from "@mui/icons-material";
 import Footer from "../../components/footer/footer";
 import {makeStyles} from "@mui/styles";
 import React, {useContext, useEffect, useState} from "react";
@@ -23,27 +23,31 @@ import {toast} from "react-toastify";
 import {useRouter} from "next/router";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import CustomCard from "../../components/inline-components/card";
+import {hasLower, hasUpper} from "../../utils/functions";
 
 const useStyles: any = makeStyles((theme: any) => ({
     button: {
-        textTransform: "none",
         paddingLeft: 30,
         paddingRight: 30,
-        fontSize: 16
-    },
-    input: {
-        backgroundColor: "#F5F5F7",
-        boxShadow: "inset 0px 1px 10px rgba(0, 0, 0, 0.25)",
-        marginTop: "20px!important"
     },
     commonBtn:{
-        width: "310px"
+        minWidth: "260px!important",
+        fontFamily: "var(--font-body)!important",
+        fontWeight: "600!important",
+        fontSize: "16px!important",
     },
     google: {
         boxShadow: "0px 10px 10px -2px rgba(0, 0, 0, 0.1)",
         backgroundColor: "#F5F5F7!important",
         borderRadius: "5px!important",
-        border: "none!important"
+        border: "none!important",
+    },
+    rules: {
+        width: "90%",
+        margin: "auto!important",
+        color: "#043386",
+        fontFamily: "var(--font-body)!important",
+        fontWeight: "600!important",
     }
 }));
 
@@ -54,13 +58,35 @@ const Register: NextPage = () => {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [agreed, setAgreed] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const {mode} = useContext(themeModeContext);
+    const [passRules,setPassRules] = useState({
+        min:false,
+        lowerCase: false,
+        upperCase: false,
+        numbers: false
+    });
+
+    useEffect(() => {
+        let newRules = {...passRules};
+        if(/\d/.test(password)){
+            newRules.numbers = true;
+        }
+        if(hasUpper(password)){
+            newRules.upperCase = true;
+        }
+        if(hasLower(password)){
+            newRules.lowerCase = true;
+        }
+        if(password.length > 7){
+            newRules.min = true;
+        }
+        setPassRules(newRules);
+    },[password]);
     const ready = () => {
-        if (email.length > 4 && username.length > 4 && password == confirmPassword && agreed) {
+        if (email.length > 4 && username.length > 4 && password == confirmPassword && passRules.upperCase && passRules.min && passRules.numbers && passRules.lowerCase) {
             return true;
         } else {
             return false;
@@ -68,6 +94,10 @@ const Register: NextPage = () => {
     };
 
     const onSubmit = () => {
+        if(!ready()){
+            toast.error('Please Enter Valid Values');
+            return;
+        }
         setLoading(true);
         $$userRegister(email, password, confirmPassword, username).then(response => {
             let urlParams = new URLSearchParams({
@@ -104,12 +134,15 @@ const Register: NextPage = () => {
         });
 
     };
+    const validOrNot = (state:boolean) => {
+        return state ? <Check color={"success"} /> : <Close color={"error"} />;
+    };
     return (
         <Grid container>
             <Header/>
             <Container sx={{maxWidth: {xs: "xl", md: "sm"}}}>
                 <CustomCard titleProps={{title: "Register"}}>
-                    <Box className={"noBorder"}>
+                    <Box className={"new-noBorder"}>
                         <TextField
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -119,18 +152,25 @@ const Register: NextPage = () => {
                             sx={{mb: 2}}
                             variant={"standard"}
                             focused
-                            classes={{root: styles.input}}
+                            className={"authInput"}
                         />
                         <TextField
                             onChange={(e) => setUsername(e.target.value)}
                             required
                             id="username"
                             label="Username"
+                            helperText={username.length < 5 && confirmPassword != password ? (
+                                <>
+                                    <Typography color={"red"}>
+                                        Username Must be more than 4 Characters
+                                    </Typography>
+                                </>
+                            ) : ''}
                             fullWidth
                             sx={{mb: 2}}
                             variant={"standard"}
                             focused
-                            classes={{root: styles.input}}
+                            className={"authInput"}
                             defaultValue={""}
                             inputProps={{
                                 autocomplete: 'new-username',
@@ -141,6 +181,14 @@ const Register: NextPage = () => {
                         />
                         <TextField
                             onChange={(e) => setPassword(e.target.value)}
+                            helperText={password.length > 1 && (passRules.min || passRules.numbers || passRules.lowerCase || passRules.upperCase) ? (
+                                <>
+                                    <Typography alignItems={"center"} display={"flex"}>{validOrNot(passRules.min)} More than 8 characters</Typography>
+                                    <Typography  alignItems={"center"} display={"flex"}>{validOrNot(passRules.lowerCase)} Has Lowercase characters (a-z)</Typography>
+                                    <Typography  alignItems={"center"} display={"flex"}>{validOrNot(passRules.upperCase)} Has Uppercase characters (A-Z)</Typography>
+                                    <Typography  alignItems={"center"} display={"flex"}>{validOrNot(passRules.numbers)} Has numbers (0-9)</Typography>
+                                </>
+                            ) : ''}
                             required
                             id="password"
                             label="Password"
@@ -150,7 +198,7 @@ const Register: NextPage = () => {
                             variant={"standard"}
                             focused
                             autoComplete={"off"}
-                            classes={{root: styles.input}}
+                            className={"authInput"}
                             defaultValue={""}
                             inputProps={{
                                 autocomplete: 'new-password',
@@ -178,12 +226,19 @@ const Register: NextPage = () => {
                             required
                             id="repeat_password"
                             label="Confirm Password"
+                            helperText={confirmPassword.length > 1 && confirmPassword != password ? (
+                                <>
+                                    <Typography color={"red"}>
+                                        Passwords do not match.
+                                    </Typography>
+                                </>
+                            ) : ''}
                             fullWidth
                             sx={{mb: 2}}
                             variant={"standard"}
                             type={!showPassword ? 'password' : 'text'}
                             focused
-                            classes={{root: styles.input}}
+                            className={"authInput"}
                             defaultValue={""}
                             inputProps={{
                                 autocomplete: 'new-repeat-password',
@@ -207,26 +262,22 @@ const Register: NextPage = () => {
                             }}
                         />
                         <FormControl>
-                            <FormControlLabel label={(
-                                <>
-                                    <a target="_blank" rel={"noreferrer"} style={{color: mode =='dark' ? "#fff" : "#043386"}}
-                                       href="https://minerium.com/terms-of-services/">Accept User Agreement</a>.</>
-                            )} control={<Checkbox style={{color: mode == 'dark' ? "#fff" : "#000"}} defaultChecked onClick={() => setAgreed(!agreed)}
-                                                  checked={agreed}/>}/>
+                            <Typography align={"center"} className={styles.rules}>
+                                By signing up, I accept the Minerium <a href={"https://minerium.com/terms-of-services/"} rel={"noreferrer"} style={{color: "#2D9DEE"}}>Terms And Conditions.</a>
+                            </Typography>
                         </FormControl>
                         <Grid container textAlign={"center"}>
-                            <Grid item xs={12}>
-                                <Button onClick={onSubmit} className={`${styles.button} ${styles.commonBtn}`} variant={"contained"}
+                            <Grid item xs={12} sx={{my:2}}>
+                                <Button style={{textTransform:"none"}} onClick={onSubmit} className={`${styles.button} ${styles.commonBtn}`} variant={"contained"}
                                         startIcon={loading ? <CircularProgress size={20}/> : ''}
-                                        disabled={!ready() || loading}>
-                                    Register
+                                        disabled={loading}>
+                                    Sign Up
                                 </Button>
                             </Grid>
                             <Grid item xs={12}>
-                                <Divider sx={{mt: 2, mb: 2}}/>
-                                <Button className={`${styles.commonBtn} ${styles.google}`} color={"primary"} variant="outlined">
+                                <Button style={{textTransform:"none"}} className={`${styles.commonBtn} ${styles.google}`} color={"primary"} variant="outlined">
                                     <img src={"/assets/images/google.svg"} style={{width:25,height:25,marginRight:10,paddingTop:4,paddingBottom:4}}  alt={"Google"}/>
-                                    Sign Up With Google
+                                    Continue With Google
                                 </Button>
                             </Grid>
                         </Grid>
