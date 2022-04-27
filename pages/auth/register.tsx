@@ -159,7 +159,7 @@ const Register: NextPage = () => {
                             required
                             id="username"
                             label="Username"
-                            helperText={username.length < 5 && confirmPassword != password ? (
+                            helperText={username.length > 0 && username.length < 5 && confirmPassword != password ? (
                                 <>
                                     <Typography color={"red"}>
                                         Username Must be more than 4 Characters

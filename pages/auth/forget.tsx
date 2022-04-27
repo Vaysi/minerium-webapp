@@ -54,9 +54,9 @@ const Forget: NextPage = () => {
                                 </Typography>
                                 <br />
                                 <Typography>
-                                    If you haven't received an email please make sure you have entered
+                                    If you have not received an email please make sure you have entered
                                     the correct email address. If the email address is correct, please
-                                    check your "spam" folder and wait for the email to arrive.
+                                    check your <b>spam</b> folder and wait for the email to arrive.
                                 </Typography>
                                 <br />
                                 <Typography align={"center"}>
