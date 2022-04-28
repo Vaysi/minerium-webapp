@@ -130,9 +130,9 @@ const CoinsTable = (props: Props) => {
 
     useEffect(() => {
         $$getAllPPS().then(response => {
-            let data = response.data;
-            setSelected(data.preference);
-            setMiningMode(data.method);
+            let {preference,method} = response.data;
+            setSelected(preference);
+            setMiningMode(method ? method : 'pps');
         });
         $$earningsBalance().then(res => {
             setBalance(res.data);

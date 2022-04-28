@@ -269,7 +269,7 @@ const Dashboard: NextPage = () => {
                             <CustomCard titleProps={{title: "Help"}} cardProps={{style:{minHeight:198}}}>
                                 <Grid container>
                                     <Grid item md={9} xs={8}>
-                                        <Typography className={styles.bodyFont} sx={{lineHeight:45,marginBottom:3}}>
+                                        <Typography className={styles.bodyFont} sx={{lineHeight:"28px",marginBottom:3}}>
                                             Here find some of the most frequent questions about minerium, coins and pools.
                                         </Typography>
                                     </Grid>
