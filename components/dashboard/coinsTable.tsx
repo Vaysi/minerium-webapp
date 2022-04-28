@@ -28,7 +28,7 @@ import CalculatorIcon from "../inline-components/calculator-icon";
 import {useEffect, useState} from "react";
 import {$$changePaymentPreference, $$earningsBalance, $$getAllPPS, $$getPps} from "../../utils/api";
 import {toast} from "react-toastify";
-import {arrayMove} from "../../utils/functions";
+import {addThousandSep, arrayMove} from "../../utils/functions";
 import {ArrowRightAlt} from "@mui/icons-material";
 
 const useStyles: any = makeStyles((theme: any) => ({
@@ -199,21 +199,21 @@ const CoinsTable = (props: Props) => {
                                         <TableCell align="center" className={styles.tbody}>
                                             {v.yesterday.toFixed(8)}
                                             <br/>
-                                            { v?.price > 0 && (<span>{(v.yesterday.toFixed(8) * v.price).toFixed(2)}$</span>)}
+                                            { v?.price > 0 && (<span>{addThousandSep((v.yesterday.toFixed(8) * v.price).toFixed(2))}$</span>)}
                                         </TableCell>
                                         <TableCell align="center" className={styles.tbody}>
                                             {v.yesterday.toFixed(8)}
                                             <br/>
-                                            { v?.price > 0 && (<span>{(v.yesterday.toFixed(8) * v.price).toFixed(2)}$</span>)}
+                                            { v?.price > 0 && (<span>{addThousandSep((v.yesterday.toFixed(8) * v.price).toFixed(2))}$</span>)}
                                         </TableCell>
                                         <TableCell align="center" className={styles.tbody}>
                                             {((getBalance(k) != null ? getBalance(k).total : 0)).toFixed(8)}
                                             <br/>
-                                            { v?.price > 0 && (<span>{(((getBalance(k) != null ? getBalance(k).total : 0)).toFixed(8) * v.price).toFixed(2)}$</span>)}
+                                            { v?.price > 0 && (<span>{addThousandSep((((getBalance(k) != null ? getBalance(k).total : 0)).toFixed(8) * v.price).toFixed(2))}$</span>)}
                                         </TableCell>
                                         <TableCell align="center" className={styles.tbody}>
                                             {v.balance.toFixed(9)} <br/>
-                                            { v?.price > 0 && (<span>{(v.balance.toFixed(9) * v.price).toFixed(2)}$</span>)}
+                                            { v?.price > 0 && (<span>{addThousandSep((v.balance.toFixed(9) * v.price).toFixed(2))}$</span>)}
                                         </TableCell>
                                         <TableCell align="center" className={styles.tbody}>
                                             <Box display={"flex"} justifyContent={"center"}>
