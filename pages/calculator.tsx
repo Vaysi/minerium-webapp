@@ -339,23 +339,36 @@ const Calculator: NextPage = () => {
                                             className={styles.select}
                                         >
                                             <MenuItem value={"btc"}>
-                                                <img style={{paddingRight:10}} src={`/coins/btc.svg`} width={20}
-                                                     height={20}/> BTC
+                                                <img style={{paddingRight:10}} className={"iconDropdown"} src={`/coins/btc.svg`} width={20}
+                                                     height={20}/>
+                                                <div>
+                                                    BTC
+                                                    <Typography className={"fullName"}>Bitcoin</Typography>
+                                                </div>
                                             </MenuItem>
                                             <MenuItem value={"bch"}>
-                                                <img style={{paddingRight:10}} src={`/coins/bch.svg`} width={20}
+                                                <img style={{paddingRight:10}} className={"iconDropdown"} src={`/coins/bch.svg`} width={20}
                                                      height={20}/>
-                                                BCH
-                                            </MenuItem>
-                                            <MenuItem value={"dgb"}>
-                                                <img style={{paddingRight:10}} src={`/coins/dgb.svg`} width={20}
-                                                     height={20}/>
-                                                DGB
+                                                <div>
+                                                    BCH
+                                                    <Typography className={"fullName"}>Bitcoin Cash</Typography>
+                                                </div>
                                             </MenuItem>
                                             <MenuItem value={"bsv"}>
-                                                <img style={{paddingRight:10}} src={`/coins/bsv.svg`} width={20}
+                                                <img style={{paddingRight:10}} className={"iconDropdown"} src={`/coins/bsv.svg`} width={20}
                                                      height={20}/>
-                                                BSV
+                                                <div>
+                                                    BSV
+                                                    <Typography className={"fullName"}>Bitcoin SV</Typography>
+                                                </div>
+                                            </MenuItem>
+                                            <MenuItem value={"dgb"}>
+                                                <img style={{paddingRight:10}} className={"iconDropdown"} src={`/coins/dgb.svg`} width={20}
+                                                     height={20}/>
+                                                <div>
+                                                    DGB
+                                                    <Typography className={"fullName"}>Digibyte</Typography>
+                                                </div>
                                             </MenuItem>
                                         </Select>
                                     </FormControl>

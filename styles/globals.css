@@ -307,10 +307,37 @@ input:-webkit-autofill {
   border-bottom-right-radius: 5px;
 }
 
-#demo-simple-select img {
-  display: none;
+.groupFilter .MuiSvgIcon-root.MuiSelect-iconOpen , .currencySelect .MuiSvgIcon-root.MuiSelect-iconOpen {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 0!important;
+  border-bottom-right-radius: 0!important;
 }
 
+#demo-simple-select {
+  padding-left: 35px;
+}
+#demo-simple-select img {
+  position: absolute;
+  left: 10px;
+  top: -2px;
+  bottom: 0;
+  margin: auto;
+  width: 20px!important;
+  height: 20px!important;
+}
+#demo-simple-select .fullName {
+  display: none;
+}
+.MuiList-root .fullName {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #8b8989;
+}
+:not(#demo-simple-select) img.iconDropdown {
+  width: 30px;
+  height: 30px;
+}
 .MuiDataGrid-columnHeader .MuiDataGrid-iconButtonContainer {
   visibility: visible;
   width: auto;
