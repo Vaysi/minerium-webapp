@@ -177,9 +177,9 @@ const HashChart = (props: Props) => {
                </Box>
                <Box display={"flex"} justifyContent={"center"}>
                    <ButtonGroup sx={{mt:2}} variant="contained" aria-label="outlined primary button group">
-                       <Button onClick={() => setSince(since+1)} variant={"outlined"} sx={{textTransform: "none"}}>Previous Day</Button>
+                       <Button onClick={() => setSince(since+1)} variant={"outlined"} sx={{textTransform: "none"}}>Previous</Button>
                        <Button sx={{textTransform: "none"}}>{moment().subtract(since,'d').format("YYYY-MM-DD")}</Button>
-                       <Button onClick={() => setSince(since-1)} variant={"outlined"} sx={{textTransform: "none"}} disabled={since == 1}>Next Day</Button>
+                       <Button onClick={() => setSince(since-1)} variant={"outlined"} sx={{textTransform: "none"}} disabled={since == 1}>Next</Button>
                    </ButtonGroup>
                </Box>
            </CustomCard>

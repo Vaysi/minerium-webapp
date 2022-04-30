@@ -215,7 +215,7 @@ const Dashboard: NextPage = () => {
                             </CustomCard>
                         </Grid>
                         <Grid item lg={6} xs={12} className={"noOutline"}>
-                            <CustomCard titleProps={{title: "Minerium Addresess"}} cardProps={{style: {height: "290px"}}}>
+                            <CustomCard titleProps={{title: "Minerium Addresess"}} cardProps={{style: {height: "290px",paddingTop:0}}}>
                                 <TextField
                                     fullWidth
                                     className={styles.bodyFont}

@@ -17,7 +17,7 @@ const useStyles: any = makeStyles((theme: any) => ({
         },
         position: "sticky",
         top: 0,
-        zIndex: 5000
+        zIndex: 1200
     },
     navLink: {
         color: "var(--new-text-color)!important",
