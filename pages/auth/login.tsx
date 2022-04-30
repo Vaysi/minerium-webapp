@@ -162,12 +162,12 @@ const Login: NextPage = () => {
                         </form>
                         <Grid container>
                             <Grid item xs={12}>
-                                <Button onClick={() => router.push('/auth/forget')} sx={{color: mode == 'dark' ? "#fff!important" : undefined,fontWeight:600,borderBottom:"1px solid  rgba(4, 49, 128, 0.61)",padding:0,marginTop:1,textTransform: "none",marginBottom:2,borderRadius:0}} className={styles.button} style={{paddingLeft: 5,paddingRight:5}}>
+                                <a onClick={() => router.push('/auth/forget')} style={{color: mode == 'dark' ? "#fff!important" : "#043180",fontWeight:600,cursor:"pointer",padding:0,marginTop:1,textDecoration:"underline",marginBottom:10,borderRadius:0,paddingLeft: 5,paddingRight:5}} className={styles.button}>
                                     Forgot Password?
-                                </Button>
+                                </a>
                             </Grid>
                             <Grid justifyContent={"end"} style={{textAlign: "center"}} item xs={12}>
-                                <Button onClick={onSubmit} className={`${styles.button} ${styles.commonBtn}`} variant={"contained"} startIcon={loading ? <CircularProgress size={20} /> : ''} disabled={loading}>
+                                <Button sx={{mt:2}} onClick={onSubmit} className={`${styles.button} ${styles.commonBtn}`} variant={"contained"} startIcon={loading ? <CircularProgress size={20} /> : ''} disabled={loading}>
                                     Login
                                 </Button>
                             </Grid>

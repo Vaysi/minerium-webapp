@@ -280,6 +280,13 @@ const Register: NextPage = () => {
                                     Continue With Google
                                 </Button>
                             </Grid>
+                            <Grid item xs={12}>
+                                <Typography align={"center"} sx={{mt:2}}>
+                                    <a onClick={() => router.push('/auth/login')} style={{cursor:"pointer",color:"#043386",fontFamily:"var(--font-body)",fontSize:16,fontWeight:600}}>
+                                        Already have an account? <span style={{textDecoration:"underline"}}>Login</span>
+                                    </a>
+                                </Typography>
+                            </Grid>
                         </Grid>
                     </Box>
                 </CustomCard>

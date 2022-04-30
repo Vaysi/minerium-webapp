@@ -58,13 +58,27 @@ interface Props {
     options?: any;
     since: any;
 }
+
+function* colorize() {
+    let colors = ['#F44336','#8BC34A','#FF9800','#673AB7','#00BCD4'];
+    let index = 0;
+    while (true) {
+        if(index >= colors.length){
+            index = 0;
+
+        }
+        yield colors[index]
+        index++;
+    }
+}
+
 const HashChart = (props: Props) => {
     const styles = useStyles();
     const {mode} = useContext(themeModeContext);
-
+    const newColors = colorize();
     const workersToGraph = (data:Array<any>) => {
       return data.map((item:any) => {
-          let color= r();
+          let color= newColors.next().value;
           //@ts-ignore
           item.label = item.name;
           //@ts-ignore
@@ -75,13 +89,15 @@ const HashChart = (props: Props) => {
           item.backgroundColor = color;
           item.lineTension = 0.4;
           return {...item,...{
-                  pointBorderColor: r(),
+                  pointBorderColor: "#043180",
                   pointBackgroundColor: '#fff',
                   pointBorderWidth: 1,
                   pointHoverRadius: 5,
                   pointHoverBackgroundColor: 'rgba(4, 49, 128, 0.75)',
                   pointHoverBorderColor: mode == 'light' ? '#043180' : '#fff',
                   pointHoverBorderWidth: 2,
+                  pointRadius: 2,
+                  pointHitRadius: 20,
               }};
       });
     };

@@ -307,6 +307,22 @@ input:-webkit-autofill {
   border-bottom-right-radius: 5px;
 }
 
+.currencySelect .MuiSvgIcon-root {
+  width: 85px;
+}
+
+@media screen and (max-width: 900px) {
+  .currencySelect .MuiSvgIcon-root {
+    width: 105px;
+  }
+}
+
+@media screen and (min-width: 900px) and (max-width: 1100px) {
+  .currencySelect .MuiSvgIcon-root {
+    width: 70px;
+  }
+}
+
 .groupFilter .MuiSvgIcon-root.MuiSelect-iconOpen , .currencySelect .MuiSvgIcon-root.MuiSelect-iconOpen {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -315,7 +331,10 @@ input:-webkit-autofill {
 }
 
 #demo-simple-select {
-  padding-left: 35px;
+  padding-left: 45px;
+  padding-bottom: 12px;
+  padding-top: 12px;
+  height: 25px;
 }
 #demo-simple-select img {
   position: absolute;
@@ -323,8 +342,6 @@ input:-webkit-autofill {
   top: -2px;
   bottom: 0;
   margin: auto;
-  width: 20px!important;
-  height: 20px!important;
 }
 #demo-simple-select .fullName {
   display: none;

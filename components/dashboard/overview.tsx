@@ -87,8 +87,10 @@ const AccountOverview = (props: Props) => {
                         </CustomCard>
                     </Grid>
                     <Grid item md={6} xs={12}>
-                        <CustomCard titleProps={{title: "Workers"}} align={"center"}>
-                            <Box display={"flex"} justifyContent={"space-around"} onClick={() => router.push('/workers')}>
+                        <CustomCard titleProps={{title: "Workers",style:{cursor:"pointer"} }} align={"center"} cardProps={{
+                            onClick: () => router.push('/workers')
+                        }}>
+                            <Box display={"flex"} justifyContent={"space-around"}>
                                 <Typography sx={{cursor:"pointer"}} align={"center"}>
                                     <span className={styles.main}>All</span> <br/>
                                     <big className={styles.sub}>{props.info.workers}</big>

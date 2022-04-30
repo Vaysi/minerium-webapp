@@ -91,7 +91,7 @@ const useStyles: any = makeStyles((theme: any) => ({
         height: 16
     },
     adornment: {
-        width: "50px",
+        width: "110px",
         justifyContent: "center"
     },
     select: {
