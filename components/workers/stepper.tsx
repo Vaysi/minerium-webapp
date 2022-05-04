@@ -1,9 +1,10 @@
-import {Box, Button, IconButton, MobileStepper, TextField} from "@mui/material";
+import {Box, Button, IconButton, MobileStepper, Pagination, TextField} from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import {ContentCopy, KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
-import {useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import {toast} from "react-toastify";
+import {userContext} from "../../utils/context";
 
 const useStyles: any = makeStyles((theme: any) => ({}));
 
@@ -58,17 +59,6 @@ const step2 = <>
     />
 </>;
 
-const step3 = <>
-    <h4>3. An Example</h4> <p>A miner with the mining account username
-    <b>hans</b>
-    and a worker named
-    <b>worker001</b>
-    who wants to connect to our pool server would configure his/her
-    device as follows:</p> <p><b>URL:</b>
-    stratum+tcp://pool.minerium,com:3333<br/> <b>Username:</b> hans.worker001<br/> <b>Password:</b>
-    123<br/></p> <p>Please note, each miner requires its own ID.</p>
-</>;
-
 const step4 = <>
     <h4>4. Enjoy Mining</h4>
     <p>Once the miner is connected to the Minerium pool, you can
@@ -77,26 +67,11 @@ const step4 = <>
     <p>Having a problem? Check our FAQ page to find more.</p>
 </>;
 
-const steps = [
-    {
-        description: step1,
-    },
-    {
-        description: step2,
-    },
-    {
-        description: step3,
-    },
-    {
-        description: step4,
-    },
-];
 
 const AddWorkerStepper = () => {
     const styles = useStyles();
 
     const [activeStep, setActiveStep] = useState(0);
-    const maxSteps = steps.length;
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -105,14 +80,46 @@ const AddWorkerStepper = () => {
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
+    const {user} = useContext(userContext);
+
+
+    const step3 = <>
+        <h4>3. An Example</h4> <p>A miner with the mining account username:
+        <b style={{paddingRight:3,paddingLeft:3,textTransform:"capitalize"}}>{user && user.username || 'username'}</b>
+        and a worker named
+        <b  style={{paddingRight:3,paddingLeft:3}}>Worker001</b>
+        who wants to connect to our pool server would configure his/her
+        device as follows:</p> <p><b  style={{paddingRight:2}}>URL:</b>
+        stratum+tcp://pool.minerium,com:3333<br/> <b style={{paddingRight:2}}>Username:</b> {user && user.username || 'username'}.worker001<br/> <b>Password:</b>
+        123<br/></p> <p>Please note, each miner requires its own ID.</p>
+    </>;
+
+
+    const steps = [
+        {
+            description: step1,
+        },
+        {
+            description: step2,
+        },
+        {
+            description: step3,
+        },
+        {
+            description: step4,
+        },
+    ];
+    const maxSteps = steps.length;
+
+    useEffect(() => console.log(activeStep) ,[activeStep]);
 
     return (
-        <Box sx={{flexGrow: 1}}>
+        <Box sx={{flexGrow: 1}} className={"customStep"}>
             <Box sx={{width: '100%', p: 2}}>
                 {steps[activeStep].description}
             </Box>
             <MobileStepper
-                variant="text"
+                variant="dots"
                 steps={maxSteps}
                 position="static"
                 activeStep={activeStep}

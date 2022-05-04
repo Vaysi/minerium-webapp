@@ -180,7 +180,7 @@ const Dashboard: NextPage = () => {
             }
             <Grid container>
                 <Container maxWidth={"xl"} style={{paddingLeft:0,paddingRight:0}}>
-                    <Grid container>
+                    <Grid container >
                         <Grid item lg={6} xs={12}>
                             <CustomCard titleProps={{title: "Pool Info"}} cardProps={{style: {height: "290px"}}}>
                                 <Typography className={styles.bodyFont}>
@@ -215,7 +215,7 @@ const Dashboard: NextPage = () => {
                             </CustomCard>
                         </Grid>
                         <Grid item lg={6} xs={12} className={"noOutline"}>
-                            <CustomCard titleProps={{title: "Minerium Addresess"}} cardProps={{style: {height: "290px",paddingTop:0}}}>
+                            <CustomCard titleProps={{title: "Minerium Addresess"}} cardProps={{style: {height: "290px"},"data-id":"fields"}}>
                                 <TextField
                                     fullWidth
                                     className={styles.bodyFont}
@@ -242,8 +242,8 @@ const Dashboard: NextPage = () => {
                                 />
                             </CustomCard>
                         </Grid>
-                        <Grid item lg={6} xs={12} sx={{px: 1}}>
-                            <CustomCard titleProps={{title: "Contact Us"}}>
+                        <Grid item lg={6} xs={12} sx={{px: 1}} className={"fields"}>
+                            <CustomCard titleProps={{title: "Contact Us"}} cardProps={{style:{height:"100%"}}}>
                                 <Typography
                                     style={{display: "flex", justifyContent: "space-between",marginBottom:25}} className={styles.bodyFont}>
                                     <span>Report Problems:</span>
@@ -265,8 +265,8 @@ const Dashboard: NextPage = () => {
                                 </Typography>
                             </CustomCard>
                         </Grid>
-                        <Grid item lg={6} xs={12} sx={{px: 1}}>
-                            <CustomCard titleProps={{title: "Help"}} cardProps={{style:{minHeight:198}}}>
+                        <Grid item lg={6} xs={12} sx={{px: 1}} className={"fields"}>
+                            <CustomCard titleProps={{title: "Help"}} cardProps={{style:{height:"100%"}}}>
                                 <Grid container>
                                     <Grid item md={9} xs={8}>
                                         <Typography className={styles.bodyFont} sx={{lineHeight:"28px",marginBottom:3}}>

@@ -27,6 +27,11 @@ import moment from "moment";
 
 
 const useStyles:any = makeStyles((theme:any) => ({
+    arrowButton: {
+        "[data-theme=dark] &": {
+            backgroundColor: "rgba(255,255,255,.5)"
+        }
+    }
 }));
 
 
@@ -89,12 +94,12 @@ const HashChart = (props: Props) => {
           item.backgroundColor = color;
           item.lineTension = 0.4;
           return {...item,...{
-                  pointBorderColor: "#043180",
+                  pointBorderColor: color,
                   pointBackgroundColor: '#fff',
                   pointBorderWidth: 1,
                   pointHoverRadius: 5,
-                  pointHoverBackgroundColor: 'rgba(4, 49, 128, 0.75)',
-                  pointHoverBorderColor: mode == 'light' ? '#043180' : '#fff',
+                  pointHoverBackgroundColor: '#fff',
+                  pointHoverBorderColor: color,
                   pointHoverBorderWidth: 2,
                   pointRadius: 2,
                   pointHitRadius: 20,
@@ -177,9 +182,9 @@ const HashChart = (props: Props) => {
                </Box>
                <Box display={"flex"} justifyContent={"center"}>
                    <ButtonGroup sx={{mt:2}} variant="contained" aria-label="outlined primary button group">
-                       <Button onClick={() => setSince(since+1)} variant={"outlined"} sx={{textTransform: "none"}}>Previous</Button>
-                       <Button sx={{textTransform: "none"}}>{moment().subtract(since,'d').format("YYYY-MM-DD")}</Button>
-                       <Button onClick={() => setSince(since-1)} variant={"outlined"} sx={{textTransform: "none"}} disabled={since == 1}>Next</Button>
+                       <Button className={styles.arrowButton} style={{minWidth:109}} onClick={() => setSince(since+1)} variant={"outlined"} sx={{textTransform: "none"}}>Previous</Button>
+                       <Button style={{minWidth:109}} sx={{textTransform: "none"}}>{moment().subtract(since,'d').format("YYYY-MM-DD")}</Button>
+                       <Button className={styles.arrowButton} onClick={() => setSince(since-1)} variant={"outlined"} sx={{textTransform: "none"}} style={{minWidth:109}} disabled={since == 1}>Next</Button>
                    </ButtonGroup>
                </Box>
            </CustomCard>

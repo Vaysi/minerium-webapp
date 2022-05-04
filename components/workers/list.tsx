@@ -7,7 +7,7 @@ import {
     DialogTitle,
     Divider,
     FormControl,
-    Grid,
+    Grid, IconButton,
     MenuItem,
     Select,
     TextField,
@@ -26,7 +26,7 @@ import AddWorkerStepper from "./stepper";
 import CustomCard from "../inline-components/card";
 import SplitButton from "../inline-components/split-btn";
 import SplitButtonState from "../inline-components/split-btn-status";
-import {Circle} from "@mui/icons-material";
+import {Circle, Close} from "@mui/icons-material";
 import {useRouter} from "next/router";
 
 const useStyles: any = makeStyles((theme: any) => ({
@@ -190,10 +190,11 @@ const WorkersList = (props: Props) => {
             flex: 1,
             align: "center",
             headerAlign: "center",
-            valueGetter: params => {
+            renderCell: params => {
                 return Hashrate(params.row.hash1m);
             },
             headerClassName: styles.headerTitle,
+            type: "number"
         },
         {
             field: 'hash1hr',
@@ -201,10 +202,11 @@ const WorkersList = (props: Props) => {
             flex: 1,
             align: "center",
             headerAlign: "center",
-            valueGetter: params => {
+            renderCell: params => {
                 return Hashrate(params.row.hash1hr);
             },
-            headerClassName: styles.headerTitle
+            headerClassName: styles.headerTitle,
+            type: "number"
         },
         {
             field: 'hash1d',
@@ -212,10 +214,11 @@ const WorkersList = (props: Props) => {
             flex: 1,
             align: "center",
             headerAlign: "center",
-            valueGetter: params => {
+            renderCell: params => {
                 return Hashrate(params.row.hash1d);
             },
-            headerClassName: styles.headerTitle
+            headerClassName: styles.headerTitle,
+            type: "number"
         },
         {
             field: 'hash7d',
@@ -223,10 +226,11 @@ const WorkersList = (props: Props) => {
             flex: 1,
             align: "center",
             headerAlign: "center",
-            valueGetter: params => {
+            renderCell: params => {
                 return Hashrate(params.row.hash7d);
             },
-            headerClassName: styles.headerTitle
+            headerClassName: styles.headerTitle,
+            type: "number"
         },
         {
             field: 'lastupdate',
@@ -234,7 +238,8 @@ const WorkersList = (props: Props) => {
             flex: 1,
             align: "center",
             headerAlign: "center",
-            headerClassName: styles.headerTitle
+            headerClassName: styles.headerTitle,
+            type: "dateTime"
         },
     ];
 
@@ -426,6 +431,9 @@ const WorkersList = (props: Props) => {
                 <DialogTitle>
                     <Typography variant={"h5"} style={{fontWeight: "bold"}} align={"center"}>
                         Adding More Workers!
+                        <IconButton sx={{float:"right"}} aria-label="close" onClick={closeAddWorkerModal}>
+                            <Close />
+                        </IconButton>
                     </Typography>
                     <Typography variant={"h6"} align={"center"}>
                         Please follow these steps to configure your new workers:

@@ -279,12 +279,15 @@ input:-webkit-autofill {
 .MuiDataGrid-columnHeader:not(.MuiDataGrid-columnHeader--sorted) .MuiDataGrid-sortIcon {
   opacity: 1!important;
 }
+.MuiDataGrid-columnHeader .MuiDataGrid-filterIcon {
+  fill: #eee;
+}
 
 .MuiDataGrid-menu  .MuiList-root  .MuiMenuItem-root[data-value="asc"] {
   font-size: 0;
 }
 .MuiDataGrid-menu  .MuiList-root  .MuiMenuItem-root[data-value="asc"]::after {
-  content: "Sort A to Z";
+  content: "Sort Z to A";
   font-size: 1rem;
 }
 .MuiDataGrid-menu  .MuiList-root  .MuiMenuItem-root[data-value="desc"] {
@@ -292,7 +295,7 @@ input:-webkit-autofill {
 }
 
 .MuiDataGrid-menu  .MuiList-root  .MuiMenuItem-root[data-value="desc"]::after {
-  content: "Sort Z to A";
+  content: "Sort A to Z";
   font-size: 1rem;
 }
 
@@ -387,4 +390,19 @@ input:-webkit-autofill {
 .new-noBorder .MuiInput-root {
   margin-top: 5px;
   padding-left: 10px;
+}
+
+[data-id=fields] .customBody {
+  padding-top: 0;
+}
+
+.fields .customBody {
+  padding-bottom: 0!important;
+}
+
+.customStep .MuiMobileStepper-dot  {
+  width: 30px;
+  height: 6px;
+  border-radius: 0;
+  margin: 0 4px;
 }
