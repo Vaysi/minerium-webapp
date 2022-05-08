@@ -201,7 +201,7 @@ input:-webkit-autofill {
 }
 
 .MuiDataGrid-columnHeaderTitleContainer .MuiCheckbox-root .MuiSvgIcon-root  , [data-theme=dark] .MuiDataGrid-root .MuiCheckbox-root .MuiSvgIcon-root  {
-  fill: #fff!important;
+  fill: #fff;
 }
 
 .MuiDataGrid-columnHeadersInner , .MuiDataGrid-columnHeaderDraggableContainer {
@@ -405,4 +405,29 @@ input:-webkit-autofill {
   height: 6px;
   border-radius: 0;
   margin: 0 4px;
+}
+
+.workersTable .MuiDataGrid-columnHeader:last-child ,.workersTable [data-field="__HIDDEN__"] , .workersTable .MuiDataGrid-cell:last-child   {
+  display: none;
+}
+
+
+.MuiDataGrid-row:nth-child(1) .MuiDataGrid-cellCheckbox svg  {
+  fill: #F44336!important;
+}
+
+.MuiDataGrid-row:nth-child(2) .MuiDataGrid-cellCheckbox svg  {
+  fill: #8BC34A!important;
+}
+
+.MuiDataGrid-row:nth-child(3) .MuiDataGrid-cellCheckbox svg  {
+  fill: #FF9800!important;
+}
+
+.MuiDataGrid-row:nth-child(4) .MuiDataGrid-cellCheckbox svg  {
+  fill: #673AB7!important;
+}
+
+.MuiDataGrid-row:nth-child(5) .MuiDataGrid-cellCheckbox svg  {
+  fill: #00BCD4!important;
 }

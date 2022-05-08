@@ -134,24 +134,26 @@ const WorkersList = (props: Props) => {
 
     const applyFilter = (state: string) => {
         let newState = 'all';
+        let query = rows;
         switch (state) {
             case 'online':
-                setWorkers(rows.filter(worker => worker.hash1m > 0));
+                query = rows.filter(worker => worker.hash1m > 0);
                 newState = 'online';
                 break;
             case 'offline':
-                setWorkers(rows.filter(worker => worker.hash5m === 0));
+                query = rows.filter(worker => worker.hash5m === 0);
                 newState = 'offline';
                 break;
             case 'inactive':
-                setWorkers(rows.filter(worker => worker.hash1d === 0));
+                query = rows.filter(worker => worker.hash1d === 0);
                 newState = 'inactive';
                 break;
             default:
-                setWorkers(rows);
+                query = rows;
                 newState = 'all';
                 break;
         }
+        setWorkers(query);
         setStatus({...status, activeTab: newState});
     };
 
@@ -266,6 +268,7 @@ const WorkersList = (props: Props) => {
                         apiRef.current = params.api;
                         return null;
                     },
+                    minWidth: 0
                 }),
             [tColumns]
         );
@@ -348,6 +351,9 @@ const WorkersList = (props: Props) => {
     useEffect(() => {
         setTimeout(() => updateVisibleWorkers(),1000);
     },[]);
+
+    useEffect(updateVisibleWorkers,[workers]);
+
     return (
         <>
             <CustomCard titleProps={{
@@ -450,7 +456,7 @@ const WorkersList = (props: Props) => {
                     </Grid>
                 </Grid>
                 <div style={{display: 'flex', height: '100%', minHeight: 400}}>
-                    <div style={{flexGrow: 1}} className={"tableContainer"}>
+                    <div style={{flexGrow: 1}} className={"tableContainer workersTable"}>
                         <DataGrid
                             rows={workers}
                             columns={columns}
