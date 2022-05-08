@@ -395,6 +395,7 @@ input:-webkit-autofill {
   height: 6px;
   border-radius: 0;
   margin: 0 4px;
+  cursor: pointer;
 }
 
 .workersTable .MuiDataGrid-columnHeader:last-child ,.workersTable [data-field="__HIDDEN__"] , .workersTable .MuiDataGrid-cell:last-child   {

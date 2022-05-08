@@ -114,7 +114,16 @@ const AddWorkerStepper = () => {
     ];
     const maxSteps = steps.length;
 
-    useEffect(() => console.log(activeStep) ,[activeStep]);
+    useEffect(() => {
+        if (document) {
+            let els = document.querySelectorAll('.MuiMobileStepper-dots .MuiMobileStepper-dot');
+            for (let i=0;i < 4;i++) {
+                els[i].addEventListener("click", function(){
+                    setActiveStep(i);
+                });
+            }
+        }
+    },[]);
 
     return (
         <Box sx={{flexGrow: 1}} className={"customStep"}>
