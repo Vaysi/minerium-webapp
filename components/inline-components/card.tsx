@@ -27,13 +27,14 @@ interface Props {
     children: any;
     align?: string;
     cardProps?: any;
+    containerProps?: any;
 }
 
 const CustomCard = (props:Props) => {
     const styles = useStyles();
     const {mode} = useContext(themeModeContext);
     return (
-        <Container maxWidth={"xl"}>
+        <Container maxWidth={"xl"} {...props.containerProps}>
             <Card className={styles.card} sx={{mt: 3}} {...props.cardProps}>
                 <CardHeader
                     className={`${styles.cardHeader} customHeader`}

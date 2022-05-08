@@ -132,7 +132,7 @@ const HashChart = (props: Props) => {
             x: {
                 ticks: {
                     color: mode == 'dark' ? "#fff" : "#000"
-                }
+                },
             }
         },
         maintainAspectRatio: false,
@@ -145,7 +145,6 @@ const HashChart = (props: Props) => {
     const {since, setSince} = props.since;
 
     useEffect(() => {
-        console.log(props.visibleWorkers);
         setWorkersData(workersToGraph(props.data.workers));
     }, [props.data,props.visibleWorkers]);
 
@@ -170,7 +169,7 @@ const HashChart = (props: Props) => {
 
     return (
         <>
-            <CustomCard titleProps={{title: "Hashrate Chart"}}>
+            <CustomCard titleProps={{title: "Hashrate Chart"}} cardProps={{style:{position:"relative"}}}>
                 <Box style={{minHeight: "50vh"}}>
                     {
                         //@ts-ignore
@@ -188,20 +187,20 @@ const HashChart = (props: Props) => {
                                 sx={{textTransform: "none"}} style={{minWidth: 109}} disabled={since == 1}>Next</Button>
                     </ButtonGroup>
                 </Box>
+                <Box sx={{ml:"auto",position:"absolute",bottom:15,right:0}}>
+                    <TablePagination
+                        component="div"
+                        count={workersData.length}
+                        page={props.page.page}
+                        onPageChange={(event, page) => {
+                            props.page.setPage(page);
+                        }}
+                        rowsPerPage={5}
+                        labelRowsPerPage={""}
+                        rowsPerPageOptions={[]}
+                    />
+                </Box>
             </CustomCard>
-           <Box sx={{ml:"auto",px:"24px"}}>
-               <TablePagination
-                   component="div"
-                   count={workersData.length}
-                   page={props.page.page}
-                   onPageChange={(event, page) => {
-                       props.page.setPage(page);
-                   }}
-                   rowsPerPage={5}
-                   labelRowsPerPage={""}
-                   rowsPerPageOptions={[]}
-               />
-           </Box>
         </>
     );
 }

@@ -439,6 +439,11 @@ input:-webkit-autofill {
   right: -10px;
 }
 
-.hashrateSelect .MuiSelect-select {
+.hashrateSelect .MuiSelect-select{
   padding-right: 8px!important;
+}
+
+#groupSelect {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
