@@ -91,7 +91,8 @@ const useStyles: any = makeStyles((theme: any) => ({
         height: 16
     },
     adornment: {
-        width: "110px",
+        width: "35px",
+        minWidth: "35px",
         justifyContent: "center"
     },
     select: {
@@ -386,6 +387,7 @@ const Calculator: NextPage = () => {
                                                     value={hashUnit}
                                                     onChange={(e) => setHashUnit(e.target.value)}
                                                     variant={"standard"}
+                                                    className={"hashrateSelect"}
                                                 >
                                                     <MenuItem value={"TH/s"}>TH/s</MenuItem>
                                                     <MenuItem value={"PH/s"}>PH/s</MenuItem>

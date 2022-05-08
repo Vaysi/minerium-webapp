@@ -504,7 +504,11 @@ const WorkersList = (props: Props) => {
                     <Button onClick={createGroup}>Create</Button>
                 </DialogActions>
             </Dialog>
-            <Dialog open={addWorkerModal} onClose={closeAddWorkerModal} maxWidth={"md"} fullWidth>
+            <Dialog PaperProps={{
+                sx: {
+                    py:0
+                }
+            }} open={addWorkerModal} onClose={closeAddWorkerModal} maxWidth={"md"} fullWidth>
                 <DialogTitle>
                     <Typography variant={"h5"} style={{fontWeight: "bold"}} align={"center"}>
                         Adding More Workers!
@@ -520,9 +524,6 @@ const WorkersList = (props: Props) => {
                 <DialogContent>
                     <AddWorkerStepper/>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={closeAddWorkerModal}>Close</Button>
-                </DialogActions>
             </Dialog>
             <Dialog open={watcherModal} onClose={closeWatcherModal} maxWidth={"md"} fullWidth>
                 <DialogTitle>Create New Watcher</DialogTitle>

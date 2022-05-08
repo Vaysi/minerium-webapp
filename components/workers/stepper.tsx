@@ -40,6 +40,7 @@ const step2 = <>
         fullWidth
         id="address"
         sx={{my: 1}}
+        size={"small"}
         value="stratum+tcp://stratum.minerium.com:3333"
         InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:3333")}}
     />
@@ -47,6 +48,7 @@ const step2 = <>
         fullWidth
         id="address2"
         sx={{my: 1}}
+        size={"small"}
         value="stratum+tcp://stratum.minerium.com:4444"
         InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:4444")}}
     />
@@ -54,6 +56,7 @@ const step2 = <>
         fullWidth
         id="address3"
         sx={{my: 1}}
+        size={"small"}
         value="stratum+tcp://stratum.minerium.com:44443"
         InputProps={{endAdornment: copyButton("stratum+tcp://stratum.minerium.com:44443")}}
     />

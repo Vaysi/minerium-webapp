@@ -311,19 +311,7 @@ input:-webkit-autofill {
 }
 
 .currencySelect .MuiSvgIcon-root {
-  width: 85px;
-}
-
-@media screen and (max-width: 900px) {
-  .currencySelect .MuiSvgIcon-root {
-    width: 105px;
-  }
-}
-
-@media screen and (min-width: 900px) and (max-width: 1100px) {
-  .currencySelect .MuiSvgIcon-root {
-    width: 70px;
-  }
+  width: 57px;
 }
 
 .groupFilter .MuiSvgIcon-root.MuiSelect-iconOpen , .currencySelect .MuiSvgIcon-root.MuiSelect-iconOpen {
@@ -338,6 +326,8 @@ input:-webkit-autofill {
   padding-bottom: 12px;
   padding-top: 12px;
   height: 25px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 #demo-simple-select img {
   position: absolute;
@@ -358,7 +348,7 @@ input:-webkit-autofill {
   width: 30px;
   height: 30px;
 }
-.MuiDataGrid-columnHeader .MuiDataGrid-iconButtonContainer {
+.MuiDataGrid-columnHeader:hover .MuiDataGrid-iconButtonContainer {
   visibility: visible;
   width: auto;
 }
@@ -430,4 +420,25 @@ input:-webkit-autofill {
 
 .MuiDataGrid-row:nth-child(5) .MuiDataGrid-cellCheckbox svg  {
   fill: #00BCD4!important;
+}
+
+.customStep {
+  min-height: 390px;
+}
+
+.MuiMobileStepper-root {
+  position: absolute;
+  width: 94%;
+  bottom: 2%;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.hashrateSelect svg[data-testid="ArrowDropDownIcon"]{
+  right: -10px;
+}
+
+.hashrateSelect .MuiSelect-select {
+  padding-right: 8px!important;
 }
