@@ -13,6 +13,8 @@ import WorkersGroup from "../components/workers/group";
 const Workers: NextPage = () => {
 
     const [workers, setWorkers] = useState<Array<WorkersListType>>([]);
+
+    const [visibleWorkers, setVisibleWorkers] = useState<Array<any>>([]);
     //@ts-ignore
     const [workerGraph, setWorkersGraph] = useState<WorkersGraph>(null);
 
@@ -22,6 +24,8 @@ const Workers: NextPage = () => {
 
     // Workers Pagination
     const [since, setSince] = useState(1);
+
+    const [page,setPage] = useState(0);
 
 
     useEffect(() => {
@@ -54,8 +58,8 @@ const Workers: NextPage = () => {
         <Grid container>
             <Header/>
             {workers.length > 0 &&
-            <WorkersList states={{groups, setGroups, getWorkersList, selected, setSelected}} data={workers}/>}
-            {Boolean(workerGraph) && <HashChart data={workerGraph} since={{since,setSince}}/>}
+            <WorkersList states={{groups, setGroups, getWorkersList, selected, setSelected,setVisibleWorkers,page,setPage}} data={workers}/>}
+            {Boolean(workerGraph) && <HashChart page={{page,setPage}} data={workerGraph} since={{since,setSince}} visibleWorkers={visibleWorkers}/>}
             <Footer/>
             <Backdrop
                 sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}

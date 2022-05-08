@@ -15,8 +15,16 @@ import {
     useMediaQuery,
 } from "@mui/material";
 import {makeStyles} from "@mui/styles";
-import {DataGrid, GridColDef, GridRenderCellParams} from '@mui/x-data-grid';
-import {useEffect, useState} from "react";
+import {
+    DataGrid, GridApi,
+    GridCallbackDetails,
+    GridColDef,
+    GridColumnOrderChangeParams, GridFilterModel,
+    GridRenderCellParams,
+    GridState,
+    MuiEvent
+} from '@mui/x-data-grid';
+import {useEffect, useMemo, useRef, useState} from "react";
 import {Hashrate} from "../../utils/functions";
 import {WorkerGroups, WorkersList as WorkersListType} from "../../utils/interfaces";
 import "../../styles/daragrid.module.css";
@@ -62,6 +70,9 @@ interface Props {
         getWorkersList: any;
         selected: any;
         setSelected: any;
+        setVisibleWorkers: any;
+        page: number;
+        setPage: any;
     }
 }
 
@@ -167,7 +178,7 @@ const WorkersList = (props: Props) => {
         setRows([...props.data]);
     }, [props.data]);
 
-    const columns: GridColDef[] = [
+    const tColumns: GridColDef[] = [
         {
             field: 'worker_name',
             headerName: 'Worker',
@@ -243,6 +254,28 @@ const WorkersList = (props: Props) => {
         },
     ];
 
+    function useApiRef() {
+        const apiRef = useRef(null);
+        const _columns = useMemo(
+            () =>
+                tColumns.concat({
+                    field: "__HIDDEN__",
+                    width: 0,
+                    renderCell: (params) => {
+                        //@ts-ignore
+                        apiRef.current = params.api;
+                        return null;
+                    },
+                }),
+            [tColumns]
+        );
+
+        return { apiRef, columns: _columns };
+    }
+
+    const { apiRef, columns } = useApiRef();
+
+
     const createGroup = () => {
         $$createWorkerGroup(groupName, getWorkersNameById()).then((response) => {
             setGroupName('');
@@ -290,6 +323,31 @@ const WorkersList = (props: Props) => {
         }
     },[router.isReady,rows]);
 
+
+    const updateVisibleWorkers = (page?:number) => {
+        if(apiRef.current){
+            let newRows = [];
+            //@ts-ignore
+            let currentRows = apiRef.current.getSortedRows();
+            for (const currentRow of currentRows.entries()) {
+                newRows.push(currentRow[1]);
+            }
+            let start = page ? page * 5 : 0;
+            let end = newRows.length;
+            props.states.setVisibleWorkers(page ? newRows.slice(start,end) : newRows);
+        }
+    };
+
+    useEffect(() => {
+        if(apiRef.current){
+            //@ts-ignore
+            apiRef.current.setPage(props.states.page);
+        }
+    },[props.states.page])
+
+    useEffect(() => {
+        setTimeout(() => updateVisibleWorkers(),1000);
+    },[]);
     return (
         <>
             <CustomCard titleProps={{
@@ -404,6 +462,19 @@ const WorkersList = (props: Props) => {
                                 setSelectionModel(newSelectionModel);
                             }}
                             selectionModel={selectionModel}
+                            onSortModelChange={() => {
+                                setTimeout(() => {
+                                    if(apiRef.current){
+                                        //@ts-ignore
+                                        apiRef.current.setPage(0);
+                                    }
+                                    updateVisibleWorkers();
+                                },1000);
+                            }}
+                            onPageChange={(page) => {
+                                props.states.setPage(page);
+                                updateVisibleWorkers(page);
+                            }}
                         />
                     </div>
                 </div>

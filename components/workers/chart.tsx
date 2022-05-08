@@ -1,23 +1,16 @@
+import {Box, Button, ButtonGroup, TablePagination,} from "@mui/material";
+import {makeStyles} from "@mui/styles";
 import {
-    Box,
-    Button, ButtonGroup,
-    Card,
-    CardContent,
-    CardHeader,
-    Container, Pagination,
-} from "@mui/material";
-import {makeStyles, styled} from "@mui/styles";
-import {
-    Chart as ChartJS,
     CategoryScale,
+    Chart as ChartJS,
+    Legend,
     LinearScale,
-    PointElement,
     LineElement,
+    PointElement,
     Title,
     Tooltip,
-    Legend,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import {Line} from 'react-chartjs-2';
 import {WorkersGraph} from "../../utils/interfaces";
 import {useContext, useEffect, useState} from "react";
 import CustomCard from "../inline-components/card";
@@ -26,7 +19,7 @@ import {ArrowLeft, ArrowRight} from "@mui/icons-material";
 import moment from "moment";
 
 
-const useStyles:any = makeStyles((theme:any) => ({
+const useStyles: any = makeStyles((theme: any) => ({
     arrowButton: {
         "[data-theme=dark] &": {
             backgroundColor: "rgba(255,255,255,.5)"
@@ -45,7 +38,7 @@ ChartJS.register(
     Legend
 );
 
-function format_time(timestamp:number) {
+function format_time(timestamp: number) {
     const dtFormat = new Intl.DateTimeFormat('en-US', {
         timeStyle: 'medium',
         timeZone: 'UTC'
@@ -55,20 +48,25 @@ function format_time(timestamp:number) {
 }
 
 const r = () => {
-    return '#'+Math.floor(Math.random()*16777215).toString(16);
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
 }
 
 interface Props {
     data: WorkersGraph,
     options?: any;
     since: any;
+    visibleWorkers: Array<any>;
+    page: {
+        page: number;
+        setPage: any;
+    }
 }
 
 function* colorize() {
-    let colors = ['#F44336','#8BC34A','#FF9800','#673AB7','#00BCD4'];
+    let colors = ['#F44336', '#8BC34A', '#FF9800', '#673AB7', '#00BCD4'];
     let index = 0;
     while (true) {
-        if(index >= colors.length){
+        if (index >= colors.length) {
             index = 0;
 
         }
@@ -81,30 +79,36 @@ const HashChart = (props: Props) => {
     const styles = useStyles();
     const {mode} = useContext(themeModeContext);
     const newColors = colorize();
-    const workersToGraph = (data:Array<any>) => {
-      return data.map((item:any) => {
-          let color= newColors.next().value;
-          //@ts-ignore
-          item.label = item.name;
-          //@ts-ignore
-          item.data = item.rates;
-          //@ts-ignore
-          item.borderColor = color;
-          //@ts-ignore
-          item.backgroundColor = color;
-          item.lineTension = 0.4;
-          return {...item,...{
-                  pointBorderColor: color,
-                  pointBackgroundColor: '#fff',
-                  pointBorderWidth: 1,
-                  pointHoverRadius: 5,
-                  pointHoverBackgroundColor: '#fff',
-                  pointHoverBorderColor: color,
-                  pointHoverBorderWidth: 2,
-                  pointRadius: 2,
-                  pointHitRadius: 20,
-              }};
-      });
+    const workersToGraph = (data: Array<any>) => {
+        let newWorkers = [];
+        for (const newWorker of props.visibleWorkers) {
+            newWorkers.push(data.find((item) => item.name == newWorker.worker_name));
+        }
+        return newWorkers.map((item: any) => {
+            let color = newColors.next().value;
+            //@ts-ignore
+            item.label = item.name;
+            //@ts-ignore
+            item.data = item.rates;
+            //@ts-ignore
+            item.borderColor = color;
+            //@ts-ignore
+            item.backgroundColor = color;
+            item.lineTension = 0.4;
+            return {
+                ...item, ...{
+                    pointBorderColor: color,
+                    pointBackgroundColor: '#fff',
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: color,
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 2,
+                    pointHitRadius: 20,
+                }
+            };
+        });
     };
 
     const options = {
@@ -119,7 +123,7 @@ const HashChart = (props: Props) => {
             y: {
                 ticks: {
                     // Include a dollar sign in the ticks
-                    callback: function(value:any, index:number, values:any) {
+                    callback: function (value: any, index: number, values: any) {
                         return value + ' TH/s';
                     },
                     color: mode == 'dark' ? "#fff" : "#000"
@@ -134,61 +138,71 @@ const HashChart = (props: Props) => {
         maintainAspectRatio: false,
     };
 
-    const [workersData,setWorkersData] = useState(workersToGraph(props.data.workers));
+    const [workersData, setWorkersData] = useState(workersToGraph(props.data.workers));
 
-    const [start,setStart] = useState(0);
+    const [start, setStart] = useState(0);
 
-    const {since,setSince} = props.since;
+    const {since, setSince} = props.since;
 
     useEffect(() => {
+        console.log(props.visibleWorkers);
         setWorkersData(workersToGraph(props.data.workers));
-    },[props.data]);
+    }, [props.data,props.visibleWorkers]);
 
     const labels = props.data.timestamps.map(item => {
-        return moment(item,"YYYYMMDDhh").format("MM-DD hh:mm")
+        return moment(item, "YYYYMMDDhh").format("MM-DD hh:mm")
     });
 
     const data = {
         labels,
-        datasets: workersData.slice(start,start+5),
+        datasets: workersData.slice(start, start + 5),
     };
 
     const nextWorkers = () => {
-      setStart(start+5);
+        setStart(start + 5);
     };
 
     const prevWorkers = () => {
-        setStart(start-5);
+        setStart(start - 5);
     };
 
-    const canGoNext = start+5 > workersData.length;
+    const canGoNext = start + 5 > workersData.length;
 
     return (
-       <>
-           <CustomCard titleProps={{title:"Hashrate Chart"}}>
-               <Box display={"flex"} justifyContent={"space-between"}>
-                   <Button sx={{textTransform: "none"}} onClick={prevWorkers} disabled={start < 1 } size={"small"} variant="contained" startIcon={<ArrowLeft />}>
-                       Prev 5 Workers
-                   </Button>
-                   <Button sx={{textTransform: "none"}} disabled={canGoNext} onClick={nextWorkers} size={"small"} variant="contained" endIcon={<ArrowRight />}>
-                       Next 5 Workers
-                   </Button>
-               </Box>
-               <Box style={{minHeight: "50vh"}}>
-                   {
-                       //@ts-ignore
-                       (<Line options={props.options ?? options} data={data} />)
-                   }
-               </Box>
-               <Box display={"flex"} justifyContent={"center"}>
-                   <ButtonGroup sx={{mt:2}} variant="contained" aria-label="outlined primary button group">
-                       <Button className={styles.arrowButton} style={{minWidth:109}} onClick={() => setSince(since+1)} variant={"outlined"} sx={{textTransform: "none"}}>Previous</Button>
-                       <Button style={{minWidth:109}} sx={{textTransform: "none"}}>{moment().subtract(since,'d').format("YYYY-MM-DD")}</Button>
-                       <Button className={styles.arrowButton} onClick={() => setSince(since-1)} variant={"outlined"} sx={{textTransform: "none"}} style={{minWidth:109}} disabled={since == 1}>Next</Button>
-                   </ButtonGroup>
-               </Box>
-           </CustomCard>
-       </>
+        <>
+            <CustomCard titleProps={{title: "Hashrate Chart"}}>
+                <Box style={{minHeight: "50vh"}}>
+                    {
+                        //@ts-ignore
+                        (<Line options={props.options ?? options} data={data}/>)
+                    }
+                </Box>
+                <Box display={"flex"} justifyContent={"center"}>
+                    <ButtonGroup sx={{mt: 2}} variant="contained" aria-label="outlined primary button group">
+                        <Button className={styles.arrowButton} style={{minWidth: 109}}
+                                onClick={() => setSince(since + 1)} variant={"outlined"}
+                                sx={{textTransform: "none"}}>Previous</Button>
+                        <Button style={{minWidth: 109}}
+                                sx={{textTransform: "none"}}>{moment().subtract(since, 'd').format("YYYY-MM-DD")}</Button>
+                        <Button className={styles.arrowButton} onClick={() => setSince(since - 1)} variant={"outlined"}
+                                sx={{textTransform: "none"}} style={{minWidth: 109}} disabled={since == 1}>Next</Button>
+                    </ButtonGroup>
+                </Box>
+            </CustomCard>
+           <Box sx={{ml:"auto",px:"24px"}}>
+               <TablePagination
+                   component="div"
+                   count={workersData.length}
+                   page={props.page.page}
+                   onPageChange={(event, page) => {
+                       props.page.setPage(page);
+                   }}
+                   rowsPerPage={5}
+                   labelRowsPerPage={""}
+                   rowsPerPageOptions={[]}
+               />
+           </Box>
+        </>
     );
 }
 
