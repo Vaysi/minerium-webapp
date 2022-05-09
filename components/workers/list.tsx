@@ -207,7 +207,7 @@ const WorkersList = (props: Props) => {
                 return Hashrate(params.row.hash1m);
             },
             headerClassName: styles.headerTitle,
-            type: "number"
+            type: "number",
         },
         {
             field: 'hash1hr',
@@ -456,7 +456,7 @@ const WorkersList = (props: Props) => {
                     </Grid>
                 </Grid>
                 <div style={{display: 'flex', height: '100%', minHeight: 400}}>
-                    <div style={{flexGrow: 1}} className={"tableContainer workersTable"}>
+                    <div style={{flexGrow: 1,width:"100%"}} className={"tableContainer workersTable"}>
                         <DataGrid
                             rows={workers}
                             columns={columns}

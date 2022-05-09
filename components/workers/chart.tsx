@@ -187,7 +187,7 @@ const HashChart = (props: Props) => {
                                 sx={{textTransform: "none"}} style={{minWidth: 109}} disabled={since == 1}>Next</Button>
                     </ButtonGroup>
                 </Box>
-                <Box sx={{ml:"auto",position:"absolute",bottom:15,right:0}}>
+                <Box sx={{ml:"auto",position:{xs:"relative",sm:"absolute"},bottom:{xs:0,sm:15},right:0}}>
                     <TablePagination
                         component="div"
                         count={workersData.length}
