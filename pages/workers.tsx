@@ -27,6 +27,8 @@ const Workers: NextPage = () => {
 
     const [page,setPage] = useState(0);
 
+    const [selection,setSelection] = useState([]);
+
 
     useEffect(() => {
         getWorkersList();
@@ -54,12 +56,13 @@ const Workers: NextPage = () => {
     };
 
 
+
     return (
         <Grid container>
             <Header/>
             {workers.length > 0 &&
-            <WorkersList states={{groups, setGroups, getWorkersList, selected, setSelected,setVisibleWorkers,page,setPage}} data={workers}/>}
-            {Boolean(workerGraph) && <HashChart page={{page,setPage}} data={workerGraph} since={{since,setSince}} visibleWorkers={visibleWorkers}/>}
+            <WorkersList states={{groups, setGroups, getWorkersList, selected, setSelected,setVisibleWorkers,page,setPage,setSelection}} data={workers}/>}
+            {Boolean(workerGraph) && <HashChart page={{page,setPage}} data={workerGraph} since={{since,setSince}} selection={{selection,setSelection}} visibleWorkers={visibleWorkers}/>}
             <Footer/>
             <Backdrop
                 sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}

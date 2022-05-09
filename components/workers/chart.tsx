@@ -60,6 +60,10 @@ interface Props {
         page: number;
         setPage: any;
     }
+    selection: {
+        selection: Array<number>;
+        setSelection: any;
+    }
 }
 
 function* colorize() {
@@ -80,13 +84,35 @@ const HashChart = (props: Props) => {
     const {mode} = useContext(themeModeContext);
     const newColors = colorize();
 
+    const getWorkersNameById = () => {
+        return props.selection.selection.map((pItem) => {
+            let find = props.visibleWorkers.filter(item => {
+                //@ts-ignore
+                return item.worker_id == pItem;
+            });
+            if (find.length) {
+                return find.map(item => item.worker_name)[0];
+            }
+        });
+    };
+
+
     const workersToGraph = (data: Array<any>) => {
         let newWorkers = [];
         for (const newWorker of props.visibleWorkers) {
             newWorkers.push(data.find((item) => item.name == newWorker.worker_name));
         }
-        return newWorkers.map((item: any) => {
+        return newWorkers.filter(item => item != undefined).map((item: any) => {
             let color = newColors.next().value;
+            if(getWorkersNameById().length){
+                if(getWorkersNameById().includes(item.name)){
+                    item.hidden = false;
+                }else {
+                    item.hidden = true;
+                }
+            }else {
+                item.hidden = false;
+            }
             //@ts-ignore
             item.label = item.name;
             //@ts-ignore
@@ -137,6 +163,39 @@ const HashChart = (props: Props) => {
             }
         },
         maintainAspectRatio: false,
+        onClick: function(evt:any, element:any,chart:any) {
+            if (element.length > 0) {
+                // get selected line index
+                let selected = element[0].datasetIndex;
+                // a flag to determine if all is hidden or not
+                let allHidden = true;
+                // search and set the flag
+                chart.data.datasets.forEach((dataSet:any, i:any) => {
+                    if(i != selected) {
+                        let meta = chart.getDatasetMeta(i);
+                        if(meta.hidden == false){
+                            allHidden = false;
+                        }
+                    }
+                });
+                // if all hidden , unhidden all
+                if(allHidden){
+                    chart.data.datasets.forEach((dataSet:any, i:any) => {
+                        let meta = chart.getDatasetMeta(i);
+
+                        meta.hidden = false;
+                    });
+                }else {
+                    chart.data.datasets.forEach((dataSet:any, i:any) => {
+                        let meta = chart.getDatasetMeta(i);
+
+                        meta.hidden = true;
+                    });
+                    chart.getDatasetMeta(selected).hidden = false;
+                }
+                chart.update();
+            }
+        }
     };
 
     const [workersData, setWorkersData] = useState(workersToGraph(props.data.workers));
@@ -147,7 +206,7 @@ const HashChart = (props: Props) => {
 
     useEffect(() => {
         setWorkersData(workersToGraph(props.data.workers));
-    }, [props.data,props.visibleWorkers]);
+    }, [props.data,props.visibleWorkers,props.selection.selection]);
 
     const labels = props.data.timestamps.map(item => {
         return moment(item, "YYYYMMDDhh").format("MM-DD hh:mm")
@@ -157,6 +216,7 @@ const HashChart = (props: Props) => {
         labels,
         datasets: workersData.slice(start, start + 5),
     };
+
 
     const nextWorkers = () => {
         setStart(start + 5);
@@ -168,7 +228,6 @@ const HashChart = (props: Props) => {
 
     const canGoNext = start + 5 > workersData.length;
 
-    useEffect(() => console.log(data),[data]);
 
     return (
         <>

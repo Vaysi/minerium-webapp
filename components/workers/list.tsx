@@ -73,6 +73,7 @@ interface Props {
         setVisibleWorkers: any;
         page: number;
         setPage: any;
+        setSelection: any;
     }
 }
 
@@ -90,6 +91,7 @@ const WorkersList = (props: Props) => {
     const nineMatches = useMediaQuery('(max-width:980px)');
     const router = useRouter();
 
+    useEffect(() => props.states.setSelection(selectionModel),[selectionModel]);
     const openGroupModal = () => {
         if (selectionModel.length) {
             setGroupModal(true);
@@ -297,17 +299,16 @@ const WorkersList = (props: Props) => {
     };
 
     const getWorkersNameById = () => {
-        return selectionModel.map(item => {
+        return selectionModel.map(pItem => {
             let find = workers.filter(item => {
                 //@ts-ignore
-                return selectionModel.includes(item.worker_id);
+                return item.worker_id == pItem;
             });
             if (find.length) {
                 return find[0].worker_name;
             }
         });
     };
-
 
     useEffect(() => {
         if (props.states.selected == 'all') {
