@@ -79,6 +79,7 @@ const HashChart = (props: Props) => {
     const styles = useStyles();
     const {mode} = useContext(themeModeContext);
     const newColors = colorize();
+
     const workersToGraph = (data: Array<any>) => {
         let newWorkers = [];
         for (const newWorker of props.visibleWorkers) {
@@ -166,6 +167,8 @@ const HashChart = (props: Props) => {
     };
 
     const canGoNext = start + 5 > workersData.length;
+
+    useEffect(() => console.log(data),[data]);
 
     return (
         <>
