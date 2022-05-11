@@ -106,12 +106,12 @@ const History = () => {
               <div style={{display: 'flex', height: '100%', minHeight: 400}}>
                   <div style={{flexGrow: 1}}>
                       <DataGrid
-                          rows={history.map(item => {
+                          rows={history.map((item,index) => {
                               item.since = moment(item.since,'YYYYMMDDHH').format('YYYY-MM-DD H:m');
                               item.until = moment(item.until,'YYYYMMDDHH').format('YYYY-MM-DD H:m');
                               item.paid = item.paid ? 'Settled' : 'Not Settled';
                               item.type = 'PPS';
-                              item.id = (new Date()).getTime();
+                              item.id = index;
                               item.currency = item.currency.toUpperCase();
                               return item;
                           })}
