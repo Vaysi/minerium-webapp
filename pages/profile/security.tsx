@@ -138,7 +138,7 @@ const WatchersPage: NextPage = () => {
                     }
                 </Box>
             </CustomCard>
-            <CustomCard titleProps={{title: "Password"}}>
+            <CustomCard titleProps={{title: "Change Password"}}>
                 <FormControl variant={mode == 'dark' ? 'filled' : "outlined"} fullWidth>
                     <InputLabel htmlFor="password">Current Password</InputLabel>
                     <OutlinedInput

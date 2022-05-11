@@ -14,7 +14,8 @@ import {
     ListItem,
     ListItemButton,
     ListItemIcon,
-    ListItemText
+    ListItemText,
+    Tooltip
 } from "@mui/material";
 import Header from "../../components/header/header";
 import Footer from "../../components/footer/footer";
@@ -27,6 +28,7 @@ import {Notifications, Watchers} from "../../utils/interfaces";
 import {$$deleteWatcher, $$getWatchers} from "../../utils/api";
 import {useRouter} from "next/router";
 import {toast} from "react-toastify";
+import {CopyToClipboard} from "react-copy-to-clipboard";
 
 
 const useStyles: any = makeStyles((theme: any) => ({}));
@@ -78,6 +80,9 @@ const WatchersPage: NextPage = () => {
             toast.success('Watcher Deleted Successfully!');
         });
     };
+
+    const hostname = typeof window !== 'undefined' && window.location.hostname ? window.location.hostname : '';
+
     return (
         <Grid container>
             <Header/>
@@ -97,24 +102,28 @@ const WatchersPage: NextPage = () => {
                                 }
                                 disablePadding
                             >
-                                <ListItemButton role={undefined} dense>
-                                    <ListItemIcon>
-                                        <Checkbox
-                                            edge="start"
-                                            tabIndex={-1}
-                                            disableRipple
-                                            inputProps={{'aria-labelledby': labelId}}
-                                        />
-                                    </ListItemIcon>
-                                    <ListItemText id={labelId} primary={(
-                                        <>
-                                            {item.remark}
-                                            <Chip label="Link" size={"small"} sx={{ml: 2}}
-                                                  onClick={() => router.push("watchers/" + item.token)}
-                                                  color={"primary"}/>
-                                        </>
-                                    )}/>
-                                </ListItemButton>
+                                <CopyToClipboard text={hostname + "/watchers/" + item.token}
+                                                 onCopy={() => toast.success('Successfully Copied !')}>
+                                    <ListItemButton role={undefined} dense>
+                                        <ListItemIcon>
+                                            <Checkbox
+                                                edge="start"
+                                                tabIndex={-1}
+                                                disableRipple
+                                                inputProps={{'aria-labelledby': labelId}}
+                                            />
+                                        </ListItemIcon>
+                                        <ListItemText id={labelId} primary={(
+                                            <>
+                                                    {item.remark}
+                                                <Tooltip title="Click To Copy">
+                                                <Chip label="Link" size={"small"} sx={{ml: 2,cursor:"pointer"}}
+                                                          color={"primary"}/>
+                                                </Tooltip>
+                                            </>
+                                        )}/>
+                                    </ListItemButton>
+                                </CopyToClipboard>
                             </ListItem>
                         );
                     })}
