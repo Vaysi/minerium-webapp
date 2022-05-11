@@ -107,7 +107,6 @@ const HashChart = (props: Props) => {
 
         return newWorkers.filter(item => item != undefined).map((item: any) => {
             let color = newColors.next().value;
-            // console.log(item.name,item.hidden,getWorkersNameById());
             //@ts-ignore
             item.label = item.name;
             //@ts-ignore
@@ -255,7 +254,7 @@ const HashChart = (props: Props) => {
                 <Box style={{minHeight: "50vh"}}>
                     {
                         //@ts-ignore
-                        (<Line ref={chartRef} onClick={(e,t) => console.log(e)} options={props.options ?? options} data={data}/>)
+                        (<Line ref={chartRef} options={props.options ?? options} data={data}/>)
                     }
                 </Box>
                 <Box display={"flex"} justifyContent={"center"}>
