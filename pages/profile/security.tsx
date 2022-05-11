@@ -140,7 +140,7 @@ const WatchersPage: NextPage = () => {
             </CustomCard>
             <CustomCard titleProps={{title: "Password"}}>
                 <FormControl variant={mode == 'dark' ? 'filled' : "outlined"} fullWidth>
-                    <InputLabel htmlFor="password">Password</InputLabel>
+                    <InputLabel htmlFor="password">Current Password</InputLabel>
                     <OutlinedInput
                         onChange={(e) => setCurrentPass(e.target.value)}
                         required
@@ -165,7 +165,7 @@ const WatchersPage: NextPage = () => {
                     />
                 </FormControl>
                 <FormControl variant={mode == 'dark' ? 'filled' : "outlined"} fullWidth>
-                    <InputLabel htmlFor="password">Password</InputLabel>
+                    <InputLabel htmlFor="password">New Password</InputLabel>
                     <OutlinedInput
                         onChange={(e) => setNewPass(e.target.value)}
                         required
@@ -190,7 +190,7 @@ const WatchersPage: NextPage = () => {
                     />
                 </FormControl>
                 <FormControl variant={mode == 'dark' ? 'filled' : "outlined"} fullWidth>
-                    <InputLabel htmlFor="repeat_password">Confirm Password</InputLabel>
+                    <InputLabel htmlFor="repeat_password">Repeat Password</InputLabel>
                     <OutlinedInput
                         onChange={(e) => setRepeatPass(e.target.value)}
                         required

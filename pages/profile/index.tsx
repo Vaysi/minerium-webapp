@@ -38,12 +38,12 @@ const WatchersPage: NextPage = () => {
     const tabLinks = [
         {
             title: 'Account',
-            link: "profile",
+            link: "/profile",
             active: true
         },
         {
             title: "Security",
-            link: "profile/security",
+            link: "/profile/security",
             active: false
         }
     ];

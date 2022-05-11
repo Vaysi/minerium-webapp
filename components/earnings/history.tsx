@@ -52,7 +52,7 @@ const History = () => {
     const columns: GridColDef[] = [
         {
             field: 'since',
-            headerName: 'Since',
+            headerName: 'From',
             flex: 1,
             align: "center",
             headerAlign: "center",
@@ -60,7 +60,7 @@ const History = () => {
         },
         {
             field: 'until',
-            headerName: 'Until',
+            headerName: 'To',
             flex: 1,
             align: "center",
             headerAlign: "center",
@@ -68,7 +68,7 @@ const History = () => {
         },
         {
             field: 'price',
-            headerName: 'Price',
+            headerName: 'Amount',
             flex: 1,
             align: "center",
             headerAlign: "center",
@@ -84,7 +84,7 @@ const History = () => {
         },
         {
             field: 'type',
-            headerName: 'Earning Type',
+            headerName: 'Earning Method',
             flex: 1,
             align: "center",
             headerAlign: "center",
@@ -92,7 +92,7 @@ const History = () => {
         },
         {
             field: 'paid',
-            headerName: 'Settled',
+            headerName: 'Status',
             flex: 1,
             align: "center",
             headerAlign: "center",

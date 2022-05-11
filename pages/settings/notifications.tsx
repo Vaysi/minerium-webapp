@@ -23,7 +23,7 @@ const useStyles: any = makeStyles((theme: any) => ({
         display: "flex",
         alignItems: "center",
         color: "#043386",
-        fontWeight: 500
+        fontWeight: 700
     },
 }));
 
@@ -69,17 +69,17 @@ const SettingsPage: NextPage = () => {
     const tabLinks = [
         {
             title: 'Payments',
-            link: "settings",
+            link: "/settings",
             active: false
         },
         {
             title: "Notifications",
-            link: "settings/notifications",
+            link: "/settings/notifications",
             active: true
         },
         {
             title: "Watchers",
-            link: "settings/watchers",
+            link: "/settings/watchers",
             active: false
         }
     ];
@@ -95,9 +95,9 @@ const SettingsPage: NextPage = () => {
                         label="Receive daily report"/>
                 </FormGroup>
                 <FormGroup row={true} style={{justifyContent: "flex-start"}}>
-                    <FormControlLabel
+                    <FormControlLabel sx={{minWidth:380,fontFamily:"var(--font-mont)",color:"#043386"}}
                         control={<Checkbox checked={showHashrate} onChange={(e) => setShowHashrate(!showHashrate)}/>}
-                        label="Report if hash rate of any worker falls under a specific value"/>
+                        label="Receive If Hashrate of any workers falls under"/>
                     <TextField
                         margin="dense"
                         id="hashrate"
@@ -108,12 +108,28 @@ const SettingsPage: NextPage = () => {
                         className={styles.input}
                         disabled={!showHashrate}
                     />
-                    <span className={styles.units + ` unit`}>TH/s</span>
+                    <span className={styles.units + ` unit`}>( TH )</span>
                 </FormGroup>
                 <FormGroup row={true} style={{justifyContent: "flex-start"}}>
-                    <FormControlLabel control={<Checkbox checked={showActiveWorkers}
+                    <FormControlLabel sx={{minWidth:380,fontFamily:"var(--font-mont)",color:"#043386"}} control={<Checkbox checked={showTotalHashrate}
+                                                         onChange={(e) => setShowTotalHashrate(!showTotalHashrate)}/>}
+                                      label="Receive If total hashrate falls under"/>
+                    <TextField
+                        margin="dense"
+                        id="totalHashrate"
+                        value={notifications.totalHashrate}
+                        variant="outlined"
+                        size={"small"}
+                        onChange={(e) => changeField('totalHashrate', e.target.value)}
+                        disabled={!showTotalHashrate}
+                        className={styles.input}
+                    />
+                    <span className={styles.units + ` unit`}>( TH )</span>
+                </FormGroup>
+                <FormGroup row={true} style={{justifyContent: "flex-start"}}>
+                    <FormControlLabel sx={{minWidth:380,fontFamily:"var(--font-mont)",color:"#043386"}} control={<Checkbox checked={showActiveWorkers}
                                                          onChange={(e) => setShowActiveWorkers(!showActiveWorkers)}/>}
-                                      label="Report if number of active workers falls under a specific value"/>
+                                      label="Receive If number of active workers falls under"/>
                     <TextField
                         margin="dense"
                         id="activeWorkers"
@@ -125,22 +141,6 @@ const SettingsPage: NextPage = () => {
                         className={styles.input}
                     />
                     <span className={styles.units + ` unit`}>miners</span>
-                </FormGroup>
-                <FormGroup row={true} style={{justifyContent: "flex-start"}}>
-                    <FormControlLabel control={<Checkbox checked={showTotalHashrate}
-                                                         onChange={(e) => setShowTotalHashrate(!showTotalHashrate)}/>}
-                                      label="Report if total hash rate falls under a specific value"/>
-                    <TextField
-                        margin="dense"
-                        id="totalHashrate"
-                        value={notifications.totalHashrate}
-                        variant="outlined"
-                        size={"small"}
-                        onChange={(e) => changeField('totalHashrate', e.target.value)}
-                        disabled={!showTotalHashrate}
-                        className={styles.input}
-                    />
-                    <span className={styles.units + ` unit`}>TH/s</span>
                 </FormGroup>
                 <Box sx={{mt: 2}} textAlign={"right"}>
                     <Button onClick={submit} variant={"contained"}

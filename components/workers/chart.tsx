@@ -12,7 +12,7 @@ import {
 } from 'chart.js';
 import {Line} from 'react-chartjs-2';
 import {WorkersGraph} from "../../utils/interfaces";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import CustomCard from "../inline-components/card";
 import {themeModeContext} from "../../utils/context";
 import {ArrowLeft, ArrowRight} from "@mui/icons-material";
@@ -83,6 +83,8 @@ const HashChart = (props: Props) => {
     const styles = useStyles();
     const {mode} = useContext(themeModeContext);
     const newColors = colorize();
+    const chartRef = useRef();
+
 
     const getWorkersNameById = () => {
         return props.selection.selection.map((pItem) => {
@@ -102,17 +104,10 @@ const HashChart = (props: Props) => {
         for (const newWorker of props.visibleWorkers) {
             newWorkers.push(data.find((item) => item.name == newWorker.worker_name));
         }
+
         return newWorkers.filter(item => item != undefined).map((item: any) => {
             let color = newColors.next().value;
-            if(getWorkersNameById().length){
-                if(getWorkersNameById().includes(item.name)){
-                    item.hidden = false;
-                }else {
-                    item.hidden = true;
-                }
-            }else {
-                item.hidden = false;
-            }
+            // console.log(item.name,item.hidden,getWorkersNameById());
             //@ts-ignore
             item.label = item.name;
             //@ts-ignore
@@ -229,13 +224,38 @@ const HashChart = (props: Props) => {
     const canGoNext = start + 5 > workersData.length;
 
 
+    useEffect(() => {
+        if(chartRef.current){
+            if(getWorkersNameById().length){
+                //@ts-ignore
+                chartRef.current.data.datasets.forEach((dataSet:any, i:any) => {
+                    //@ts-ignore
+                    let meta = chartRef.current.getDatasetMeta(i);
+                    if(getWorkersNameById().includes(dataSet.name)){
+                        meta.hidden = false;
+                    }else {
+                        meta.hidden = true;
+                    }
+                });
+            }else {
+                //@ts-ignore
+                chartRef.current.data.datasets.forEach((dataSet:any, i:any) => {
+                    //@ts-ignore
+                    let meta = chartRef.current.getDatasetMeta(i);
+                    meta.hidden = false;
+                });
+            }
+            //@ts-ignore
+            chartRef.current.update();
+        }
+    },[props.selection]);
     return (
         <>
             <CustomCard titleProps={{title: "Hashrate Chart"}} cardProps={{style:{position:"relative"}}}>
                 <Box style={{minHeight: "50vh"}}>
                     {
                         //@ts-ignore
-                        (<Line options={props.options ?? options} data={data}/>)
+                        (<Line ref={chartRef} onClick={(e,t) => console.log(e)} options={props.options ?? options} data={data}/>)
                     }
                 </Box>
                 <Box display={"flex"} justifyContent={"center"}>

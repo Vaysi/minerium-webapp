@@ -56,17 +56,17 @@ const WatchersPage: NextPage = () => {
     const tabLinks = [
         {
             title: 'Payments',
-            link: "settings",
+            link: "/settings",
             active: false
         },
         {
             title: "Notifications",
-            link: "settings/notifications",
+            link: "/settings/notifications",
             active: false
         },
         {
             title: "Watchers",
-            link: "settings/watchers",
+            link: "/settings/watchers",
             active: true
         }
     ];

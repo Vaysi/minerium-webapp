@@ -122,7 +122,16 @@ const PaymentSettings: NextPage = () => {
                                     <StyledTableCell>
                                         {row.coin.toUpperCase()}
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">{row.wallet}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.wallet ? row.wallet : (
+                                        <Button onClick={() => {
+                                            setCoin(row.coin);
+                                            setPriceCap(row.priceCap);
+                                            setWallet(row.wallet);
+                                            handleClickOpen();
+                                        }} variant={"contained"} color={"primary"}>
+                                            Add
+                                        </Button>
+                                    )}</StyledTableCell>
                                     <StyledTableCell align="center">{row.priceCap}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Button onClick={() => {
