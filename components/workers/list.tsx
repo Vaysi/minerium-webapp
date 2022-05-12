@@ -465,13 +465,14 @@ const WorkersList = (props: Props) => {
                         }
                     </Grid>
                 </Grid>
-                <div style={{display: 'flex', height: '100%', minHeight: 400}}>
+                <div style={{display: 'flex', height: '100%', minHeight: matches ? 300 : 400}}>
                     <div style={{flexGrow: 1,width:"100%"}} className={"tableContainer workersTable"}>
                         <DataGrid
                             rows={workers}
                             columns={columns}
-                            rowsPerPageOptions={[10]}
+                            rowsPerPageOptions={[5]}
                             autoPageSize={true}
+                            pageSize={5}
                             density={matches ? "compact" : "standard"}
                             checkboxSelection
                             onSelectionModelChange={(newSelectionModel) => {

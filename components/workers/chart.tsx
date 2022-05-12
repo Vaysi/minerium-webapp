@@ -15,7 +15,6 @@ import {WorkersGraph} from "../../utils/interfaces";
 import {useContext, useEffect, useRef, useState} from "react";
 import CustomCard from "../inline-components/card";
 import {themeModeContext} from "../../utils/context";
-import {ArrowLeft, ArrowRight} from "@mui/icons-material";
 import moment from "moment";
 
 
