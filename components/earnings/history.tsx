@@ -56,7 +56,8 @@ const History = () => {
             flex: 1,
             align: "center",
             headerAlign: "center",
-            headerClassName: styles.headerTitle
+            headerClassName: styles.headerTitle,
+            minWidth: 120,
         },
         {
             field: 'until',
@@ -64,7 +65,8 @@ const History = () => {
             flex: 1,
             align: "center",
             headerAlign: "center",
-            headerClassName: styles.headerTitle
+            headerClassName: styles.headerTitle,
+            minWidth: 120,
         },
         {
             field: 'price',
@@ -72,7 +74,8 @@ const History = () => {
             flex: 1,
             align: "center",
             headerAlign: "center",
-            headerClassName: styles.headerTitle
+            headerClassName: styles.headerTitle,
+            minWidth: 110,
         },
         {
             field: 'currency',
@@ -80,7 +83,8 @@ const History = () => {
             flex: 1,
             align: "center",
             headerAlign: "center",
-            headerClassName: styles.headerTitle
+            headerClassName: styles.headerTitle,
+            minWidth: 75,
         },
         {
             field: 'type',
@@ -88,7 +92,8 @@ const History = () => {
             flex: 1,
             align: "center",
             headerAlign: "center",
-            headerClassName: styles.headerTitle
+            headerClassName: styles.headerTitle,
+            minWidth: 75,
         },
         {
             field: 'paid',
@@ -96,7 +101,8 @@ const History = () => {
             flex: 1,
             align: "center",
             headerAlign: "center",
-            headerClassName: styles.headerTitle
+            headerClassName: styles.headerTitle,
+            minWidth: 80
         },
     ];
 

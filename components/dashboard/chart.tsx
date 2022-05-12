@@ -1,5 +1,5 @@
-import {Box, Button,} from "@mui/material";
-import {makeStyles} from "@mui/styles";
+import {Backdrop, Box, Button, CircularProgress, useMediaQuery,} from "@mui/material";
+import {makeStyles, useTheme} from "@mui/styles";
 import {
     CategoryScale,
     Chart as ChartJS,
@@ -27,14 +27,6 @@ const useStyles: any = makeStyles((theme: any) => ({
     cardContent: {
         backgroundColor: "var(--blue-ghost)",
         minHeight: "50vh",
-        /*"@media (max-width: 900px)": {
-            minHeight: "40vh",
-            maxHeight: "40vh",
-        },
-        "@media (max-width: 700px)": {
-            minHeight: "25vh",
-            maxHeight: "25vh",
-        },*/
     },
     headerTitle: {},
     active: {
@@ -55,6 +47,9 @@ const useStyles: any = makeStyles((theme: any) => ({
         fontSize: "17px",
         opacity: 0.65,
         textTransform: "none"
+    },
+    backdrop: {
+        position: "absolute"
     }
 }));
 
@@ -83,6 +78,11 @@ const HashChart = (props: Props) => {
     const [labels, setLabels] = useState([]);
     const [workersData, setWorkersData] = useState(props.data);
     const {mode} = useContext(themeModeContext);
+    const theme = useTheme();
+    const [loading,setLoading] = useState(false);
+    //@ts-ignore
+    const matches = useMediaQuery(theme.breakpoints.down('sm'));
+
 
     const options = () => {
         return {
@@ -122,6 +122,9 @@ const HashChart = (props: Props) => {
             });
             setLabels(labelsX);
             setWorkersData(props.data);
+            if(loading){
+                setLoading(false);
+            }
         }
     }, [props.data]);
 
@@ -154,39 +157,49 @@ const HashChart = (props: Props) => {
         ],
     };
 
-    return (
-        <CustomCard titleProps={{
-            title: "Hashrate Chart", action: (
-                <>
-                    <Button sx={{mr: 2}} variant={"contained"}
-                            className={props.type == 'hour' ? styles.active : styles.deactive} color={"primary"}
-                            onClick={() => {
-                                if (props.type != 'hour') {
-                                    props.setFilter('hour');
-                                }
-                            }}>
-                        By Hour
-                    </Button>
-                    <Button variant={"contained"} className={props.type == 'day' ? styles.active : styles.deactive}
-                            color={"primary"} onClick={() => {
-                        if (props.type != 'day') {
-                            props.setFilter('day');
+    const timeframeButtons = (
+        <>
+            <Button sx={{mr: 2}} variant={"contained"}
+                    className={props.type == 'hour' ? styles.active : styles.deactive} color={"primary"}
+                    onClick={() => {
+                        if (props.type != 'hour') {
+                            props.setFilter('hour');
+                            setLoading(true);
                         }
                     }}>
-                        By Day
-                    </Button>
-                </>
-            )
-        }}>
-            <Box sx={{mb: 2}} textAlign={"right"}>
+                By Hour
+            </Button>
+            <Button variant={"contained"} className={props.type == 'day' ? styles.active : styles.deactive}
+                    color={"primary"} onClick={() => {
+                if (props.type != 'day') {
+                    props.setFilter('day');
+                    setLoading(true);
+                }
+            }}>
+                By Day
+            </Button>
+        </>
+    );
 
-            </Box>
-            <Box sx={{height: {xs: 450}}}>
+
+    return (
+        <CustomCard titleProps={{
+            title: "Hashrate Chart", action: !matches && (timeframeButtons)
+        }} cardProps={{style:{position: "relative"}}}>
+            {matches && (
+                <Box sx={{mb: 2}} textAlign={"center"}>
+                    {timeframeButtons}
+                </Box>
+            )}
+            <Box sx={{height: {md: 450,xs:300}}}>
                 {
                     //@ts-ignore
                     labels.length > 0 && workersData.length > 0 && (<Line options={props.options ?? options()} data={data}/>)
                 }
             </Box>
+            <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1,px:5,py:5}} className={styles.backdrop} open={loading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </CustomCard>
     );
 }

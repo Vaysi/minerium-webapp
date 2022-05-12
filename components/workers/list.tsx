@@ -14,7 +14,7 @@ import {
     Typography,
     useMediaQuery,
 } from "@mui/material";
-import {makeStyles} from "@mui/styles";
+import {makeStyles, useTheme} from "@mui/styles";
 import {
     DataGrid, GridApi,
     GridCallbackDetails,
@@ -90,6 +90,9 @@ const WorkersList = (props: Props) => {
     const [watcherLink, setWatcherLink] = useState(null);
     const nineMatches = useMediaQuery('(max-width:980px)');
     const router = useRouter();
+    const theme = useTheme();
+    //@ts-ignore
+    const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => props.states.setSelection(selectionModel),[selectionModel]);
     const openGroupModal = () => {
@@ -194,10 +197,11 @@ const WorkersList = (props: Props) => {
                 return (
                     <strong>
                         <Circle style={{color: params.row.hash1m > 0 ? "green" : "red" , width:15,height:15,marginRight:5,position:"relative",top:3}} />
-                        {params.row.worker_name}
+                        {matches ? params.row.worker_name.split(".")[1] : params.row.worker_name }
                     </strong>
                 );
             },
+            minWidth: 100
         },
         {
             field: 'hash1m',
@@ -210,6 +214,7 @@ const WorkersList = (props: Props) => {
             },
             headerClassName: styles.headerTitle,
             type: "number",
+            minWidth: 100
         },
         {
             field: 'hash1hr',
@@ -221,7 +226,8 @@ const WorkersList = (props: Props) => {
                 return Hashrate(params.row.hash1hr);
             },
             headerClassName: styles.headerTitle,
-            type: "number"
+            type: "number",
+            minWidth: 100
         },
         {
             field: 'hash1d',
@@ -233,7 +239,8 @@ const WorkersList = (props: Props) => {
                 return Hashrate(params.row.hash1d);
             },
             headerClassName: styles.headerTitle,
-            type: "number"
+            type: "number",
+            minWidth: 100
         },
         {
             field: 'hash7d',
@@ -245,7 +252,8 @@ const WorkersList = (props: Props) => {
                 return Hashrate(params.row.hash7d);
             },
             headerClassName: styles.headerTitle,
-            type: "number"
+            type: "number",
+            minWidth: 100
         },
         {
             field: 'lastupdate',
@@ -254,7 +262,8 @@ const WorkersList = (props: Props) => {
             align: "center",
             headerAlign: "center",
             headerClassName: styles.headerTitle,
-            type: "dateTime"
+            type: "dateTime",
+            minWidth: 120
         },
     ];
 
@@ -463,6 +472,7 @@ const WorkersList = (props: Props) => {
                             columns={columns}
                             rowsPerPageOptions={[10]}
                             autoPageSize={true}
+                            density={matches ? "compact" : "standard"}
                             checkboxSelection
                             onSelectionModelChange={(newSelectionModel) => {
                                 // @ts-ignore

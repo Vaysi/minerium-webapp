@@ -20,15 +20,15 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Tooltip,
+    Tooltip, useMediaQuery,
 } from "@mui/material";
-import {makeStyles} from "@mui/styles";
+import {makeStyles, useTheme} from "@mui/styles";
 import {useRouter} from "next/router";
 import CalculatorIcon from "../inline-components/calculator-icon";
 import {useEffect, useState} from "react";
 import {$$changePaymentPreference, $$earningsBalance, $$getAllPPS, $$getPps} from "../../utils/api";
 import {toast} from "react-toastify";
-import {addThousandSep, arrayMove} from "../../utils/functions";
+import {addThousandSep, arrayMove, calculateDailyRevBaseOnTime} from "../../utils/functions";
 import {ArrowRightAlt} from "@mui/icons-material";
 
 const useStyles: any = makeStyles((theme: any) => ({
@@ -127,6 +127,9 @@ const CoinsTable = (props: Props) => {
     const [ask, setAsk] = useState<boolean>(false);
     const [tempVal, setTempVal] = useState<any>('');
     const [balance, setBalance] = useState<Array<any>>([]);
+    const theme = useTheme();
+    //@ts-ignore
+    const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
         $$getAllPPS().then(response => {
@@ -162,7 +165,6 @@ const CoinsTable = (props: Props) => {
         return out.length ? out[0] : null;
     };
 
-
     return (
         <Grid container>
             <Container sx={{my: 5}} maxWidth={"xl"}>
@@ -187,20 +189,23 @@ const CoinsTable = (props: Props) => {
                                         key={k}
                                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                     >
+                                        {/* Coin */}
                                         <TableCell align="center">
-                                            <img className={styles.icon} src={`/coins/${k}.svg`} width={35}
-                                                 height={35}/>
+                                            <img className={styles.icon} src={`/coins/${k}.svg`} width={matches ? 30 : 35}
+                                                 height={matches ? 30 : 35} style={{top: matches ? 0 : 10}}/>
                                             <span className={styles.ticker} style={{
-                                                marginLeft: 10,
+                                                marginLeft: matches ? 0 : 10,
                                                 fontWeight: "bold",
                                                 fontSize: "18px"
                                             }}>{k.toUpperCase()}</span>
                                         </TableCell>
+                                        {/* Daily Rev */}
                                         <TableCell align="center" className={styles.tbody}>
                                             {v.yesterday.toFixed(8)}
                                             <br/>
                                             { v?.price > 0 && (<span>{addThousandSep((v.yesterday.toFixed(8) * v.price).toFixed(2))}$</span>)}
                                         </TableCell>
+                                        {/* Yesterday Earning */}
                                         <TableCell align="center" className={styles.tbody}>
                                             {v.yesterday.toFixed(8)}
                                             <br/>

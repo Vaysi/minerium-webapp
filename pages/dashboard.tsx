@@ -8,7 +8,7 @@ import {
     Grid,
     IconButton,
     TextField,
-    Typography
+    Typography, useMediaQuery
 } from "@mui/material";
 import Header from "../components/header/header";
 import {ContentCopy} from "@mui/icons-material";
@@ -20,7 +20,7 @@ import env from "../utils/env";
 import CustomCard from "../components/inline-components/card";
 import {hasJsonStructure} from "../utils/functions";
 import {getAccessToken} from "axios-jwt";
-import {makeStyles} from "@mui/styles";
+import {makeStyles, useTheme} from "@mui/styles";
 import HashChart from "../components/dashboard/chart";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import {toast} from "react-toastify";
@@ -90,6 +90,9 @@ const Dashboard: NextPage = () => {
     const styles = useStyles();
     const [messageHistory, setMessageHistory] = useState([]);
     const [socketFiler, setSocketFilter] = useState<"day" | "hour">('day');
+    const theme = useTheme();
+    //@ts-ignore
+    const downSmMatches = useMediaQuery(theme.breakpoints.down('sm'));
     const [dashboardData, setDashboardData] = useState({
         graphDay: [],
         graphHour: [],
@@ -162,7 +165,7 @@ const Dashboard: NextPage = () => {
 
     const copyButton = (text: string) => (
         <CopyToClipboard text={text} onCopy={() => toast.success('Successfully Copied !')}>
-            <Button variant={"contained"}  className={styles.customBtn}>Copy</Button>
+            <Button variant={"contained"} style={{fontSize: downSmMatches ? 10 : 16}}  className={styles.customBtn}>Copy</Button>
         </CopyToClipboard>
     );
 
@@ -218,27 +221,27 @@ const Dashboard: NextPage = () => {
                             <CustomCard titleProps={{title: "Minerium Addresess"}}  containerProps={{style:{height:"100%"}}} cardProps={{style: {height: "290px"},"data-id":"fields"}}>
                                 <TextField
                                     fullWidth
-                                    className={styles.bodyFont}
+                                    className={`${styles.bodyFont} ${styles.textField}`}
                                     id="address"
                                     sx={{py:0}}
                                     value="stratum+tcp://stratum.minerium.com:3333"
-                                    InputProps={{style:{fontSize: 20, color: "#043180"},endAdornment: copyButton("stratum+tcp://stratum.minerium.com:3333")}}
+                                    InputProps={{style:{fontSize: downSmMatches ? 12 : 20, color: "#043180"},endAdornment: copyButton("stratum+tcp://stratum.minerium.com:3333")}}
                                 />
                                 <TextField
                                     fullWidth
                                     id="address2"
-                                    className={styles.bodyFont}
+                                    className={`${styles.bodyFont} ${styles.textField}`}
                                     sx={{py:0}}
                                     value="stratum+tcp://stratum.minerium.com:4444"
-                                    InputProps={{style:{fontSize: 20, color: "#043180"},endAdornment: copyButton("stratum+tcp://stratum.minerium.com:4444")}}
+                                    InputProps={{style:{fontSize: downSmMatches ? 12 : 20, color: "#043180"},endAdornment: copyButton("stratum+tcp://stratum.minerium.com:4444")}}
                                 />
                                 <TextField
                                     fullWidth
                                     id="address3"
-                                    className={styles.bodyFont}
+                                    className={`${styles.bodyFont} ${styles.textField}`}
                                     sx={{py:0}}
                                     value="stratum+tcp://stratum.minerium.com:44443"
-                                    InputProps={{style:{fontSize: 20, color: "#043180"},endAdornment: copyButton("stratum+tcp://stratum.minerium.com:44443")}}
+                                    InputProps={{style:{fontSize: downSmMatches ? 12 : 20, color: "#043180"},endAdornment: copyButton("stratum+tcp://stratum.minerium.com:44443")}}
                                 />
                             </CustomCard>
                         </Grid>

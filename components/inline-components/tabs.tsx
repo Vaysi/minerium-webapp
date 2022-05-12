@@ -10,7 +10,7 @@ const useStyles:any = makeStyles((theme:any) => ({
         padding: "4px 0 2px",
         boxShadow: "inset 1px 0 5px -5px rgb(0 0 0 / 50%)",
         paddingTop: 14,
-        paddingBottom: 7,
+        paddingBottom: 4,
     },
     title: {
         color: "#fff",
@@ -47,8 +47,9 @@ const Tabs = (props:Props) => {
     return (
         <div className={styles.tabs}>
            <Container maxWidth={"xl"}>
+
                {props.data.map(item => {
-                   return (<Link key={item.title} href={item.onClick ? item.link : undefined} onClick={item.onClick ? item.onClick : () => router.push(item.link as string,undefined,{shallow:true})} className={`${styles.link} ${item.active ? styles.active : ''}`}>
+                   return (<Link sx={{color: item.active ? "053ea1" : "#fff"}} key={item.title} href={item.onClick ? item.link : undefined} onClick={item.onClick ? item.onClick : () => router.push(item.link as string,undefined,{shallow:true})} className={`${styles.link} ${item.active ? styles.active : ''}`}>
                        {item.title.toUpperCase()}
                    </Link>);
                })}

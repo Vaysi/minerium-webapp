@@ -23,6 +23,8 @@ const useStyles: any = makeStyles((theme: any) => ({
         padding: "0 3px",
         color: "#043386",
         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+        display: "inline-block",
+        fontSize: 10
     },
     parent: {
         position: "relative",

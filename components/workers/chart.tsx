@@ -248,6 +248,7 @@ const HashChart = (props: Props) => {
             chartRef.current.update();
         }
     },[props.selection]);
+
     return (
         <>
             <CustomCard titleProps={{title: "Hashrate Chart"}} cardProps={{style:{position:"relative"}}}>
@@ -271,7 +272,7 @@ const HashChart = (props: Props) => {
                 <Box sx={{ml:"auto",position:{xs:"relative",sm:"absolute"},bottom:{xs:0,sm:15},right:0}}>
                     <TablePagination
                         component="div"
-                        count={workersData.length}
+                        count={props.data.workers.length}
                         page={props.page.page}
                         onPageChange={(event, page) => {
                             props.page.setPage(page);

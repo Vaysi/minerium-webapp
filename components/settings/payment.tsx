@@ -23,6 +23,7 @@ import {$$getCap, $$setCap} from "../../utils/api";
 import {makeStyles, styled} from "@mui/styles";
 import {Cap} from "../../utils/interfaces";
 import {toast} from "react-toastify";
+import {walletAddress} from "../../utils/functions";
 
 
 const useStyles: any = makeStyles((theme: any) => ({
@@ -122,7 +123,7 @@ const PaymentSettings: NextPage = () => {
                                     <StyledTableCell>
                                         {row.coin.toUpperCase()}
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">{row.wallet ? row.wallet : (
+                                    <StyledTableCell align="center">{row.wallet ? walletAddress(row.wallet) : (
                                         <Button onClick={() => {
                                             setCoin(row.coin);
                                             setPriceCap(row.priceCap);

@@ -84,3 +84,16 @@ export function hasUpper(str:string) {
 export function hasLower(str:string) {
     return (/[a-z]/g.test(str));
 }
+
+export function calculateDailyRevBaseOnTime(amount:number) {
+    let dayInMin = 1440;
+    let amountBaseOnMin = amount / dayInMin;
+    let time = new Date();
+    let getCurrentMinutes = time.getHours() * 60 + time.getMinutes();
+    return amountBaseOnMin * getCurrentMinutes;
+}
+
+
+export function walletAddress(text:string) {
+    return text.slice(0,5) + '...' + text.slice(text.length-5,text.length);
+}

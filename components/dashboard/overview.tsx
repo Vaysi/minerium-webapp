@@ -1,5 +1,5 @@
-import {Box, Container, Grid, Typography,} from "@mui/material";
-import {makeStyles} from "@mui/styles";
+import {Box, Container, Grid, Typography, useMediaQuery,} from "@mui/material";
+import {makeStyles, useTheme} from "@mui/styles";
 import CustomCard from "../inline-components/card";
 import {useRouter} from "next/router";
 
@@ -57,13 +57,16 @@ interface Props {
 const AccountOverview = (props: Props) => {
     const styles = useStyles();
     const router = useRouter();
+    const theme = useTheme();
+    //@ts-ignore
+    const matches = useMediaQuery(theme.breakpoints.down('sm'));
     return (
         <Grid container>
             <Container maxWidth={"xl"} style={{paddingLeft: 0, paddingRight: 0}}>
                 <Grid container>
                     <Grid item xs={12}>
                         <Container maxWidth={"xl"}>
-                            <Box sx={{marginTop: "50px"}} display={"flex"} justifyContent={"space-between"}>
+                            <Box sx={{marginTop: matches ? "20px" : "50px"}} display={"flex"} justifyContent={"space-between"}>
                                 <Typography className={styles.firstBox}>
                                     Account Overview
                                 </Typography>
