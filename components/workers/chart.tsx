@@ -222,6 +222,7 @@ const HashChart = (props: Props) => {
     const canGoNext = start + 5 > workersData.length;
 
 
+
     useEffect(() => {
         if(chartRef.current){
             if(getWorkersNameById().length){
@@ -271,7 +272,7 @@ const HashChart = (props: Props) => {
                 <Box sx={{ml:"auto",position:{xs:"relative",sm:"absolute"},bottom:{xs:0,sm:15},right:0}}>
                     <TablePagination
                         component="div"
-                        count={props.data.workers.length}
+                        count={props.visibleWorkers.length}
                         page={props.page.page}
                         onPageChange={(event, page) => {
                             props.page.setPage(page);

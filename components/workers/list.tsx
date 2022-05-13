@@ -486,6 +486,7 @@ const WorkersList = (props: Props) => {
                             rowsPerPageOptions={[5]}
                             autoPageSize={true}
                             pageSize={5}
+                            page={props.states.page}
                             density={matches ? "compact" : "standard"}
                             checkboxSelection
                             onSelectionModelChange={(newSelectionModel) => {
@@ -502,7 +503,7 @@ const WorkersList = (props: Props) => {
                                     updateVisibleWorkers();
                                 },1000);
                             }}
-                            onPageChange={(page) => {
+                            onPageChange={(page,details) => {
                                 props.states.setPage(page);
                                 updateVisibleWorkers(page);
                             }}
@@ -523,7 +524,6 @@ const WorkersList = (props: Props) => {
                                         //@ts-ignore
                                         props.states.setVisibleWorkers(newData);
                                     }
-                                    console.log('again');
                                 }
                             } : undefined}
                         />
