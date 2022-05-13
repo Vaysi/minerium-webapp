@@ -61,7 +61,7 @@ const Workers: NextPage = () => {
         <Grid container>
             <Header/>
             {workers.length > 0 &&
-            <WorkersList states={{groups, setGroups, getWorkersList, selected, setSelected,setVisibleWorkers,page,setPage,setSelection}} data={workers}/>}
+            <WorkersList states={{groups, setGroups, getWorkersList, selected, setSelected,setVisibleWorkers,page,setPage,setSelection,visibleWorkers}} data={workers}/>}
             {Boolean(workerGraph) && <HashChart page={{page,setPage}} data={workerGraph} since={{since,setSince}} selection={{selection,setSelection}} visibleWorkers={visibleWorkers}/>}
             <Footer/>
             <Backdrop

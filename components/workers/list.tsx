@@ -74,6 +74,7 @@ interface Props {
         page: number;
         setPage: any;
         setSelection: any;
+        visibleWorkers: any;
     }
 }
 
@@ -91,6 +92,10 @@ const WorkersList = (props: Props) => {
     const nineMatches = useMediaQuery('(max-width:980px)');
     const router = useRouter();
     const theme = useTheme();
+    const [tableState,setTableState] = useState({
+        sort: null,
+        page: 0
+    });
     //@ts-ignore
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -279,7 +284,7 @@ const WorkersList = (props: Props) => {
                         apiRef.current = params.api;
                         return null;
                     },
-                    minWidth: 0
+                    minWidth: 0,
                 }),
             [tColumns]
         );
@@ -348,6 +353,10 @@ const WorkersList = (props: Props) => {
             let start = page ? page * 5 : 0;
             let end = newRows.length;
             props.states.setVisibleWorkers(page ? newRows.slice(start,end) : newRows);
+        }else {
+            let start = page ? page * 5 : 0;
+            let end = workers.length;
+            props.states.setVisibleWorkers(page ? workers.slice(start,end) : workers);
         }
     };
 
@@ -362,7 +371,11 @@ const WorkersList = (props: Props) => {
         setTimeout(() => updateVisibleWorkers(),1000);
     },[]);
 
-    useEffect(updateVisibleWorkers,[workers]);
+    useEffect(() => {
+        updateVisibleWorkers();
+    },[workers]);
+
+    const match415 = useMediaQuery('(max-width:415px)');
 
     return (
         <>
@@ -493,6 +506,26 @@ const WorkersList = (props: Props) => {
                                 props.states.setPage(page);
                                 updateVisibleWorkers(page);
                             }}
+                            onStateChange={match415 ? (state) => {
+                                if(state.sorting.sortModel != tableState.sort){
+                                    let newState = {...tableState};
+                                    // @ts-ignore
+                                    newState.sort = state.sorting.sortModel;
+                                    setTableState(newState)
+                                    let sortedRowsIds = state.sorting.sortedRows;
+                                    let tableRows = state.rows.idRowsLookup;
+                                    let newData:any = [];
+                                    sortedRowsIds.map(item => {
+                                        newData.push(tableRows[item]);
+                                    });
+                                    //@ts-ignore
+                                    if(newData != props.states.visibleWorkers){
+                                        //@ts-ignore
+                                        props.states.setVisibleWorkers(newData);
+                                    }
+                                    console.log('again');
+                                }
+                            } : undefined}
                         />
                     </div>
                 </div>
