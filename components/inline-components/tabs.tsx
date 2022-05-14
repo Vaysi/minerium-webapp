@@ -11,6 +11,7 @@ const useStyles:any = makeStyles((theme:any) => ({
         boxShadow: "inset 1px 0 5px -5px rgb(0 0 0 / 50%)",
         paddingTop: 14,
         paddingBottom: 4,
+        overflowX: "auto"
     },
     title: {
         color: "#fff",
