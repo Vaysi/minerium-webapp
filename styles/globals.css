@@ -117,6 +117,14 @@ input:-webkit-autofill {
 [data-theme=dark] .MuiTableRow-head {
   background-color: transparent;
 }
+
+[data-theme=dark] .dashTable .MuiTableHead-root .MuiTableCell-root {
+  color: #fff!important;
+}
+[data-theme=dark] .dashTable .MuiTableHead-root {
+  background-color: var(--primary) !important;
+}
+
 [data-theme=dark] .MuiTableCell-body {
   border-bottom: none;
 }

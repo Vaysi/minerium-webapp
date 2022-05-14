@@ -8,14 +8,14 @@ import {
     Link, Paper,
     Table,
     TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow,
-    Typography
+    Typography, useMediaQuery
 } from "@mui/material";
 import {makeStyles, styled} from "@mui/styles";
 import {EarningHistory, Tab} from "../../utils/interfaces";
 import {useEffect, useState} from "react";
 import {$$earningsHistory} from "../../utils/api";
 import moment from "moment";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 import CustomCard from "../inline-components/card";
 
 const useStyles:any = makeStyles((theme:any) => ({
@@ -49,6 +49,8 @@ const History = () => {
         $$earningsHistory().then(response => setHistory(response.data));
     },[]);
 
+    const matches800 = useMediaQuery("@media (max-width: 800px)");
+
     const columns: GridColDef[] = [
         {
             field: 'since',
@@ -57,6 +59,13 @@ const History = () => {
             align: "center",
             headerAlign: "center",
             headerClassName: styles.headerTitle,
+            renderCell: matches800 ? (params: GridRenderCellParams<string>) => (
+                <span style={{textAlign:"center"}}>
+                    {params.value.split(" ")[0]}
+                    <br />
+                    {params.value.split(" ")[1]}
+                </span>
+            ) : undefined,
             minWidth: 120,
         },
         {
@@ -66,6 +75,13 @@ const History = () => {
             align: "center",
             headerAlign: "center",
             headerClassName: styles.headerTitle,
+            renderCell: matches800 ? (params: GridRenderCellParams<string>) => (
+                <span style={{textAlign:"center"}}>
+                    {params.value.split(" ")[0]}
+                    <br />
+                    {params.value.split(" ")[1]}
+                </span>
+            ) : undefined,
             minWidth: 120,
         },
         {

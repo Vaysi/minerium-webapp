@@ -1,5 +1,5 @@
 import {
-    Backdrop, CircularProgress,
+    Backdrop, Button, CircularProgress,
     Container,
     Paper,
     Table,
@@ -8,7 +8,7 @@ import {
     tableCellClasses,
     TableContainer,
     TableHead,
-    TableRow
+    TableRow, Tooltip
 } from "@mui/material";
 import {makeStyles, styled} from "@mui/styles";
 import {EarningBalance} from "../../utils/interfaces";
@@ -69,12 +69,16 @@ const Balance = () => {
     const status = (row: EarningBalance) => {
         if (!row.balance.wallet) {
             return (<>
-                Not Payable<br/><span className={styles.subtitle}>No Wallet Address Defined</span>
+                <Tooltip enterTouchDelay={0} arrow title="No Wallet Address Defined">
+                    <Button style={{fontSize:12,textTransform:"unset",minWidth:110}} size={"small"} variant="contained">Not Payable</Button>
+                </Tooltip>
             </>);
         } else if (row.balance.price < row.balance.minimum) {
             return (
                 <>
-                    Not Payable<br/><span className={styles.subtitle}>Min. Amount Has Not Reached</span>
+                    <Tooltip enterTouchDelay={0} arrow title="Min. Amount Has Not Reached">
+                        <Button style={{fontSize:12,textTransform:"unset",minWidth:110}} size={"small"} variant="contained">Not Payable</Button>
+                    </Tooltip>
                 </>
             );
         } else if (row.balance.price === 0) {
