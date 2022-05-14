@@ -186,7 +186,7 @@ input:-webkit-autofill {
 
 
 [data-theme=dark] .tableContainer .MuiTableRow-root .MuiTableCell-head {
-  background-color: #111111;
+  background-color: var(--primary);
   border: none;
 }
 [data-theme=dark] .tableContainer {
