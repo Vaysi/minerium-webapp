@@ -118,7 +118,7 @@ const Navigation = () => {
                         >
                             {pages.map((page) => (
                                 <MenuItem key={page} onClick={() => {
-                                    router.push(page.toLowerCase());
+                                    router.push(page == 'Dashboard' ? '/' : '/' + page.toLowerCase());
                                     handleCloseNavMenu();
                                 }}>
                                     <Typography textAlign="center">{page}</Typography>
@@ -131,7 +131,7 @@ const Navigation = () => {
                             <Button
                                 key={page}
                                 onClick={() => {
-                                    router.push(`/${page.toLowerCase()}`);
+                                    router.push(`/${page == 'Dashboard' ? '/' : page.toLowerCase()}`);
                                     handleCloseNavMenu();
                                 }}
                                 sx={{my: 2, display: 'block',mt:"10px"}}

@@ -69,7 +69,7 @@ const Verify: NextPage = () => {
         $$verifyEmail(email, token).then(res => {
             toast.success("You're Account Successfully Verified , Now You Can Login to your Account");
             setUser({...res.data, loggedIn: true});
-            router.push('/dashboard');
+            router.push('/');
             setLoading(false);
         });
     };

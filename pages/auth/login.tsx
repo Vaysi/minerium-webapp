@@ -79,6 +79,7 @@ const Login: NextPage = () => {
             });
             setUser({...response.data.user,loggedIn: true});
             setLoading(false);
+            router.push('/');
         }).catch(reason => {
             toast.error('Wrong Credentials !');
             setLoading(false);

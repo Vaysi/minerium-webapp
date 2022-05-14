@@ -193,8 +193,6 @@ const HashChart = (props: Props) => {
 
     const [workersData, setWorkersData] = useState(workersToGraph(props.data.workers));
 
-    const [start, setStart] = useState(0);
-
     const {since, setSince} = props.since;
 
     useEffect(() => {
@@ -205,22 +203,11 @@ const HashChart = (props: Props) => {
         return moment(item, "YYYYMMDDhh").format("MM-DD hh:mm")
     });
 
+
     const data = {
         labels,
-        datasets: workersData.slice(start, start + 5),
+        datasets: workersData.slice(props.page.page * 5, props.page.page * 5 + 5 ),
     };
-
-
-    const nextWorkers = () => {
-        setStart(start + 5);
-    };
-
-    const prevWorkers = () => {
-        setStart(start - 5);
-    };
-
-    const canGoNext = start + 5 > workersData.length;
-
 
 
     useEffect(() => {
