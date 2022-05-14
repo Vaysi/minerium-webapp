@@ -59,7 +59,7 @@ const TopHeader = () => {
         <div className={styles.topHeader}>
             <Container maxWidth={"xl"}>
                 <Grid container>
-                    <Grid item xs={12} sm={6} sx={{textAlign:{xs:"center",sm:"left"}}}>
+                    <Grid item xs={4} sm={6} sx={{textAlign:{xs:"left"}}}>
                         <IconButton className={`${styles.themeMode} ${mode == 'light' ? styles.active : ''}`}
                                     aria-label="light mode" component="span" onClick={() => {
                             setMode('light')
@@ -75,7 +75,7 @@ const TopHeader = () => {
                             <DarkModeOutlined/>
                         </IconButton>
                     </Grid>
-                    <Grid item xs={12} sm={6} sx={{textAlign:{xs:"center",sm:"right"}}}>
+                    <Grid item xs={8} sm={6} sx={{textAlign:{xs:"right"}}}>
                         {
                             user?.loggedIn ? (
                                 <>

@@ -38,13 +38,13 @@ const LogoWrapper = () => {
         <div className={styles.header}>
             <Container maxWidth="xl">
                 <Grid container sx={{py: 2}}>
-                    <Grid item sm={6} xs={12}>
-                        <Box sx={{flexGrow: 1, cursor: "pointer", mr: 2, display: {xs: 'flex'}}}
+                    <Grid item xs={6} sx={{margin:"auto"}}>
+                        <Box sx={{flexGrow: 1, cursor: "pointer",margin:"auto", mr: 2, display: {xs: 'flex',alignItems:"center"}}}
                              onClick={() => router.push("/")}>
                             <Logo mode={mode} styles={{maxHeight: 45,width: 240}}/>
                         </Box>
                     </Grid>
-                    <Grid item sm={6} xs={12} textAlign={"right"}>
+                    <Grid item xs={6} textAlign={"right"}>
                         {
                             user && user.loggedIn &&
                             (

@@ -464,3 +464,8 @@ input:-webkit-autofill {
     margin-top: 20px;
   }
 }
+
+.headerAppbar {
+  position: -webkit-sticky!important;
+  position: sticky!important;
+}

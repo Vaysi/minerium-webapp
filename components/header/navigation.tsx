@@ -15,7 +15,6 @@ const useStyles: any = makeStyles((theme: any) => ({
         "@media (min-width: 1980px)": {
             height: "80px"
         },
-        position: "sticky",
         top: 0,
         zIndex: 1200
     },
@@ -84,7 +83,7 @@ const Navigation = () => {
     };
 
     return (
-        <AppBar className={styles.header} position="static">
+        <AppBar className={styles.header + ' headerAppbar'}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>

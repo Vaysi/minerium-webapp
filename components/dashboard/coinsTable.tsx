@@ -130,6 +130,7 @@ const CoinsTable = (props: Props) => {
     const theme = useTheme();
     //@ts-ignore
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
+    const matches1160 = useMediaQuery("@media (max-width: 1160px)");
 
     useEffect(() => {
         $$getAllPPS().then(response => {
@@ -191,34 +192,50 @@ const CoinsTable = (props: Props) => {
                                     >
                                         {/* Coin */}
                                         <TableCell align="center">
-                                            <img className={styles.icon} src={`/coins/${k}.svg`} width={matches ? 30 : 35}
-                                                 height={matches ? 30 : 35} style={{top: matches ? 0 : 10}}/>
-                                            <span className={styles.ticker} style={{
-                                                marginLeft: matches ? 0 : 10,
-                                                fontWeight: "bold",
-                                                fontSize: "18px"
-                                            }}>{k.toUpperCase()}</span>
+                                            {
+                                                matches1160 ? (
+                                                    <>
+                                                        <span className={styles.ticker} style={{
+                                                            marginLeft: matches ? 0 : 10,
+                                                            fontWeight: "bold",
+                                                            fontSize: "18px"
+                                                        }}>{k.toUpperCase()}</span>
+                                                        <img className={styles.icon} src={`/coins/${k}.svg`} width={matches ? 30 : 35}
+                                                             height={matches ? 30 : 35} style={{top: matches ? 0 : 10}}/>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <img className={styles.icon} src={`/coins/${k}.svg`} width={matches ? 30 : 35}
+                                                             height={matches ? 30 : 35} style={{top: matches ? 0 : 10}}/>
+                                                        <span className={styles.ticker} style={{
+                                                            marginLeft: matches ? 0 : 10,
+                                                            fontWeight: "bold",
+                                                            fontSize: "18px"
+                                                        }}>{k.toUpperCase()}</span>
+                                                    </>
+                                                )
+                                            }
                                         </TableCell>
                                         {/* Daily Rev */}
                                         <TableCell align="center" className={styles.tbody}>
                                             {v.yesterday.toFixed(8)}
                                             <br/>
-                                            { v?.price > 0 && (<span>{addThousandSep((v.yesterday.toFixed(8) * v.price).toFixed(2))}$</span>)}
+                                            { v?.price > 0 && (<span style={{fontSize:21,fontWeight:"bold"}}>{addThousandSep((v.yesterday.toFixed(8) * v.price).toFixed(2))}$</span>)}
                                         </TableCell>
                                         {/* Yesterday Earning */}
                                         <TableCell align="center" className={styles.tbody}>
                                             {v.yesterday.toFixed(8)}
                                             <br/>
-                                            { v?.price > 0 && (<span>{addThousandSep((v.yesterday.toFixed(8) * v.price).toFixed(2))}$</span>)}
+                                            { v?.price > 0 && (<span style={{fontSize:21,fontWeight:"bold"}}>{addThousandSep((v.yesterday.toFixed(8) * v.price).toFixed(2))}$</span>)}
                                         </TableCell>
                                         <TableCell align="center" className={styles.tbody}>
                                             {((getBalance(k) != null ? getBalance(k).total : 0)).toFixed(8)}
                                             <br/>
-                                            { v?.price > 0 && (<span>{addThousandSep((((getBalance(k) != null ? getBalance(k).total : 0)).toFixed(8) * v.price).toFixed(2))}$</span>)}
+                                            { v?.price > 0 && (<span style={{fontSize:21,fontWeight:"bold"}}>{addThousandSep((((getBalance(k) != null ? getBalance(k).total : 0)).toFixed(8) * v.price).toFixed(2))}$</span>)}
                                         </TableCell>
                                         <TableCell align="center" className={styles.tbody}>
                                             {v.balance.toFixed(9)} <br/>
-                                            { v?.price > 0 && (<span>{addThousandSep((v.balance.toFixed(9) * v.price).toFixed(2))}$</span>)}
+                                            { v?.price > 0 && (<span style={{fontSize:21,fontWeight:"bold"}}>{addThousandSep((v.balance.toFixed(9) * v.price).toFixed(2))}$</span>)}
                                         </TableCell>
                                         <TableCell align="center" className={styles.tbody}>
                                             <Box display={"flex"} justifyContent={"center"}>
