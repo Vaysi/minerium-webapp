@@ -100,7 +100,7 @@ const History = () => {
             align: "center",
             headerAlign: "center",
             headerClassName: styles.headerTitle,
-            minWidth: 75,
+            minWidth: 120,
         },
         {
             field: 'type',
@@ -109,7 +109,7 @@ const History = () => {
             align: "center",
             headerAlign: "center",
             headerClassName: styles.headerTitle,
-            minWidth: 75,
+            minWidth: 120,
         },
         {
             field: 'paid',
@@ -118,7 +118,7 @@ const History = () => {
             align: "center",
             headerAlign: "center",
             headerClassName: styles.headerTitle,
-            minWidth: 80
+            minWidth: 120
         },
     ];
 
