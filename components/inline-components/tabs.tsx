@@ -10,8 +10,9 @@ const useStyles:any = makeStyles((theme:any) => ({
         padding: "4px 0 2px",
         boxShadow: "inset 1px 0 5px -5px rgb(0 0 0 / 50%)",
         paddingTop: 14,
-        paddingBottom: 4,
-        overflowX: "auto"
+        paddingBottom: 6,
+        overflowX: "auto",
+        overflowY: "hidden",
     },
     title: {
         color: "#fff",
