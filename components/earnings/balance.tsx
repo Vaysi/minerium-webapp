@@ -59,7 +59,7 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
 const Balance = () => {
     const styles = useStyles();
     const [balances, setBalances] = useState<Array<EarningBalance>>([]);
-
+    const [showTooltip,setShowTooltip] = useState(false);
     useEffect(() => {
         $$earningsBalance().then(response => {
             setBalances(response.data);
@@ -69,14 +69,18 @@ const Balance = () => {
     const status = (row: EarningBalance) => {
         if (!row.balance.wallet) {
             return (<>
-                <Tooltip enterTouchDelay={0} arrow title="No Wallet Address Defined">
+                <Tooltip open={showTooltip}
+                         onOpen={() => setShowTooltip(true)}
+                         onClose={() => setShowTooltip(false)} enterTouchDelay={0} arrow title="No Wallet Address Defined">
                     <Button style={{fontSize:12,textTransform:"unset",minWidth:110}} size={"small"} variant="contained">Not Payable</Button>
                 </Tooltip>
             </>);
         } else if (row.balance.price < row.balance.minimum) {
             return (
                 <>
-                    <Tooltip enterTouchDelay={0} arrow title="Min. Amount Has Not Reached">
+                    <Tooltip open={showTooltip}
+                             onOpen={() => setShowTooltip(true)}
+                             onClose={() => setShowTooltip(false)} enterTouchDelay={0} arrow title="Min. Amount Has Not Reached">
                         <Button style={{fontSize:12,textTransform:"unset",minWidth:110}} size={"small"} variant="contained">Not Payable</Button>
                     </Tooltip>
                 </>
