@@ -9,7 +9,6 @@ import {ToastContainer} from "react-toastify";
 import {readCookie, setCookie} from "../utils/functions";
 import {DefaultSeo} from "next-seo";
 import {useRouter} from "next/router";
-import env from "./env";
 import TawkTo from 'tawkto-react';
 
 
