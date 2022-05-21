@@ -82,7 +82,7 @@ const AccountOverview = (props: Props) => {
                                         <small style={{marginLeft: 5}}>TH/s</small></big>
                                 </Typography>
                                 <Typography align={"center"}>
-                                    <span className={styles.main}>Average</span> <br/>
+                                    <span className={styles.main}>Average (24H)</span> <br/>
                                     <big className={styles.sub}>{props.info.hash1d.toFixed(2)}
                                         <small style={{marginLeft: 5}}>TH/s</small></big>
                                 </Typography>

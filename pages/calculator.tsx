@@ -150,6 +150,7 @@ const Calculator: NextPage = () => {
     const [pps, setPps] = useState<number>(0);
     const [hashUnit, setHashUnit] = useState<string>("TH/s");
     const [powerUnit, setPowerUnit] = useState<string>("W");
+    const [powerCostUnit, setPowerCostUnit] = useState<string>("cent");
     const [power, setPower] = useState<string | number>(0);
     const [powerCost, setPowerCost] = useState<string | number>(0);
     const [rows, setRows] = useState<Array<any>>([]);
@@ -209,6 +210,10 @@ const Calculator: NextPage = () => {
             }else if(powerUnit == 'MW'){
                 i_electricity_Wh *= 1000000;
             }
+        }
+
+        if(powerCostUnit == "cent"){
+            i_kWh_usd_rate /= 100;
         }
 
         // Watt to kW
@@ -300,7 +305,7 @@ const Calculator: NextPage = () => {
 
     useEffect(() => {
         calculate(hashrate, power, powerCost, poolFee, coinValue, networkDiff);
-    }, [networkDiff, hashrate, poolFee, power, powerCost, coinValue, coin,hashUnit,powerUnit]);
+    }, [networkDiff, hashrate, poolFee, power, powerCost, coinValue, coin,hashUnit,powerUnit,powerCostUnit]);
 
     useEffect(() => {
         $$getPps(coin).then(res => {
@@ -422,6 +427,7 @@ const Calculator: NextPage = () => {
                                                     value={powerUnit}
                                                     onChange={(e) => setPowerUnit(e.target.value)}
                                                     variant={"standard"}
+                                                    className={"hashrateSelect"}
                                                 >
                                                     <MenuItem value={"W"}>W</MenuItem>
                                                     <MenuItem value={"KW"}>KW</MenuItem>
@@ -449,7 +455,17 @@ const Calculator: NextPage = () => {
                                         sx={{m: 1}}
                                         InputProps={{
                                             endAdornment: <InputAdornment className={styles.adornment}
-                                                                          position="end">$/kWh</InputAdornment>,
+                                                                          position="end">
+                                                                              <Select
+                                                                                defaultValue={powerCostUnit}
+                                                                                value={powerCostUnit}
+                                                                                onChange={(e) => setPowerCostUnit(e.target.value)}
+                                                                                variant={"standard"}
+                                                                            >
+                                                                                <MenuItem value={"cent"}>¢/kWh</MenuItem>
+                                                                                <MenuItem value={"dollar"}>$/kWh</MenuItem>
+                                                                            </Select>
+                                                                          </InputAdornment>,
                                             classes: {
                                                 notchedOutline: styles.notchedOutline,
                                                 input: styles.input,

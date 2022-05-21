@@ -262,7 +262,7 @@ const WorkersList = (props: Props) => {
         },
         {
             field: 'lastupdate',
-            headerName: 'Last Update',
+            headerName: 'Last Share',
             flex: 1,
             align: "center",
             headerAlign: "center",
