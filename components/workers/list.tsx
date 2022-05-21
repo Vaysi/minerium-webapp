@@ -22,7 +22,7 @@ import {
     GridColumnOrderChangeParams, GridFilterModel,
     GridRenderCellParams,
     GridState,
-    MuiEvent,getGridNumericOperators
+    MuiEvent,getGridStringOperators
 } from '@mui/x-data-grid';
 import {useEffect, useMemo, useRef, useState} from "react";
 import {Hashrate} from "../../utils/functions";
@@ -220,7 +220,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: getGridNumericOperators().filter(
+            filterOperators: getGridStringOperators().filter(
                 (operator) => operator.value === '>=' || operator.value === '<=',
             ),
         },
@@ -236,7 +236,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: getGridNumericOperators().filter(
+            filterOperators: getGridStringOperators().filter(
                 (operator) => operator.value === '>=' || operator.value === '<=',
             ),
         },
@@ -252,7 +252,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: getGridNumericOperators().filter(
+            filterOperators: getGridStringOperators().filter(
                 (operator) => operator.value === '>=' || operator.value === '<=',
             ),
         },
@@ -268,7 +268,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: getGridNumericOperators().filter(
+            filterOperators: getGridStringOperators().filter(
                 (operator) => operator.value === '>=' || operator.value === '<=',
             ),
         },
