@@ -74,6 +74,8 @@ const Navigation = () => {
           if(router.isReady){
               if(name.toLowerCase() == 'earnings'){
                   return router.pathname.startsWith(`/${name.toLowerCase()}`) || router.pathname.startsWith(`/payments`);
+              }else if (name.toLowerCase() == 'dashboard' && router.pathname == '/') {
+                    return true;
               }else {
                   return router.pathname.startsWith(`/${name.toLowerCase()}`);
               }

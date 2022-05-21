@@ -91,8 +91,8 @@ const useStyles: any = makeStyles((theme: any) => ({
         height: 16
     },
     adornment: {
-        width: "35px",
-        minWidth: "35px",
+        width: "45px",
+        minWidth: "45px",
         justifyContent: "center"
     },
     select: {
@@ -427,7 +427,6 @@ const Calculator: NextPage = () => {
                                                     value={powerUnit}
                                                     onChange={(e) => setPowerUnit(e.target.value)}
                                                     variant={"standard"}
-                                                    className={"hashrateSelect"}
                                                 >
                                                     <MenuItem value={"W"}>W</MenuItem>
                                                     <MenuItem value={"KW"}>KW</MenuItem>
@@ -461,6 +460,7 @@ const Calculator: NextPage = () => {
                                                                                 value={powerCostUnit}
                                                                                 onChange={(e) => setPowerCostUnit(e.target.value)}
                                                                                 variant={"standard"}
+                                                                                className={"hashrateSelect"}
                                                                             >
                                                                                 <MenuItem value={"cent"}>¢/kWh</MenuItem>
                                                                                 <MenuItem value={"dollar"}>$/kWh</MenuItem>
