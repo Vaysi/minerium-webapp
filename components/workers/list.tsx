@@ -4,6 +4,7 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
+    DialogContentText,
     DialogTitle,
     Divider,
     FormControl,
@@ -34,7 +35,7 @@ import AddWorkerStepper from "./stepper";
 import CustomCard from "../inline-components/card";
 import SplitButton from "../inline-components/split-btn";
 import SplitButtonState from "../inline-components/split-btn-status";
-import {Circle, Close} from "@mui/icons-material";
+import {Circle, Close, Delete} from "@mui/icons-material";
 import {useRouter} from "next/router";
 
 const useStyles: any = makeStyles((theme: any) => ({
@@ -89,6 +90,8 @@ const WorkersList = (props: Props) => {
     const [addWorkerModal, setAddWorkerModal] = useState(false);
     const [selectionModel, setSelectionModel] = useState([]);
     const [watcherLink, setWatcherLink] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [selected, setSelected] = useState<number>();
     const nineMatches = useMediaQuery('(max-width:980px)');
     const router = useRouter();
     const theme = useTheme();
@@ -377,6 +380,15 @@ const WorkersList = (props: Props) => {
 
     const match415 = useMediaQuery('(max-width:415px)');
 
+    const handleClickOpen = (groupId: number) => {
+        setSelected(groupId);
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <>
             <CustomCard titleProps={{
@@ -394,7 +406,11 @@ const WorkersList = (props: Props) => {
                         >
                             <MenuItem value={'all'}>All&nbsp;&nbsp;&nbsp;</MenuItem>
                             {props.states.groups.map((item: WorkerGroups) => (
-                                <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>))}
+                                <MenuItem value={item.id} key={item.id}>{item.name} 
+                                <IconButton edge="end" aria-label="comments">
+                                 <Delete onClick={() => handleClickOpen(item.id)}/>
+                                 </IconButton>
+                                </MenuItem>))}
                         </Select>
                     </FormControl>
                 )
@@ -587,6 +603,25 @@ const WorkersList = (props: Props) => {
                 <DialogActions>
                     <Button onClick={closeWatcherModal}>Cancel</Button>
                     <Button onClick={createWatcher}>Create</Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+            >
+                <DialogTitle id="alert-dialog-title">
+                    Remove Group
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to delete this Group ?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpen(false)}>Yes</Button>
+                    <Button onClick={handleClose} autoFocus>
+                        No
+                    </Button>
                 </DialogActions>
             </Dialog>
         </>
