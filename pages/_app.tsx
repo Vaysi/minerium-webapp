@@ -9,6 +9,9 @@ import {ToastContainer} from "react-toastify";
 import {readCookie, setCookie} from "../utils/functions";
 import {DefaultSeo} from "next-seo";
 import {useRouter} from "next/router";
+import env from "./env";
+import TawkTo from 'tawkto-react';
+
 
 
 function MyApp({Component, pageProps}: AppProps) {
@@ -25,6 +28,7 @@ function MyApp({Component, pageProps}: AppProps) {
                 setUser(JSON.parse(userData));
             }
         }
+        let tawk = new TawkTo('6050bc60067c2605c0b8fc56', '1f0tn94e6')
     },[]);
 
     useEffect(() => {
