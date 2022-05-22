@@ -23,11 +23,6 @@ const SettingsPage: NextPage = () => {
             title: "Notifications",
             link: "/settings/notifications",
             active: false
-        },
-        {
-            title: "Watchers",
-            link: "/settings/watchers",
-            active: false
         }
     ];
     return (

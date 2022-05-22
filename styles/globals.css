@@ -443,22 +443,27 @@ input:-webkit-autofill {
 
 label.customCheck:nth-child(1) > input:checked + i {
   background-color: #8BC34A;
+  border:1px solid #8BC34A;
 }
 
 label.customCheck:nth-child(2) > input:checked + i {
   background-color: #FF9800;
+  border:1px solid #FF9800;
 }
 
 label.customCheck:nth-child(3) > input:checked + i {
   background-color: #673AB7;
+  border:1px solid #673AB7;
 }
 
 label.customCheck:nth-child(4) > input:checked + i {
   background-color: #00BCD4;
+  border:1px solid #00BCD4;
 }
 
 label.customCheck:nth-child(5) > input:checked + i {
   background-color: #F44336;
+  border:1px solid #F44336;
 }
 
 .customStep {
@@ -533,7 +538,7 @@ label.customCheck i:after {
   display: block;
   width: 20px;
   height: 20px;
-  top: 3px;
+  top: 2px;
   left: 0;
   border-radius: 50%;
   background: #fff;

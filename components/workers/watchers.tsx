@@ -1,4 +1,3 @@
-import type {NextPage} from 'next'
 import {
     Button,
     Checkbox,
@@ -24,7 +23,7 @@ import {Delete} from "@mui/icons-material";
 import {makeStyles} from "@mui/styles";
 import CustomCard from "../../components/inline-components/card";
 import {useEffect, useState} from "react";
-import {Notifications, Watchers} from "../../utils/interfaces";
+import {Notifications, Watchers as WatchersContract} from "../../utils/interfaces";
 import {$$deleteWatcher, $$getWatchers} from "../../utils/api";
 import {useRouter} from "next/router";
 import {toast} from "react-toastify";
@@ -33,7 +32,7 @@ import {CopyToClipboard} from "react-copy-to-clipboard";
 
 const useStyles: any = makeStyles((theme: any) => ({}));
 
-const WatchersPage: NextPage = () => {
+const Watchers = () => {
     const styles = useStyles();
     const router = useRouter();
     const [open, setOpen] = useState(false);
@@ -47,7 +46,7 @@ const WatchersPage: NextPage = () => {
     const handleClose = () => {
         setOpen(false);
     };
-    const [watchers, setWatchers] = useState<Array<Watchers>>([]);
+    const [watchers, setWatchers] = useState<Array<WatchersContract>>([]);
 
     useEffect(() => {
         $$getWatchers().then(response => {
@@ -55,23 +54,6 @@ const WatchersPage: NextPage = () => {
         })
     }, []);
 
-    const tabLinks = [
-        {
-            title: 'Payments',
-            link: "/settings",
-            active: false
-        },
-        {
-            title: "Notifications",
-            link: "/settings/notifications",
-            active: false
-        },
-        {
-            title: "Watchers",
-            link: "/settings/watchers",
-            active: true
-        }
-    ];
 
     const deleteWatcher = (watcherId: any) => {
         handleClose();
@@ -84,9 +66,7 @@ const WatchersPage: NextPage = () => {
     const hostname = typeof window !== 'undefined' && window.location.hostname ? window.location.hostname : '';
 
     return (
-        <Grid container>
-            <Header/>
-            <Tabs data={tabLinks}/>
+        <>
             <CustomCard titleProps={{title: "Watchers"}}>
                 <List sx={{width: '100%'}} dense={true}>
                     {watchers.map((item) => {
@@ -129,7 +109,6 @@ const WatchersPage: NextPage = () => {
                     })}
                 </List>
             </CustomCard>
-            <Footer/>
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -149,8 +128,8 @@ const WatchersPage: NextPage = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </Grid>
+        </>
     );
 };
 
-export default WatchersPage;
+export default Watchers;

@@ -4,6 +4,7 @@ import Header from "../components/header/header";
 import Footer from "../components/footer/footer";
 import WorkersList from "../components/workers/list";
 import HashChart from "../components/workers/chart";
+import Watchers from "../components/workers/watchers";
 import {useEffect, useState} from "react";
 import {$$workersGroups, $$workersList} from "../utils/api";
 import {dynamicSort} from "../utils/functions";
@@ -63,6 +64,7 @@ const Workers: NextPage = () => {
             {workers.length > 0 &&
             <WorkersList states={{groups, setGroups, getWorkersList, selected, setSelected,setVisibleWorkers,page,setPage,setSelection,visibleWorkers}} data={workers}/>}
             {Boolean(workerGraph) && <HashChart page={{page,setPage}} data={workerGraph} since={{since,setSince}} selection={{selection,setSelection}} visibleWorkers={visibleWorkers}/>}
+            <Watchers />
             <Footer/>
             <Backdrop
                 sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
