@@ -136,6 +136,7 @@ const HashChart = (props: Props) => {
         plugins: {
             legend: {
                 position: 'bottom' as const,
+                display: false,
             },
         },
 
@@ -283,8 +284,8 @@ const HashChart = (props: Props) => {
                         //@ts-ignore
                         (<Line ref={chartRef} options={props.options ?? options} data={data}/>)
                     }
-                    <div id="legends"></div>
                 </Box>
+                <div id="legends"></div>
                 <Box display={"flex"} justifyContent={"center"}>
                     <ButtonGroup sx={{mt: 2}} variant="contained" aria-label="outlined primary button group">
                         <Button className={styles.arrowButton} style={{minWidth: 109}}
