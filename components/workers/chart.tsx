@@ -83,6 +83,7 @@ const HashChart = (props: Props) => {
     const {mode} = useContext(themeModeContext);
     const newColors = colorize();
     const chartRef = useRef();
+    const [changedCount,setChangedCount] = useState(0);
 
 
     const getWorkersNameById = () => {
@@ -188,6 +189,7 @@ const HashChart = (props: Props) => {
                     chart.getDatasetMeta(selected).hidden = false;
                 }
                 chart.update();
+                setChangedCount(changedCount+1);
             }
         }
     };
@@ -234,6 +236,7 @@ const HashChart = (props: Props) => {
             }
             //@ts-ignore
             chartRef.current.update();
+            setChangedCount(changedCount+1);
         }
     },[props.selection]);
 
@@ -241,6 +244,8 @@ const HashChart = (props: Props) => {
         if(chartRef.current){
             if (typeof window !== "undefined") {
                 let legends = document.getElementById('legends');
+                //@ts-ignore
+                legends.innerHTML = "";
                 //@ts-ignore
                 chartRef.current.data.datasets.forEach((dataSet:any, i:any) => {
                     let checkbox = document.createElement('input');
@@ -278,7 +283,7 @@ const HashChart = (props: Props) => {
                 });
             }
         }
-    },[chartRef.current]);
+    },[chartRef.current,changedCount]);
 
     return (
         <>
