@@ -248,12 +248,14 @@ const HashChart = (props: Props) => {
                 legends.innerHTML = "";
                 //@ts-ignore
                 chartRef.current.data.datasets.forEach((dataSet:any, i:any) => {
+                    //@ts-ignore
+                    let meta = chartRef.current.getDatasetMeta(i);
                     let checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
                     checkbox.name = dataSet.label;
                     checkbox.value = i;
                     checkbox.id = `dataset${i}`;
-                    checkbox.checked = true;
+                    checkbox.checked = meta.hidden;
                     // add label
                     let label = document.createElement('label');
                     label.classList.add('customCheck');
@@ -285,7 +287,6 @@ const HashChart = (props: Props) => {
         }
     },[chartRef.current,changedCount]);
 
-    useEffect(() => console.log(changedCount),[changedCount]);
 
     return (
         <>
