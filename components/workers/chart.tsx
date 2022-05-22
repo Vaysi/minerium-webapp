@@ -251,12 +251,16 @@ const HashChart = (props: Props) => {
                     checkbox.checked = true;
                     // add label
                     let label = document.createElement('label');
-                    label.htmlFor = `dataset${i}`;
+                    label.classList.add('customCheck');
                     // add textnode
                     let labelText = document.createTextNode(dataSet.label);
-                    label.appendChild(labelText);
                     //@ts-ignore
-                    legends.appendChild(checkbox);
+                    label.appendChild(checkbox);
+                    let icon = document.createElement('i');
+                    let text = document.createElement('span');
+                    text.appendChild(labelText);
+                    label.appendChild(icon);
+                    label.appendChild(text);
                     //@ts-ignore
                     legends.appendChild(label);
                     checkbox.addEventListener('change',(e) => {
