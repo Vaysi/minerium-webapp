@@ -406,7 +406,7 @@ const WorkersList = (props: Props) => {
                         >
                             <MenuItem value={'all'}>All&nbsp;&nbsp;&nbsp;</MenuItem>
                             {props.states.groups.map((item: WorkerGroups) => (
-                                <MenuItem value={item.id} key={item.id}>{item.name} 
+                                <MenuItem sx={{justifyContent:"space-between"}} value={item.id} key={item.id}>{item.name} 
                                 <IconButton edge="end" aria-label="comments">
                                  <Delete onClick={() => handleClickOpen(item.id)}/>
                                  </IconButton>
