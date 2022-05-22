@@ -443,26 +443,41 @@ input:-webkit-autofill {
 
 label.customCheck:nth-child(1) > input:checked + i {
   background-color: #8BC34A;
-  border:1px solid #8BC34A;
 }
 
 label.customCheck:nth-child(2) > input:checked + i {
   background-color: #FF9800;
-  border:1px solid #FF9800;
 }
 
 label.customCheck:nth-child(3) > input:checked + i {
   background-color: #673AB7;
-  border:1px solid #673AB7;
 }
 
 label.customCheck:nth-child(4) > input:checked + i {
   background-color: #00BCD4;
-  border:1px solid #00BCD4;
 }
 
 label.customCheck:nth-child(5) > input:checked + i {
   background-color: #F44336;
+}
+
+label.customCheck:nth-child(1) > input + i {
+  border:1px solid #8BC34A;
+}
+
+label.customCheck:nth-child(2) > input + i {
+  border:1px solid #FF9800;
+}
+
+label.customCheck:nth-child(3) > input + i {
+  border:1px solid #673AB7;
+}
+
+label.customCheck:nth-child(4) > input + i {
+  border:1px solid #00BCD4;
+}
+
+label.customCheck:nth-child(5) > input + i {
   border:1px solid #F44336;
 }
 
@@ -555,4 +570,12 @@ label.customCheck > input:checked + i:after {
 
 .MuiDataGrid-columnHeaderCheckbox, .MuiDataGrid-columnHeadersInner {
   border-radius: 0px!important;
+}
+
+.tableContainer .MuiDataGrid-root , .tableContainer .MuiDataGrid-main {
+  border-radius: 10px!important;
+}
+
+.tableContainer .MuiDataGrid-root {
+  border: "none";
 }
