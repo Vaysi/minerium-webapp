@@ -285,6 +285,8 @@ const HashChart = (props: Props) => {
         }
     },[chartRef.current,changedCount]);
 
+    useEffect(() => console.log(changedCount),[changedCount]);
+
     return (
         <>
             <CustomCard titleProps={{title: "Hashrate Chart"}} cardProps={{style:{position:"relative"}}}>
