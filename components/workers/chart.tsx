@@ -212,6 +212,33 @@ const HashChart = (props: Props) => {
 
     useEffect(() => {
         if(chartRef.current){
+            if (typeof window !== "undefined") {
+                let legends = document.getElementById('legends');
+                chartRef.current.data.datasets.forEach((dataSet:any, i:any) => {
+                    let checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.name = dataSet.label;
+                    checkbox.value = i;
+                    checkbox.id = `dataset${i}`;
+                    checkbox.checked = true;
+                    // add label
+                    let label = document.createElement('label');
+                    label.htmlFor = `dataset${i}`;
+                    // add textnode
+                    let labelText = document.createTextNode(dataSet.label);
+                    label.appendChild(labelText);
+                    legends.appendChild(checkbox);
+                    legends.appendChild(label);
+                    checkbox.addEventListener('change',(e) => {
+                        const index = e.target.value;
+                        if(chartRef.current.isDatasetVisible(index)){
+                            chartRef.current.hide(index);
+                        }else {
+                            chartRef.current.show(index);
+                        }
+                    });
+                });
+            }
             if(getWorkersNameById().length){
                 //@ts-ignore
                 chartRef.current.data.datasets.forEach((dataSet:any, i:any) => {
@@ -244,6 +271,7 @@ const HashChart = (props: Props) => {
                         //@ts-ignore
                         (<Line ref={chartRef} options={props.options ?? options} data={data}/>)
                     }
+                    <div id="legends"></div>
                 </Box>
                 <Box display={"flex"} justifyContent={"center"}>
                     <ButtonGroup sx={{mt: 2}} variant="contained" aria-label="outlined primary button group">
