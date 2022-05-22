@@ -137,7 +137,7 @@ const HashChart = (props: Props) => {
         plugins: {
             legend: {
                 position: 'bottom' as const,
-                display: true,
+                display: false,
             },
         },
 

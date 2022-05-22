@@ -422,23 +422,43 @@ input:-webkit-autofill {
 
 
 .MuiDataGrid-row:nth-child(1) .MuiDataGrid-cellCheckbox svg  {
-  fill: #673AB7!important;
-}
-
-.MuiDataGrid-row:nth-child(2) .MuiDataGrid-cellCheckbox svg  {
-  fill: #00BCD4!important;
-}
-
-.MuiDataGrid-row:nth-child(3) .MuiDataGrid-cellCheckbox svg  {
-  fill: #F44336!important;
-}
-
-.MuiDataGrid-row:nth-child(4) .MuiDataGrid-cellCheckbox svg  {
   fill: #8BC34A!important;
 }
 
-.MuiDataGrid-row:nth-child(5) .MuiDataGrid-cellCheckbox svg  {
+.MuiDataGrid-row:nth-child(2) .MuiDataGrid-cellCheckbox svg  {
   fill: #FF9800!important;
+}
+
+.MuiDataGrid-row:nth-child(3) .MuiDataGrid-cellCheckbox svg  {
+  fill: #673AB7!important;
+}
+
+.MuiDataGrid-row:nth-child(4) .MuiDataGrid-cellCheckbox svg  {
+  fill: #00BCD4!important;
+}
+
+.MuiDataGrid-row:nth-child(5) .MuiDataGrid-cellCheckbox svg  {
+  fill: #F44336!important;
+}
+
+label.customCheck:nth-child(1) > input:checked + i {
+  background-color: #8BC34A;
+}
+
+label.customCheck:nth-child(2) > input:checked + i {
+  background-color: #FF9800;
+}
+
+label.customCheck:nth-child(3) > input:checked + i {
+  background-color: #673AB7;
+}
+
+label.customCheck:nth-child(4) > input:checked + i {
+  background-color: #00BCD4;
+}
+
+label.customCheck:nth-child(5) > input:checked + i {
+  background-color: #F44336;
 }
 
 .customStep {
@@ -478,6 +498,10 @@ input:-webkit-autofill {
   position: sticky!important;
 }
 
+#legends {
+  display:flex;
+  justify-content:center;
+}
 
 label.customCheck {
   font-family: "Montserrat", sans-serif;
@@ -516,9 +540,6 @@ label.customCheck i:after {
   position: absolute;
   box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.4);
   transition: 0.15s;
-}
-label.customCheck > input:checked + i {
-  background: var(--primary);
 }
 label.customCheck > input:checked + i + span {
   color: var(--primary);
