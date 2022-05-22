@@ -526,3 +526,7 @@ label.customCheck > input:checked + i + span {
 label.customCheck > input:checked + i:after {
   transform: translateX(20px);
 }
+
+.MuiDataGrid-columnHeaderCheckbox, .MuiDataGrid-columnHeadersInner {
+  border-radius: 0px!important;
+}

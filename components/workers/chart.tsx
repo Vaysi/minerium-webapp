@@ -255,7 +255,7 @@ const HashChart = (props: Props) => {
                     checkbox.name = dataSet.label;
                     checkbox.value = i;
                     checkbox.id = `dataset${i}`;
-                    checkbox.checked = meta.hidden;
+                    checkbox.checked = !meta.hidden;
                     // add label
                     let label = document.createElement('label');
                     label.classList.add('customCheck');
