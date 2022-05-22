@@ -12,7 +12,7 @@ import {
 } from 'chart.js';
 import {Line} from 'react-chartjs-2';
 import {WorkersGraph} from "../../utils/interfaces";
-import {useContext, useEffect, useRef, useState} from "react";
+import {useContext, useEffect,useMemo, useRef, useState} from "react";
 import CustomCard from "../inline-components/card";
 import {themeModeContext} from "../../utils/context";
 import moment from "moment";
@@ -212,33 +212,6 @@ const HashChart = (props: Props) => {
 
     useEffect(() => {
         if(chartRef.current){
-            if (typeof window !== "undefined") {
-                let legends = document.getElementById('legends');
-                chartRef.current.data.datasets.forEach((dataSet:any, i:any) => {
-                    let checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.name = dataSet.label;
-                    checkbox.value = i;
-                    checkbox.id = `dataset${i}`;
-                    checkbox.checked = true;
-                    // add label
-                    let label = document.createElement('label');
-                    label.htmlFor = `dataset${i}`;
-                    // add textnode
-                    let labelText = document.createTextNode(dataSet.label);
-                    label.appendChild(labelText);
-                    legends.appendChild(checkbox);
-                    legends.appendChild(label);
-                    checkbox.addEventListener('change',(e) => {
-                        const index = e.target.value;
-                        if(chartRef.current.isDatasetVisible(index)){
-                            chartRef.current.hide(index);
-                        }else {
-                            chartRef.current.show(index);
-                        }
-                    });
-                });
-            }
             if(getWorkersNameById().length){
                 //@ts-ignore
                 chartRef.current.data.datasets.forEach((dataSet:any, i:any) => {
@@ -262,6 +235,45 @@ const HashChart = (props: Props) => {
             chartRef.current.update();
         }
     },[props.selection]);
+
+    useMemo(() => {
+        if(chartRef.current){
+            if (typeof window !== "undefined") {
+                let legends = document.getElementById('legends');
+                //@ts-ignore
+                chartRef.current.data.datasets.forEach((dataSet:any, i:any) => {
+                    let checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.name = dataSet.label;
+                    checkbox.value = i;
+                    checkbox.id = `dataset${i}`;
+                    checkbox.checked = true;
+                    // add label
+                    let label = document.createElement('label');
+                    label.htmlFor = `dataset${i}`;
+                    // add textnode
+                    let labelText = document.createTextNode(dataSet.label);
+                    label.appendChild(labelText);
+                    //@ts-ignore
+                    legends.appendChild(checkbox);
+                    //@ts-ignore
+                    legends.appendChild(label);
+                    checkbox.addEventListener('change',(e) => {
+                        //@ts-ignore
+                        const index = e.target.value;
+                        //@ts-ignore
+                        if(chartRef.current.isDatasetVisible(index)){
+                            //@ts-ignore
+                            chartRef.current.hide(index);
+                        }else {
+                            //@ts-ignore
+                            chartRef.current.show(index);
+                        }
+                    });
+                });
+            }
+        }
+    },[chartRef.current]);
 
     return (
         <>
