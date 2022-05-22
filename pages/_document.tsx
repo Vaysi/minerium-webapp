@@ -16,6 +16,16 @@ const setInitialTheme = `
           let theme = readCookie('theme');
            document.getElementsByTagName('html')[0].setAttribute('data-theme', theme || 'light');
 })();
+// tawk to
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/628a2860b0d10b6f3e7372a3/1g3lqrf7b';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
   `;
 
 export default function Document() {
