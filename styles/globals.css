@@ -168,10 +168,6 @@ input:-webkit-autofill {
   border-bottom: 1px solid #8F9CB3;
 }
 
-.tableContainer .MuiDataGrid-row .MuiDataGrid-cell:last-child {
-  border-right: none;
-}
-
 .tableContainer .MuiDataGrid-columnHeader {
   border-right: 1px solid #8F9CB3;
 }
@@ -579,10 +575,13 @@ label.customCheck > input:checked + i:after {
 }
 
 .tableContainer .MuiDataGrid-root {
-  border: "none";
+  border: none!important;
 }
 
-.tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell:nth-last-child(2){
+.tableContainer:not(.historyTable) .MuiDataGrid-row:last-child .MuiDataGrid-cell:nth-last-child(2){
+  border-bottom-right-radius: 10px;
+}
+.historyTable .MuiDataGrid-row:last-child .MuiDataGrid-cell:last-child{
   border-bottom-right-radius: 10px;
 }
 

@@ -109,7 +109,7 @@ const PaymentHistory = () => {
     return (
         <CustomCard titleProps={{title: "Earning History"}}>
             <div style={{display: 'flex', height: '100%', minHeight: 400}}>
-                <div style={{flexGrow: 1}}>
+                <div style={{flexGrow: 1}} className="tableContainer historyTable">
                     <DataGrid
                         rows={history.map(item => {
                             item.updatedAt = moment(item.updatedAt).format('YYYY-MM-DD');

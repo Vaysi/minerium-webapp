@@ -100,7 +100,7 @@ const Balance = () => {
                 </Backdrop>
             ) }
             <CustomCard titleProps={{title: "Earnings"}}>
-                <TableContainer component={Paper} className={"tableContainer"} sx={{backgroundColor:"transparent"}}>
+                <TableContainer component={Paper} className={"tableContainer"} sx={{backgroundColor:"transparent",borderRadius:10}}>
                     <Table sx={{width: "100%"}} aria-label="customized table">
                         <TableHead>
                             <TableRow style={{borderRadius: "3px 3px 0 0"}}>

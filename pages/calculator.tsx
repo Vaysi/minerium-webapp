@@ -547,7 +547,7 @@ const Calculator: NextPage = () => {
                             </Grid>
                         </Grid>
                         <Grid item xs={12}>
-                            <TableContainer style={{border: "1px solid #043386", borderRadius: 5}} component={Paper} className={"tableContainer " + styles.parent}
+                            <TableContainer style={{border: "1px solid #043386", borderRadius: 10}} component={Paper} className={"tableContainer " + styles.parent}
                                             sx={{mt: 5,backgroundColor:"transparent"}}>
                                 {rows.length < 1 &&  (
                                     <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1,px:5,py:5}} className={styles.backdrop} open={rows.length < 1 }>
