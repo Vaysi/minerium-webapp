@@ -592,3 +592,7 @@ label.customCheck > input:checked + i:after {
 .tableContainer .MuiDataGrid-row .MuiDataGrid-cell:first-child {
   border-left: 1px solid #8f9cb3;
 }
+
+.MuiNativeSelect-standard option[value="="] , .MuiNativeSelect-standard option[value=">"] ,.MuiNativeSelect-standard option[value="<"] , .MuiNativeSelect-standard option[value="!="] , .MuiNativeSelect-standard option[value="isEmpty"], .MuiNativeSelect-standard option[value="isNotEmpty"] {
+  display: none;
+}
