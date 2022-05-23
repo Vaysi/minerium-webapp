@@ -65,6 +65,49 @@ const useStyles: any = makeStyles((theme: any) => ({
     }
 }));
 
+const isZeroOperator: GridFilterOperator = {
+    label: 'is Zero',
+    value: 'isZero',
+    getApplyFilterFn: (filterItem: GridFilterItem, column: GridColDef) => {
+      if (!filterItem.columnField || !filterItem.value || !filterItem.operatorValue) {
+        return null;
+      }
+  
+      return (params: GridCellParams): boolean => {
+        return Number(params.value) < 1;
+      };
+    },
+};
+
+
+const gtOperator: GridFilterOperator = {
+    label: '>=',
+    value: '>=',
+    getApplyFilterFn: (filterItem: GridFilterItem, column: GridColDef) => {
+      if (!filterItem.columnField || !filterItem.value || !filterItem.operatorValue) {
+        return null;
+      }
+  
+      return (params: GridCellParams): boolean => {
+        return Number(params.value) >= Number(filterItem.value);
+      };
+    },
+};
+
+const ltOperator: GridFilterOperator = {
+    label: '<=',
+    value: '<=',
+    getApplyFilterFn: (filterItem: GridFilterItem, column: GridColDef) => {
+      if (!filterItem.columnField || !filterItem.value || !filterItem.operatorValue) {
+        return null;
+      }
+  
+      return (params: GridCellParams): boolean => {
+        return Number(params.value) <= Number(filterItem.value);
+      };
+    },
+};
+
 interface Props {
     data: Array<WorkersListType>;
     states: {
@@ -195,20 +238,6 @@ const WorkersList = (props: Props) => {
         setRows([...props.data]);
     }, [props.data]);
 
-    const operator: GridFilterOperator = {
-        label: 'is Zero',
-        value: 'isZero',
-        getApplyFilterFn: (filterItem: GridFilterItem, column: GridColDef) => {
-          if (!filterItem.columnField || !filterItem.value || !filterItem.operatorValue) {
-            return null;
-          }
-      
-          return (params: GridCellParams): boolean => {
-            return Number(params.value) < 1;
-          };
-        },
-    };
-
     const tColumns: GridColDef[] = [
         {
             field: 'worker_name',
@@ -239,7 +268,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: [operator]
+            filterOperators: [isZeroOperator,gtOperator,ltOperator]
         },
         {
             field: 'hash1hr',
@@ -253,7 +282,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: [operator]
+            filterOperators: [isZeroOperator,gtOperator,ltOperator]
         },
         {
             field: 'hash1d',
@@ -267,7 +296,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: [operator]
+            filterOperators: [isZeroOperator,gtOperator,ltOperator]
         },
         {
             field: 'hash7d',
@@ -281,7 +310,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: [operator]
+            filterOperators: [isZeroOperator,gtOperator,ltOperator]
         },
         {
             field: 'lastupdate',
