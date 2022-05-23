@@ -19,8 +19,10 @@ import {makeStyles, useTheme} from "@mui/styles";
 import {
     DataGrid, GridApi,
     GridCallbackDetails,
+    GridCellParams,
     GridColDef,
-    GridColumnOrderChangeParams, GridFilterModel,
+    GridColumnOrderChangeParams, GridFilterItem, GridFilterModel,
+    GridFilterOperator,
     GridRenderCellParams,
     GridState,
     MuiEvent
@@ -193,6 +195,20 @@ const WorkersList = (props: Props) => {
         setRows([...props.data]);
     }, [props.data]);
 
+    const operator: GridFilterOperator = {
+        label: 'is Zero',
+        value: 'isZero',
+        getApplyFilterFn: (filterItem: GridFilterItem, column: GridColDef) => {
+          if (!filterItem.columnField || !filterItem.value || !filterItem.operatorValue) {
+            return null;
+          }
+      
+          return (params: GridCellParams): boolean => {
+            return Number(params.value) < 1;
+          };
+        },
+    };
+
     const tColumns: GridColDef[] = [
         {
             field: 'worker_name',
@@ -223,6 +239,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
+            filterOperators: [operator]
         },
         {
             field: 'hash1hr',
@@ -236,6 +253,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
+            filterOperators: [operator]
         },
         {
             field: 'hash1d',
@@ -249,6 +267,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
+            filterOperators: [operator]
         },
         {
             field: 'hash7d',
@@ -262,6 +281,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
+            filterOperators: [operator]
         },
         {
             field: 'lastupdate',
