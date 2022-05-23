@@ -125,7 +125,7 @@ const PaymentSettings: NextPage = () => {
                                     <StyledTableCell>
                                         {row.coin.toUpperCase()}
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">{row.wallet && !match900 ? walletAddress(row.wallet) : (
+                                    <StyledTableCell align="center">{row.wallet ? (match900 ? row.wallet : walletAddress(row.wallet)) : (
                                         <Button onClick={() => {
                                             setCoin(row.coin);
                                             setPriceCap(row.priceCap);
