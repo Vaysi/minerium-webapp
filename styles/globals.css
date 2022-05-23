@@ -60,11 +60,11 @@ body {
 }
 
 .MuiTableCell-head:last-child , .MuiDataGrid-columnHeader:last-child {
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 10px 0 0;
 }
 
 .MuiTableCell-head:first-child , .MuiDataGrid-columnHeader:first-child {
-  border-radius: 5px 0 0 5px;
+  border-radius: 10px 0 0 0;
 }
 .MuiDataGrid-columnHeadersInner, .MuiDataGrid-columnHeaderCheckbox {
   border-radius: 5px;
@@ -580,4 +580,16 @@ label.customCheck > input:checked + i:after {
 
 .tableContainer .MuiDataGrid-root {
   border: "none";
+}
+
+.tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell:nth-last-child(2){
+  border-bottom-right-radius: 10px;
+}
+
+.tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+.tableContainer .MuiDataGrid-row .MuiDataGrid-cell:first-child {
+  border-left: 1px solid #8f9cb3;
 }

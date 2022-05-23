@@ -15,7 +15,8 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    TextField
+    TextField,
+    useMediaQuery
 } from "@mui/material";
 import CustomCard from "../../components/inline-components/card";
 import {useEffect, useState} from "react";
@@ -68,6 +69,7 @@ const PaymentSettings: NextPage = () => {
     const [wallet, setWallet] = useState<string>('');
     const [priceCap, setPriceCap] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
+    const match900 = useMediaQuery('(max-width:900px)');
 
     const [open, setOpen] = useState(false);
 
@@ -123,7 +125,7 @@ const PaymentSettings: NextPage = () => {
                                     <StyledTableCell>
                                         {row.coin.toUpperCase()}
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">{row.wallet ? walletAddress(row.wallet) : (
+                                    <StyledTableCell align="center">{row.wallet && !match900 ? walletAddress(row.wallet) : (
                                         <Button onClick={() => {
                                             setCoin(row.coin);
                                             setPriceCap(row.priceCap);

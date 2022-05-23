@@ -275,14 +275,14 @@ const Index: NextPage = () => {
                             </CustomCard>
                         </Grid>
                         <Grid item lg={6} xs={12} className={"fields"}>
-                            <CustomCard titleProps={{title: "Help"}}  containerProps={{style:{height:"100%"}}} cardProps={{style:{height:"100%"}}}>
+                            <CustomCard titleProps={{title: "Help"}} containerProps={{style:{height:"100%"}}} cardProps={{style:{height:"100%"}}}>
                                 <Grid container>
                                     <Grid item md={9} xs={8}>
                                         <Typography className={styles.bodyFont} sx={{lineHeight:"28px",marginBottom:3}}>
                                             Here find some of the most frequent questions about minerium, coins and pools.
                                         </Typography>
                                     </Grid>
-                                    <Grid item md={3} xs={4} justifyContent={"end"} textAlign={"right"}>
+                                    <Grid item md={3} xs={4} justifyContent={"end"} textAlign={"right"} sx={{pr:"14px"}}>
                                         <Button sx={{mb:1}} variant={"contained"} className={styles.customBtn}>&nbsp; FAQ &nbsp;</Button>
                                     </Grid>
                                 </Grid>
