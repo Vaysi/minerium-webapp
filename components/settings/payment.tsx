@@ -109,7 +109,7 @@ const PaymentSettings: NextPage = () => {
                 {
                     cap.length < 1 ? <Skeleton variant="rectangular" height={118}/> : ""
                 }
-                {cap.length > 0 && <TableContainer component={Paper} className={"tableContainer"} sx={{backgroundColor:"transparent"}}>
+                {cap.length > 0 && <TableContainer component={Paper} className={"tableContainer"} sx={{backgroundColor:"transparent",borderRadius:"10px"}}>
                     <Table sx={{width: "100%"}} aria-label="customized table">
                         <TableHead>
                             <TableRow style={{borderRadius: "3px 3px 0 0"}}>
