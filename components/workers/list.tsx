@@ -22,7 +22,7 @@ import {
     GridCallbackDetails,
     GridCellParams,
     GridColDef,
-    GridColumnOrderChangeParams, GridFilterItem, GridFilterModel,
+    GridColumnOrderChangeParams, GridFilterInputValueProps, GridFilterItem, GridFilterModel,
     GridFilterOperator,
     GridRenderCellParams,
     GridState,
@@ -66,6 +66,21 @@ const useStyles: any = makeStyles((theme: any) => ({
     }
 }));
 
+function filterInput(props: GridFilterInputValueProps) {
+    const classes = useStyles();
+    const { item, applyValue } = props;
+  
+    const handleFilterChange = (event:any) => {
+      applyValue({ ...item, value: event.target.value });
+    };
+  
+    return (
+      <div>
+        <TextField name="input-range" placeholder="Enter Value" value={Number(item.value)} onChange={handleFilterChange} />
+      </div>
+    );
+  }
+
 const isZeroOperator: GridFilterOperator = {
     label: 'is Zero',
     value: 'isZero',
@@ -78,11 +93,8 @@ const isZeroOperator: GridFilterOperator = {
         return Number(params.value) < 1;
       };
     },
-    InputComponentProps: {
-        InputProps: {
-            startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
-        },
-    },
+    InputComponent: filterInput,
+    InputComponentProps: { type: 'number' },
 };
 
 
@@ -98,11 +110,8 @@ const gtOperator: GridFilterOperator = {
         return Number(params.value) >= Number(filterItem.value);
       };
     },
-    InputComponentProps: {
-        InputProps: {
-            startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
-        },
-    },
+    InputComponent: filterInput,
+    InputComponentProps: { type: 'number' },
 };
 
 const ltOperator: GridFilterOperator = {
@@ -117,11 +126,8 @@ const ltOperator: GridFilterOperator = {
         return Number(params.value) <= Number(filterItem.value);
       };
     },
-    InputComponentProps: {
-        InputProps: {
-            startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
-        },
-    },
+    InputComponent: filterInput,
+    InputComponentProps: { type: 'number' },
 };
 
 interface Props {
