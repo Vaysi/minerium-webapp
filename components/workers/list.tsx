@@ -76,7 +76,7 @@ function FilterInput(props: GridFilterInputValueProps) {
   
     return (
       <div>
-        <TextField label="Value" variant="standard" size="small" name="input-range" placeholder="Enter Value" value={item.value ? Number(item.value) : ""} onChange={handleFilterChange} />
+        <TextField style={{marginTop:"3px"}} label="Value" variant="standard" size="small" name="input-range" placeholder="Enter Value" value={item.value ? Number(item.value) : ""} onChange={handleFilterChange} />
       </div>
     );
   }
@@ -88,6 +88,10 @@ function FilterInput(props: GridFilterInputValueProps) {
     const handleFilterChange = (event:any) => {
       applyValue({ ...item, value: event.target.value });
     };
+
+    useEffect(() => {
+        applyValue({ ...item, value: 2});
+    },[]);
   
     return (
       <div>
