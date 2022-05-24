@@ -583,6 +583,11 @@ label.customCheck > input:checked + i:after {
   border-bottom-left-radius: 10px;
 }
 
+.tableContainer .MuiDataGrid-row:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
 .tableContainer .MuiDataGrid-row .MuiDataGrid-cell:first-child {
   border-left: 1px solid #8f9cb3;
 }
