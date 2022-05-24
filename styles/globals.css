@@ -418,63 +418,63 @@ input:-webkit-autofill {
 
 
 .MuiDataGrid-row:nth-child(1) .MuiDataGrid-cellCheckbox svg  {
-  fill: #8BC34A!important;
-}
-
-.MuiDataGrid-row:nth-child(2) .MuiDataGrid-cellCheckbox svg  {
   fill: #FF9800!important;
 }
 
-.MuiDataGrid-row:nth-child(3) .MuiDataGrid-cellCheckbox svg  {
+.MuiDataGrid-row:nth-child(2) .MuiDataGrid-cellCheckbox svg  {
   fill: #673AB7!important;
 }
 
-.MuiDataGrid-row:nth-child(4) .MuiDataGrid-cellCheckbox svg  {
+.MuiDataGrid-row:nth-child(3) .MuiDataGrid-cellCheckbox svg  {
   fill: #00BCD4!important;
 }
 
-.MuiDataGrid-row:nth-child(5) .MuiDataGrid-cellCheckbox svg  {
+.MuiDataGrid-row:nth-child(4) .MuiDataGrid-cellCheckbox svg  {
   fill: #F44336!important;
 }
 
-label.customCheck:nth-child(1) > input:checked + i {
-  background-color: #8BC34A;
+.MuiDataGrid-row:nth-child(5) .MuiDataGrid-cellCheckbox svg  {
+  fill: #8BC34A!important;
 }
 
-label.customCheck:nth-child(2) > input:checked + i {
+label.customCheck:nth-child(1) > input:checked + i {
   background-color: #FF9800;
 }
 
-label.customCheck:nth-child(3) > input:checked + i {
+label.customCheck:nth-child(2) > input:checked + i {
   background-color: #673AB7;
 }
 
-label.customCheck:nth-child(4) > input:checked + i {
+label.customCheck:nth-child(3) > input:checked + i {
   background-color: #00BCD4;
 }
 
-label.customCheck:nth-child(5) > input:checked + i {
+label.customCheck:nth-child(4) > input:checked + i {
   background-color: #F44336;
 }
 
-label.customCheck:nth-child(1) > input + i {
-  border:1px solid #8BC34A;
+label.customCheck:nth-child(5) > input:checked + i {
+  background-color: #8BC34A;
 }
 
-label.customCheck:nth-child(2) > input + i {
+label.customCheck:nth-child(1) > input + i {
   border:1px solid #FF9800;
 }
 
-label.customCheck:nth-child(3) > input + i {
+label.customCheck:nth-child(2) > input + i {
   border:1px solid #673AB7;
 }
 
-label.customCheck:nth-child(4) > input + i {
+label.customCheck:nth-child(3) > input + i {
   border:1px solid #00BCD4;
 }
 
-label.customCheck:nth-child(5) > input + i {
+label.customCheck:nth-child(4) > input + i {
   border:1px solid #F44336;
+}
+
+label.customCheck:nth-child(5) > input + i {
+  border:1px solid #8BC34A;
 }
 
 .customStep {
