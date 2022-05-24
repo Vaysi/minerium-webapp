@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import {makeStyles, useTheme} from "@mui/styles";
 import {
-    DataGrid, getGridNumericOperators, GridApi,
+    DataGrid, GridApi,
     GridCallbackDetails,
     GridCellParams,
     GridColDef,
@@ -78,6 +78,11 @@ const isZeroOperator: GridFilterOperator = {
         return Number(params.value) < 1;
       };
     },
+    InputComponentProps: {
+        InputProps: {
+            startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
+        },
+    },
 };
 
 
@@ -93,6 +98,11 @@ const gtOperator: GridFilterOperator = {
         return Number(params.value) >= Number(filterItem.value);
       };
     },
+    InputComponentProps: {
+        InputProps: {
+            startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
+        },
+    },
 };
 
 const ltOperator: GridFilterOperator = {
@@ -106,6 +116,11 @@ const ltOperator: GridFilterOperator = {
       return (params: GridCellParams): boolean => {
         return Number(params.value) <= Number(filterItem.value);
       };
+    },
+    InputComponentProps: {
+        InputProps: {
+            startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
+        },
     },
 };
 
@@ -269,18 +284,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: getGridNumericOperators()
-            .filter((operator) => operator.value === '>' || operator.value === '<')
-            .map((operator) => {
-            return {
-                ...operator,
-                InputComponentProps: {
-                InputProps: {
-                    startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
-                },
-                },
-            };
-            }),
+            filterOperators: [gtOperator,ltOperator,isZeroOperator]
         },
         {
             field: 'hash1hr',
@@ -294,18 +298,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: getGridNumericOperators()
-            .filter((operator) => operator.value === '>' || operator.value === '<')
-            .map((operator) => {
-            return {
-                ...operator,
-                InputComponentProps: {
-                InputProps: {
-                    startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
-                },
-                },
-            };
-            }),
+            filterOperators: [gtOperator,ltOperator,isZeroOperator]
         },
         {
             field: 'hash1d',
@@ -319,18 +312,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: getGridNumericOperators()
-            .filter((operator) => operator.value === '>' || operator.value === '<')
-            .map((operator) => {
-            return {
-                ...operator,
-                InputComponentProps: {
-                InputProps: {
-                    startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
-                },
-                },
-            };
-            }),
+            filterOperators: [gtOperator,ltOperator,isZeroOperator]
         },
         {
             field: 'hash7d',
@@ -344,18 +326,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: getGridNumericOperators()
-            .filter((operator) => operator.value === '>' || operator.value === '<')
-            .map((operator) => {
-            return {
-                ...operator,
-                InputComponentProps: {
-                InputProps: {
-                    startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
-                },
-                },
-            };
-            }),
+            filterOperators: [gtOperator,ltOperator,isZeroOperator]
         },
         {
             field: 'lastupdate',
