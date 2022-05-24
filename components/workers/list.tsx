@@ -9,6 +9,7 @@ import {
     Divider,
     FormControl,
     Grid, IconButton,
+    InputAdornment,
     MenuItem,
     Select,
     TextField,
@@ -17,7 +18,7 @@ import {
 } from "@mui/material";
 import {makeStyles, useTheme} from "@mui/styles";
 import {
-    DataGrid, GridApi,
+    DataGrid, getGridNumericOperators, GridApi,
     GridCallbackDetails,
     GridCellParams,
     GridColDef,
@@ -268,7 +269,18 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: [isZeroOperator,gtOperator,ltOperator]
+            filterOperators: getGridNumericOperators()
+            .filter((operator) => operator.value === '>' || operator.value === '<')
+            .map((operator) => {
+            return {
+                ...operator,
+                InputComponentProps: {
+                InputProps: {
+                    startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
+                },
+                },
+            };
+            }),
         },
         {
             field: 'hash1hr',
@@ -282,7 +294,18 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: [isZeroOperator,gtOperator,ltOperator]
+            filterOperators: getGridNumericOperators()
+            .filter((operator) => operator.value === '>' || operator.value === '<')
+            .map((operator) => {
+            return {
+                ...operator,
+                InputComponentProps: {
+                InputProps: {
+                    startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
+                },
+                },
+            };
+            }),
         },
         {
             field: 'hash1d',
@@ -296,7 +319,18 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: [isZeroOperator,gtOperator,ltOperator]
+            filterOperators: getGridNumericOperators()
+            .filter((operator) => operator.value === '>' || operator.value === '<')
+            .map((operator) => {
+            return {
+                ...operator,
+                InputComponentProps: {
+                InputProps: {
+                    startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
+                },
+                },
+            };
+            }),
         },
         {
             field: 'hash7d',
@@ -310,7 +344,18 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             type: "number",
             minWidth: 100,
-            filterOperators: [isZeroOperator,gtOperator,ltOperator]
+            filterOperators: getGridNumericOperators()
+            .filter((operator) => operator.value === '>' || operator.value === '<')
+            .map((operator) => {
+            return {
+                ...operator,
+                InputComponentProps: {
+                InputProps: {
+                    startAdornment: <InputAdornment position="end">TH/s</InputAdornment>,
+                },
+                },
+            };
+            }),
         },
         {
             field: 'lastupdate',
