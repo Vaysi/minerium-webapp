@@ -76,7 +76,7 @@ function FilterInput(props: GridFilterInputValueProps) {
   
     return (
       <div>
-        <TextField name="input-range" placeholder="Enter Value" value={Number(item.value)} onChange={handleFilterChange} />
+        <TextField variant="standard" size="small" name="input-range" placeholder="Enter Value" value={Number(item.value)} onChange={handleFilterChange} />
       </div>
     );
   }
@@ -94,7 +94,7 @@ const isZeroOperator: GridFilterOperator = {
       };
     },
     InputComponent: FilterInput,
-    InputComponentProps: { type: 'number' },
+    InputComponentProps: { type: 'number',value:1},
 };
 
 
