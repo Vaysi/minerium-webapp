@@ -61,9 +61,9 @@ const History = () => {
             headerClassName: styles.headerTitle,
             renderCell: matches800 ? (params: GridRenderCellParams<string>) => (
                 <span style={{textAlign:"center"}}>
-                    {params.value.split(" ")[0]}
+                    {params.value ? params.value.split(" ")[0] : ""}
                     <br />
-                    {params.value.split(" ")[1]}
+                    {params.value ? params.value.split(" ")[1] : ""}
                 </span>
             ) : undefined,
             minWidth: 120,
@@ -77,9 +77,9 @@ const History = () => {
             headerClassName: styles.headerTitle,
             renderCell: matches800 ? (params: GridRenderCellParams<string>) => (
                 <span style={{textAlign:"center"}}>
-                    {params.value.split(" ")[0]}
+                    {params.value ? params.value.split(" ")[0] : ""}
                     <br />
-                    {params.value.split(" ")[1]}
+                    {params.value ? params.value.split(" ")[1] : ""}
                 </span>
             ) : undefined,
             minWidth: 120,

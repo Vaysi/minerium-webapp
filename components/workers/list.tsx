@@ -618,7 +618,7 @@ const WorkersList = (props: Props) => {
                                     let sortedRowsIds = state.sorting.sortedRows;
                                     let tableRows = state.rows.idRowsLookup;
                                     let newData:any = [];
-                                    sortedRowsIds.map(item => {
+                                    sortedRowsIds.map((item:any) => {
                                         newData.push(tableRows[item]);
                                     });
                                     //@ts-ignore
