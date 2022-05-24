@@ -66,7 +66,7 @@ const useStyles: any = makeStyles((theme: any) => ({
     }
 }));
 
-function filterInput(props: GridFilterInputValueProps) {
+function FilterInput(props: GridFilterInputValueProps) {
     const classes = useStyles();
     const { item, applyValue } = props;
   
@@ -93,7 +93,7 @@ const isZeroOperator: GridFilterOperator = {
         return Number(params.value) < 1;
       };
     },
-    InputComponent: filterInput,
+    InputComponent: FilterInput,
     InputComponentProps: { type: 'number' },
 };
 
@@ -110,7 +110,7 @@ const gtOperator: GridFilterOperator = {
         return Number(params.value) >= Number(filterItem.value);
       };
     },
-    InputComponent: filterInput,
+    InputComponent: FilterInput,
     InputComponentProps: { type: 'number' },
 };
 
@@ -126,7 +126,7 @@ const ltOperator: GridFilterOperator = {
         return Number(params.value) <= Number(filterItem.value);
       };
     },
-    InputComponent: filterInput,
+    InputComponent: FilterInput,
     InputComponentProps: { type: 'number' },
 };
 
