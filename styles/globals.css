@@ -603,3 +603,7 @@ label.customCheck > input:checked + i:after {
   display: none;
 }
 
+
+.MuiDataGrid-filterForm {
+  flex-wrap: wrap;
+}
