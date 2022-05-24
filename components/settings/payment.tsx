@@ -69,7 +69,7 @@ const PaymentSettings: NextPage = () => {
     const [wallet, setWallet] = useState<string>('');
     const [priceCap, setPriceCap] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
-    const match900 = useMediaQuery('(max-width:900px)');
+    const match900 = useMediaQuery('(min-width:900px)');
 
     const [open, setOpen] = useState(false);
 
