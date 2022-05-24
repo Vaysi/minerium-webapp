@@ -62,7 +62,9 @@ const useStyles: any = makeStyles((theme: any) => ({
         "[data-theme=dark] &": {
             backgroundColor: "#043180",
             color: "#fff",
-        }
+        },
+        minWidth: "84px",
+        fontSize: 16
     },
     bodyFont: {
         "@media (max-width: 800px)": {
@@ -283,7 +285,7 @@ const Index: NextPage = () => {
                                         </Typography>
                                     </Grid>
                                     <Grid item md={3} xs={4} justifyContent={"end"} textAlign={"right"} sx={{pr:"14px"}}>
-                                        <Button sx={{mb:1}} variant={"contained"} className={styles.customBtn}>&nbsp; FAQ &nbsp;</Button>
+                                        <Button sx={{mb:1}} variant={"contained"} className={styles.customBtn}>FAQ</Button>
                                     </Grid>
                                 </Grid>
                             </CustomCard>
