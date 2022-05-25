@@ -70,7 +70,7 @@ const History = () => {
                             </>
                         ) : (
                             <>
-                                {params.value ? params.value.split(" ")[0] : ""}
+                                {params.value ? params.value.split(" ")[0] : " "}
                                 {params.value ? params.value.split(" ")[1].replace("23","00") : ""}
                             </>
                         )
@@ -97,7 +97,7 @@ const History = () => {
                             </>
                         ) : (
                             <>
-                                {params.value ? params.value.split(" ")[0] : ""}
+                                {params.value ? params.value.split(" ")[0] : " "}
                                 {params.value ? params.value.split(" ")[1].replace("23","00") : ""}
                             </>
                         )
