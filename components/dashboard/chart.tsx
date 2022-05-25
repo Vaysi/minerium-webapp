@@ -36,7 +36,8 @@ const useStyles: any = makeStyles((theme: any) => ({
         borderRadius: "15px",
         fontFamily: "Open Sans",
         fontSize: "17px",
-        textTransform: "none"
+        textTransform: "none",
+        minWidth:100,
     },
     deactive: {
         filter: "drop-shadow(0px 10px 50px rgba(0, 0, 0, 0.25))",
@@ -46,7 +47,8 @@ const useStyles: any = makeStyles((theme: any) => ({
         borderRadius: "15px",
         fontSize: "17px",
         opacity: 0.65,
-        textTransform: "none"
+        textTransform: "none",
+        minWidth:100,
     },
     backdrop: {
         position: "absolute"
