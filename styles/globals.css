@@ -605,5 +605,13 @@ label.customCheck > input:checked + i:after {
 
 
 .MuiDataGrid-row:hover {
-  background-color: unset;
+  background-color: #fff!important;
 }
+
+[data-theme=dark] .MuiDataGrid-row:hover{
+  background-color:#111!important;
+}
+
+.tableContainer .MuiDataGrid-row .MuiDataGrid-cell[data-field="worker_name"] {
+  justify-self: start!important;
+} 
