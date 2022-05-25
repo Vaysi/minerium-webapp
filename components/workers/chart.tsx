@@ -200,6 +200,7 @@ const HashChart = (props: Props) => {
 
     useEffect(() => {
         setWorkersData(workersToGraph(props.data.workers));
+        setChangedCount(changedCount+1);
     }, [props.data,props.visibleWorkers,props.selection.selection]);
 
     const labels = props.data.timestamps.map(item => {
