@@ -63,7 +63,7 @@ const History = () => {
                 <span style={{textAlign:"center"}}>
                     {params.value ? params.value.split(" ")[0] : ""}
                     <br />
-                    {params.value ? params.value.split(" ")[1] : ""}
+                    {params.value ? params.value.split(" ")[1].replace(/23/g,"00") : ""}
                 </span>
             ) : undefined,
             minWidth: 120,
@@ -79,7 +79,7 @@ const History = () => {
                 <span style={{textAlign:"center"}}>
                     {params.value ? params.value.split(" ")[0] : ""}
                     <br />
-                    {params.value ? params.value.split(" ")[1] : ""}
+                    {params.value ? params.value.split(" ")[1].replace(/23/g,"00") : ""}
                 </span>
             ) : undefined,
             minWidth: 120,
