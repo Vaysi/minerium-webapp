@@ -558,10 +558,8 @@ const Calculator: NextPage = () => {
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell className={styles.thead} align="left" style={{width:0}}>Per</StyledTableCell>
-                                            <StyledTableCell className={styles.thead} align="center">Est.Rewards</StyledTableCell>
-                                            <StyledTableCell className={styles.thead} align="center">Fee</StyledTableCell>
-                                            <StyledTableCell className={styles.thead} align="center">Rev.{coin.toUpperCase()}</StyledTableCell>
-                                            <StyledTableCell className={styles.thead} align="center">Rev.$</StyledTableCell>
+                                            <StyledTableCell className={styles.thead} align="center">Estimate Rewards ({coin.toUpperCase()})</StyledTableCell>
+                                            <StyledTableCell className={styles.thead} align="center">Estimate Rewards ($)</StyledTableCell>
                                             <StyledTableCell className={styles.thead} align="center">Cost</StyledTableCell>
                                             <StyledTableCell className={styles.thead} align="center">Profit</StyledTableCell>
                                         </TableRow>
@@ -572,8 +570,6 @@ const Calculator: NextPage = () => {
                                                 <StyledTableCell align={"left"} style={{fontWeight: "bold"}}>
                                                     {row.per}
                                                 </StyledTableCell>
-                                                <StyledTableCell align="center">{row.reward}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.fee}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.btc}</StyledTableCell>
                                                 <StyledTableCell align="center">{addThousandSep(row.usd)} <b>$</b></StyledTableCell>
                                                 <StyledTableCell align="center">{addThousandSep(row.cost)} <b>$</b></StyledTableCell>
