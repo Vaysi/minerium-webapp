@@ -153,7 +153,7 @@ const History = () => {
                           rows={history.map((item,index) => {
                               item.since = moment(item.since,'YYYYMMDDHH').format('YYYY-MM-DD HH:mm');
                               let until = moment(item.until,'YYYYMMDDHH');
-                              item.until = until.hour == 23 ? until.add(1,'h').format('YYYY-MM-DD HH:mm') : until.format('YYYY-MM-DD HH:mm');
+                              item.until = until.hour() == 23 ? until.add(1,'h').format('YYYY-MM-DD HH:mm') : until.format('YYYY-MM-DD HH:mm');
                               item.paid = item.paid ? 'Settled' : 'Not Settled';
                               item.type = 'PPS';
                               item.id = index;
