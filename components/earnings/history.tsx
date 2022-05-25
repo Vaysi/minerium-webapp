@@ -59,13 +59,24 @@ const History = () => {
             align: "center",
             headerAlign: "center",
             headerClassName: styles.headerTitle,
-            renderCell: matches800 ? (params: GridRenderCellParams<string>) => (
+            renderCell: (params: GridRenderCellParams<string>) => (
                 <span style={{textAlign:"center"}}>
-                    {params.value ? params.value.split(" ")[0] : ""}
-                    <br />
-                    {params.value ? params.value.split(" ")[1].replace("23","00") : ""}
+                    {
+                        matches800 ? (
+                            <>
+                                {params.value ? params.value.split(" ")[0] : ""}
+                                <br />
+                                {params.value ? params.value.split(" ")[1].replace("23","00") : ""}
+                            </>
+                        ) : (
+                            <>
+                                {params.value ? params.value.split(" ")[0] : ""}
+                                {params.value ? params.value.split(" ")[1].replace("23","00") : ""}
+                            </>
+                        )
+                    }
                 </span>
-            ) : undefined,
+            ),
             minWidth: 120,
         },
         {
@@ -75,13 +86,24 @@ const History = () => {
             align: "center",
             headerAlign: "center",
             headerClassName: styles.headerTitle,
-            renderCell: matches800 ? (params: GridRenderCellParams<string>) => (
+            renderCell: (params: GridRenderCellParams<string>) => (
                 <span style={{textAlign:"center"}}>
-                    {params.value ? params.value.split(" ")[0] : ""}
-                    <br />
-                    {params.value ? params.value.split(" ")[1].replace("23","00") : ""}
+                    {
+                        matches800 ? (
+                            <>
+                                {params.value ? params.value.split(" ")[0] : ""}
+                                <br />
+                                {params.value ? params.value.split(" ")[1].replace("23","00") : ""}
+                            </>
+                        ) : (
+                            <>
+                                {params.value ? params.value.split(" ")[0] : ""}
+                                {params.value ? params.value.split(" ")[1].replace("23","00") : ""}
+                            </>
+                        )
+                    }
                 </span>
-            ) : undefined,
+            ),
             minWidth: 120,
         },
         {
