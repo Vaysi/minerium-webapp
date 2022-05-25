@@ -595,7 +595,7 @@ label.customCheck > input:checked + i:after {
 
 
 
-.tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="lastupdate"] , .tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="paid"] , .tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="paid"] {
+.tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="lastupdate"] , .tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="paid"] , .tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="paid"],.tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="txInfo"] {
   border-bottom-right-radius: 10px;
 }
 
@@ -615,3 +615,7 @@ label.customCheck > input:checked + i:after {
 .tableContainer .MuiDataGrid-row .MuiDataGrid-cell[data-field="worker_name"] {
   justify-content: start!important;
 } 
+
+.MuiDataGrid-row:last-child .MuiDataGrid-cell:not([data-field]) {
+  display: none!important;
+}
