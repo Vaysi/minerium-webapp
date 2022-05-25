@@ -71,7 +71,7 @@ const History = () => {
                         ) : (
                             <>
                                 {params.value ? params.value.split(" ")[0] : " "}
-                                {params.value ? params.value.split(" ")[1].replace("23","00") : ""}
+                                <span style={{marginLeft:"10px"}}>{params.value ? params.value.split(" ")[1].replace("23","00") : ""}</span>
                             </>
                         )
                     }
@@ -98,7 +98,7 @@ const History = () => {
                         ) : (
                             <>
                                 {params.value ? params.value.split(" ")[0] : " "}
-                                {params.value ? params.value.split(" ")[1].replace("23","00") : ""}
+                                <span style={{marginLeft:"10px"}}>{params.value ? params.value.split(" ")[1].replace("23","00") : ""}</span>
                             </>
                         )
                     }
