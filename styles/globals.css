@@ -308,7 +308,7 @@ input:-webkit-autofill {
   font-size: 1rem;
 }
 
-.groupFilter .MuiSvgIcon-root , .currencySelect .MuiSvgIcon-root{
+.groupFilter .MuiSvgIcon-root , .currencySelect .MuiSvgIcon-root,.preferencesFilter .MuiSvgIcon-root{
   background-color: #043180;
   color: #fff;
   height: 100%;
@@ -323,7 +323,20 @@ input:-webkit-autofill {
   width: 67px;
 }
 
-.groupFilter .MuiSvgIcon-root.MuiSelect-iconOpen , .currencySelect .MuiSvgIcon-root.MuiSelect-iconOpen {
+.preferencesFilter .MuiSvgIcon-root {
+  width: 30px;
+}
+
+.preferencesFilter .MuiSelect-select{
+  padding-right: 70px!important;
+  padding-left: 12px!important;
+}
+
+.preferencesFilter .MuiSelect-select .MuiListItemText-root  {
+  margin-top:0;
+}
+
+.groupFilter .MuiSvgIcon-root.MuiSelect-iconOpen,.preferencesFilter .MuiSvgIcon-root.MuiSelect-iconOpen, .currencySelect .MuiSvgIcon-root.MuiSelect-iconOpen {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   border-top-right-radius: 0!important;
@@ -357,6 +370,7 @@ input:-webkit-autofill {
   width: 30px;
   height: 30px;
 }
+
 .MuiDataGrid-columnHeader:hover .MuiDataGrid-iconButtonContainer {
   visibility: visible;
   width: auto;

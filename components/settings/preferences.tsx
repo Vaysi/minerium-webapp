@@ -25,7 +25,15 @@ const useStyles: any = makeStyles((theme: any) => ({
     alert: {
         backgroundColor:"#CEDBEF",
         color: "#043180",
-    }
+    },
+    select: {
+        "& fieldset": {
+            display: "none"
+        },
+        "& 	.MuiSelect-outlined": {
+            backgroundColor: "#fff"
+        }
+    },
 }));
 
 const Preferences: NextPage = () => {
@@ -75,32 +83,30 @@ const Preferences: NextPage = () => {
                                 Please Note
                             </Typography>
                             <Divider/>
-                            <p><b>Changing Preferred Payment Currency</b>, changes how we
-                                calculate your earnings from the next hour until you change it
-                                again. You &nbsp;
-                                <b>Can Not Undo</b> &nbsp;
-                                the change but you can change the currency in the future.</p>
+                            <p><b>Changing the preferred payment</b> currency will change how to calculate your earnings based on the chosen currency from the <b>next hour</b> that changing request is submitted.</p>
                         </Alert>
                     </Grid>
-                    <Grid item xs={12} md={6} sx={{pl: {xs:0,md:2}}}>
-                        <Typography sx={{my: 2,color: mode == 'dark' ? "#fff" : undefined}}>
-                            Preferred Payment Currency
-                        </Typography>
-                        <Select sx={{backgroundColor: mode == 'dark' ? "#fff" : undefined}} value={selected} onChange={(e) => {
-                            setSelected(e.target.value);
-                            setDone(false);
-                        }} variant={"outlined"}>
-                            {ppsCoins != null && ppsCoins.pps.map((item: any,index) => (
-                                <MenuItem value={item.coin} key={index}>
-                                    <div style={{display: 'flex', alignItems: 'center', justifyContent: "center"}}>
-                                        <ListItemIcon classes={{root: styles.menuItem}}>
-                                            <Image src={item.icon} width={25} height={25}/>
-                                        </ListItemIcon>
-                                        <ListItemText primary={item.coin.toUpperCase()}/>
-                                    </div>
-                                </MenuItem>
-                            ))}
-                        </Select>
+                    <Grid item xs={12} md={6} sx={{pl: {xs:0,md:2},display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
+                        <Box className={"preferencesFilter"} sx={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap"}}>
+                            <Typography sx={{my: 2,color: mode == 'dark' ? "#fff" : "#043386",fontSize:"18px",fontWeight:600,mr:1}}>
+                                Preferred Payment Currency
+                            </Typography>
+                            <Select className={`${styles.select}`} id="demo-simple-select" sx={{backgroundColor: mode == 'dark' ? "#fff" : "#fff",fontSize:"18px",fontWeight:600}} value={selected} onChange={(e) => {
+                                setSelected(e.target.value);
+                                setDone(false);
+                            }} variant={"outlined"} size="small">
+                                {ppsCoins != null && ppsCoins.pps.map((item: any,index) => (
+                                    <MenuItem value={item.coin} key={index}>
+                                        <div style={{display: 'flex', alignItems: 'center', justifyContent: "center"}}>
+                                            <ListItemIcon classes={{root: styles.menuItem}}>
+                                                <img src={item.icon} width={25} height={25}/>
+                                            </ListItemIcon>
+                                            <ListItemText primary={item.coin.toUpperCase()}/>
+                                        </div>
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </Box>
                         <Box textAlign={"right"}>
                             <Button onClick={handleClickOpen} variant={"contained"} startIcon={loading ? <CircularProgress size={20} /> : ''} disabled={loading || selected == ppsCoins?.preference || done}>
                                 {done ? 'Saved' : 'Submit'}
