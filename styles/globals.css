@@ -613,5 +613,5 @@ label.customCheck > input:checked + i:after {
 }
 
 .tableContainer .MuiDataGrid-row .MuiDataGrid-cell[data-field="worker_name"] {
-  justify-self: start!important;
+  justify-content: start!important;
 } 
