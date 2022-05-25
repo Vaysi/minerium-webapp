@@ -609,7 +609,7 @@ label.customCheck > input:checked + i:after {
 }
 
 [data-theme=dark] .MuiDataGrid-row:hover{
-  background-color:#111!important;
+  background-color:var(--blue-ghost)!important;
 }
 
 .tableContainer .MuiDataGrid-row .MuiDataGrid-cell[data-field="worker_name"] {
