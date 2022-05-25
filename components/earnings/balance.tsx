@@ -72,7 +72,7 @@ const Balance = () => {
                 <Tooltip open={showTooltip}
                          onOpen={() => setShowTooltip(true)}
                          onClose={() => setShowTooltip(false)} enterTouchDelay={0} arrow title="No Wallet Address Defined">
-                    <Button style={{fontSize:12,textTransform:"unset",minWidth:110}} size={"small"} variant="contained">Not Payable</Button>
+                    <Button style={{fontSize:12,textTransform:"unset",minWidth:110}} size={"small"} variant="contained">Not Settled</Button>
                 </Tooltip>
             </>);
         } else if (row.balance.price < row.balance.minimum) {
@@ -80,8 +80,8 @@ const Balance = () => {
                 <>
                     <Tooltip open={showTooltip}
                              onOpen={() => setShowTooltip(true)}
-                             onClose={() => setShowTooltip(false)} enterTouchDelay={0} arrow title="Min. Amount Has Not Reached">
-                        <Button style={{fontSize:12,textTransform:"unset",minWidth:110}} size={"small"} variant="contained">Not Payable</Button>
+                             onClose={() => setShowTooltip(false)} enterTouchDelay={0} arrow title="The Minimum Amount of Payment has not been Reached">
+                        <Button style={{fontSize:12,textTransform:"unset",minWidth:110}} size={"small"} variant="contained">Not Settled</Button>
                     </Tooltip>
                 </>
             );
