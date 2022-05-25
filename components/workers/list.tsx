@@ -289,7 +289,7 @@ const WorkersList = (props: Props) => {
             headerClassName: styles.headerTitle,
             renderCell: (params: GridRenderCellParams<Date>) => {
                 return (
-                    <strong>
+                    <strong style={{justifyContent: "left"}}>
                         <Circle style={{color: params.row.hash1m > 0 ? "green" : "red" , width:15,height:15,marginRight:5,position:"relative",top:3}} />
                         {matches ? params.row.worker_name.split(".")[1] : params.row.worker_name }
                     </strong>
