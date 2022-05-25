@@ -66,12 +66,12 @@ const History = () => {
                             <>
                                 {params.value ? params.value.split(" ")[0] : ""}
                                 <br />
-                                {params.value ? params.value.split(" ")[1].replace("23","00") : ""}
+                                {params.value ? params.value.split(" ")[1] : ""}
                             </>
                         ) : (
                             <>
                                 {params.value ? params.value.split(" ")[0] : " "}
-                                <span style={{marginLeft:"10px"}}>{params.value ? params.value.split(" ")[1].replace("23","00") : ""}</span>
+                                <span style={{marginLeft:"10px"}}>{params.value ? params.value.split(" ")[1] : ""}</span>
                             </>
                         )
                     }
@@ -93,12 +93,12 @@ const History = () => {
                             <>
                                 {params.value ? params.value.split(" ")[0] : ""}
                                 <br />
-                                {params.value ? params.value.split(" ")[1].replace("23","00") : ""}
+                                {params.value ? params.value.split(" ")[1] : ""}
                             </>
                         ) : (
                             <>
                                 {params.value ? params.value.split(" ")[0] : " "}
-                                <span style={{marginLeft:"10px"}}>{params.value ? params.value.split(" ")[1].replace("23","00") : ""}</span>
+                                <span style={{marginLeft:"10px"}}>{params.value ? params.value.split(" ")[1] : ""}</span>
                             </>
                         )
                     }
@@ -152,7 +152,8 @@ const History = () => {
                       <DataGrid
                           rows={history.map((item,index) => {
                               item.since = moment(item.since,'YYYYMMDDHH').format('YYYY-MM-DD HH:mm');
-                              item.until = moment(item.until,'YYYYMMDDHH').format('YYYY-MM-DD HH:mm');
+                              let until = moment(item.until,'YYYYMMDDHH');
+                              item.until = until.hour == 23 ? until.add(1,'h').format('YYYY-MM-DD HH:mm') : until.format('YYYY-MM-DD HH:mm');
                               item.paid = item.paid ? 'Settled' : 'Not Settled';
                               item.type = 'PPS';
                               item.id = index;
