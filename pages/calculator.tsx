@@ -73,7 +73,8 @@ const useStyles: any = makeStyles((theme: any) => ({
         color: "var(--header)",
         marginBottom: 5,
         marginTop: 15,
-        fontSize: "14px"
+        fontSize: "14px",
+        textAlign:"center"
     },
     notchedOutline: {
         border: "none"
@@ -109,7 +110,7 @@ const useStyles: any = makeStyles((theme: any) => ({
     },
     backdrop: {
         position: "absolute"
-    }
+    },
 }));
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
@@ -118,7 +119,8 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
         color: "#fff",
         fontFamily: "var(--font-body)",
         fontWeight: 600,
-        fontSize: 20
+        fontSize: 20,
+        width: "24%"
     },
     [`&.${tableCellClasses.body}`]: {
         fontSize: 16,
@@ -326,7 +328,7 @@ const Calculator: NextPage = () => {
             <Header/>
             <Container maxWidth={"xl"} className={"calculator"}>
                 <CustomCard titleProps={{title: "Mining Reward Calculator"}}>
-                    <Grid container>
+                    <Grid container sx={{maxWidth:950,margin:"auto"}}>
                         <Grid item xs={12}>
                             <Grid container>
                                 <Grid sx={{px:2,xs:{px:0}}} item md={3} sm={6} xs={12} alignItems={"center"} display={"flex"}>
@@ -343,11 +345,12 @@ const Calculator: NextPage = () => {
                                                 setCoin(e.target.value);
                                             }}
                                             className={styles.select}
+                                            size={"small"}
                                         >
                                             <MenuItem value={"btc"}>
                                                 <img style={{paddingRight:10}} className={"iconDropdown"} src={`/coins/btc.svg`} width={20}
                                                      height={20}/>
-                                                <div>
+                                                <div style={{marginTop:"-5px"}}>
                                                     BTC
                                                     <Typography className={"fullName"}>Bitcoin</Typography>
                                                 </div>
@@ -355,7 +358,7 @@ const Calculator: NextPage = () => {
                                             <MenuItem value={"bch"}>
                                                 <img style={{paddingRight:10}} className={"iconDropdown"} src={`/coins/bch.svg`} width={20}
                                                      height={20}/>
-                                                <div>
+                                                <div style={{marginTop:"-5px"}}>
                                                     BCH
                                                     <Typography className={"fullName"}>Bitcoin Cash</Typography>
                                                 </div>
@@ -363,7 +366,7 @@ const Calculator: NextPage = () => {
                                             <MenuItem value={"bsv"}>
                                                 <img style={{paddingRight:10}} className={"iconDropdown"} src={`/coins/bsv.svg`} width={20}
                                                      height={20}/>
-                                                <div>
+                                                <div style={{marginTop:"-5px"}}>
                                                     BSV
                                                     <Typography className={"fullName"}>Bitcoin SV</Typography>
                                                 </div>
@@ -371,7 +374,7 @@ const Calculator: NextPage = () => {
                                             <MenuItem value={"dgb"}>
                                                 <img style={{paddingRight:10}} className={"iconDropdown"} src={`/coins/dgb.svg`} width={20}
                                                      height={20}/>
-                                                <div>
+                                                <div style={{marginTop:"-5px"}}>
                                                     DGB
                                                     <Typography className={"fullName"}>Digibyte</Typography>
                                                 </div>
@@ -384,6 +387,7 @@ const Calculator: NextPage = () => {
                                         label="Hashrate"
                                         id="filled-start-adornment"
                                         sx={{m: 1}}
+                                        size={"small"}
                                         InputProps={{
                                             endAdornment: <InputAdornment className={styles.adornment}
                                                                           position="end">
@@ -419,6 +423,7 @@ const Calculator: NextPage = () => {
                                         id="filled-start-adornment"
                                         fullWidth
                                         sx={{m: 1}}
+                                        size={"small"}
                                         InputProps={{
                                             endAdornment: <InputAdornment className={styles.adornment}
                                                                           position="end">
@@ -452,6 +457,7 @@ const Calculator: NextPage = () => {
                                         id="filled-start-adornment"
                                         fullWidth
                                         sx={{m: 1}}
+                                        size={"small"}
                                         InputProps={{
                                             endAdornment: <InputAdornment className={styles.adornment}
                                                                           position="end">
@@ -485,6 +491,7 @@ const Calculator: NextPage = () => {
                                         id="filled-start-adornment"
                                         fullWidth
                                         sx={{m: 1}}
+                                        size={"small"}
                                         InputProps={{
                                             endAdornment: <InputAdornment className={styles.adornment}
                                                                           position="end">%</InputAdornment>,
@@ -507,6 +514,7 @@ const Calculator: NextPage = () => {
                                         id="filled-start-adornment"
                                         fullWidth
                                         sx={{m: 1}}
+                                        size={"small"}
                                         InputProps={{
                                             endAdornment: <InputAdornment className={styles.adornment}
                                                                           position="end">$</InputAdornment>,
@@ -529,6 +537,7 @@ const Calculator: NextPage = () => {
                                         id="filled-start-adornment"
                                         fullWidth
                                         sx={{m: 1}}
+                                        size={"small"}
                                         onChange={(e) => {
                                             //@ts-ignore
                                             setNetworkDiff(e.target.value.replace(/,/g,""));
@@ -546,7 +555,7 @@ const Calculator: NextPage = () => {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} sx={{px:"20px"}}>
                             <TableContainer style={{border: "1px solid #043386", borderRadius: 10}} component={Paper} className={"tableContainer " + styles.parent}
                                             sx={{mt: 5,backgroundColor:"transparent"}}>
                                 {rows.length < 1 &&  (
@@ -557,9 +566,9 @@ const Calculator: NextPage = () => {
                                 <Table sx={{minWidth: 700}} aria-label="customized table">
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell className={styles.thead} align="left" style={{width:0}}>Per</StyledTableCell>
-                                            <StyledTableCell className={styles.thead} align="center">Estimate Rewards ({coin.toUpperCase()})</StyledTableCell>
-                                            <StyledTableCell className={styles.thead} align="center">Estimate Rewards ($)</StyledTableCell>
+                                            <StyledTableCell className={styles.thead} align="left" style={{width:"4%"}}>Per</StyledTableCell>
+                                            <StyledTableCell className={styles.thead} align="center">Rewards ({coin.toUpperCase()})</StyledTableCell>
+                                            <StyledTableCell className={styles.thead} align="center">Rewards ($)</StyledTableCell>
                                             <StyledTableCell className={styles.thead} align="center">Cost</StyledTableCell>
                                             <StyledTableCell className={styles.thead} align="center">Profit</StyledTableCell>
                                         </TableRow>

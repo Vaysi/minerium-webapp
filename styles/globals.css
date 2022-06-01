@@ -308,7 +308,7 @@ input:-webkit-autofill {
   font-size: 1rem;
 }
 
-.groupFilter .MuiSvgIcon-root , .currencySelect .MuiSvgIcon-root,.preferencesFilter .MuiSvgIcon-root{
+.groupFilter .MuiSvgIcon-root , .currencySelect .MuiSvgIcon-root ,.preferencesFilter .MuiSvgIcon-root{
   background-color: #043180;
   color: #fff;
   height: 100%;
@@ -336,7 +336,7 @@ input:-webkit-autofill {
   margin-top:0;
 }
 
-.groupFilter .MuiSvgIcon-root.MuiSelect-iconOpen,.preferencesFilter .MuiSvgIcon-root.MuiSelect-iconOpen, .currencySelect .MuiSvgIcon-root.MuiSelect-iconOpen {
+.groupFilter .MuiSvgIcon-root.MuiSelect-iconOpen , .currencySelect .MuiSvgIcon-root.MuiSelect-iconOpen,.preferencesFilter .MuiSvgIcon-root.MuiSelect-iconOpen {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   border-top-right-radius: 0!important;
@@ -370,7 +370,6 @@ input:-webkit-autofill {
   width: 30px;
   height: 30px;
 }
-
 .MuiDataGrid-columnHeader:hover .MuiDataGrid-iconButtonContainer {
   visibility: visible;
   width: auto;
@@ -609,7 +608,7 @@ label.customCheck > input:checked + i:after {
 
 
 
-.tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="lastupdate"] , .tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="paid"] , .tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="paid"],.tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="txInfo"] {
+.tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="lastupdate"] , .tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="paid"] , .tableContainer .MuiDataGrid-row:last-child .MuiDataGrid-cell[data-field="paid"] {
   border-bottom-right-radius: 10px;
 }
 
@@ -619,17 +618,22 @@ label.customCheck > input:checked + i:after {
 
 
 .MuiDataGrid-row:hover {
-  background-color: #fff!important;
+  background-color: unset;
 }
 
-[data-theme=dark] .MuiDataGrid-row:hover{
-  background-color:var(--blue-ghost)!important;
+
+.preferencesFilter .MuiOutlinedInput-notchedOutline  {
+  border: none;
 }
 
-.tableContainer .MuiDataGrid-row .MuiDataGrid-cell[data-field="worker_name"] {
-  justify-content: start!important;
-} 
 
-.MuiDataGrid-row:last-child .MuiDataGrid-cell:not([data-field]) {
-  display: none!important;
+.currencySelect #demo-simple-select {
+  min-height: unset;
+  height: 10px;
+}
+
+.currencySelect #demo-simple-select img.iconDropdown {
+  top: 1px;
+  width: 25px;
+  height: 25px;
 }

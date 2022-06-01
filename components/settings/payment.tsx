@@ -86,7 +86,12 @@ const PaymentSettings: NextPage = () => {
 
     useEffect(() => {
         $$getCap().then(response => {
-            setCap(response.data);
+            let final = [];
+            final[0] = response.data[2];
+            final[1] = response.data[0];
+            final[2] = response.data[1];
+            final[3] = response.data[3];
+            setCap(final);
         });
     }, []);
 

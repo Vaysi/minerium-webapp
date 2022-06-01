@@ -46,8 +46,6 @@ const Workers: NextPage = () => {
         await $$workersList(groupId,since).then(response => {
             let rows = response.data.workers.map((item: any) => {
                 item.id = item.worker_id;
-                let time = new Date(item.lastupdate * 1000);
-                item.lastupdate = `${time.getFullYear()}-${time.getMonth()}-${time.getDay()} ${time.getHours()}:${time.getMinutes()}`;
                 return item;
             });
             rows = rows.sort(dynamicSort('-hash1m'));

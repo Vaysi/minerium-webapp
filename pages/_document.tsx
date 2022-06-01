@@ -3,6 +3,18 @@ import {Head, Html, Main, NextScript} from 'next/document'
 
 const setInitialTheme = `      
       (function () {
+        setInterval(() => {
+            let filterButton = document.querySelector('.MuiDataGrid-panelWrapper .MuiButtonBase-root[title="Delete"]');
+            if(!filterButton){
+                return;
+            }
+            filterButton.addEventListener("click", function(){
+                let filterPanel = document.querySelector('.MuiDataGrid-panel');
+                if(filterPanel){
+                    document.querySelector('.MuiDataGrid-panel').style.display = "none";
+                }
+            });
+        },1000);
          function readCookie(name) {
           let nameEQ = name + "=";
           let ca = document.cookie.split(';');
