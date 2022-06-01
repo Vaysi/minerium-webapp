@@ -40,6 +40,7 @@ import SplitButton from "../inline-components/split-btn";
 import SplitButtonState from "../inline-components/split-btn-status";
 import {Circle, Close, Delete} from "@mui/icons-material";
 import {useRouter} from "next/router";
+import moment from "moment";
 
 const useStyles: any = makeStyles((theme: any) => ({
     headerTitle: {
@@ -360,8 +361,10 @@ const WorkersList = (props: Props) => {
             align: "center",
             headerAlign: "center",
             headerClassName: styles.headerTitle,
-            type: "dateTime",
-            minWidth: 120
+            minWidth: 120,
+            renderCell: params => {
+                return moment.unix(params.row.lastupdate).format('YYYY-MM-DD HH:mm');
+            },
         },
     ];
 
