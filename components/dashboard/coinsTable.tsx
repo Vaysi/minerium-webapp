@@ -58,9 +58,9 @@ const useStyles: any = makeStyles((theme: any) => ({
         fontSize: 20
     },
     current: {
-        backgroundColor: "#CEA716!important",
+        backgroundColor: "#8dc351!important",
         "&:hover": {
-            backgroundColor: "#CEA716!important"
+            backgroundColor: "#8dc351!important"
         },
         textTransform: "none",
         fontFamily: "var(--font-body)",
@@ -169,8 +169,7 @@ const CoinsTable = (props: Props) => {
     return (
         <Grid container>
             <Container sx={{my: 5}} maxWidth={"xl"}>
-                <TableContainer className={"dashTable"} component={Paper}
-                                style={{backgroundColor: "transparent", boxShadow: "none"}}>
+                <TableContainer sx={{backgroundColor:"var(--blue-ghost)",borderRadius:5,boxShadow: "2px 10px 60px rgb(0 0 0 / 25%)"}} className={"dashTable"} component={Paper}>
                     <Table sx={{minWidth: 650}} aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -240,17 +239,6 @@ const CoinsTable = (props: Props) => {
                                         <TableCell align="center" className={styles.tbody}>
                                             <Box display={"flex"} justifyContent={"center"}>
                                                 <div>
-                                                    <Button sx={{my: 1, maxWidth: 165, minWidth: 165, display: "block"}}
-                                                            className={`${k.toLowerCase() == selected.toLowerCase() ? styles.current : styles.switch}`}
-                                                            variant={"contained"} size={"small"} fullWidth={true}
-                                                            onClick={() => {
-                                                                setTempVal(k.toLowerCase());
-                                                                setAsk(true);
-                                                            }}>
-                                                        {
-                                                            k.toLowerCase() == selected.toLowerCase() ? 'Current' : 'Switch'
-                                                        }
-                                                    </Button>
                                                     <Select
                                                         id={`${k}-select`}
                                                         size={"small"}
@@ -265,9 +253,20 @@ const CoinsTable = (props: Props) => {
                                                             setMiningMode(e.target.value);
                                                         }}
                                                     >
-                                                        <MenuItem value={"pps"}>PPS</MenuItem>
                                                         <MenuItem value={"solo"}>SOLO</MenuItem>
+                                                        <MenuItem value={"pps"}>PPS</MenuItem>
                                                     </Select>
+                                                    <Button sx={{my: 1, maxWidth: 165, minWidth: 165, display: "block"}}
+                                                            className={`${k.toLowerCase() == selected.toLowerCase() ? styles.current : styles.switch}`}
+                                                            variant={"contained"} size={"small"} fullWidth={true}
+                                                            onClick={() => {
+                                                                setTempVal(k.toLowerCase());
+                                                                setAsk(true);
+                                                            }}>
+                                                        {
+                                                            k.toLowerCase() == selected.toLowerCase() ? 'Current' : 'Select'
+                                                        }
+                                                    </Button>
                                                 </div>
                                             </Box>
                                         </TableCell>
