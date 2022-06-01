@@ -7,7 +7,6 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Grid,
     IconButton,
     List,
     ListItem,
@@ -16,14 +15,11 @@ import {
     ListItemText,
     Tooltip
 } from "@mui/material";
-import Header from "../../components/header/header";
-import Footer from "../../components/footer/footer";
-import Tabs from "../../components/inline-components/tabs";
 import {Delete} from "@mui/icons-material";
 import {makeStyles} from "@mui/styles";
 import CustomCard from "../../components/inline-components/card";
 import {useEffect, useState} from "react";
-import {Notifications, Watchers as WatchersContract} from "../../utils/interfaces";
+import {Watchers as WatchersContract} from "../../utils/interfaces";
 import {$$deleteWatcher, $$getWatchers} from "../../utils/api";
 import {useRouter} from "next/router";
 import {toast} from "react-toastify";
@@ -75,35 +71,34 @@ const Watchers = () => {
                         return (
                             <ListItem
                                 key={item.id}
-                                secondaryAction={
-                                    <IconButton edge="end" aria-label="comments">
-                                        <Delete onClick={() => handleClickOpen(item.id)}/>
-                                    </IconButton>
-                                }
                                 disablePadding
                             >
-                                <CopyToClipboard text={hostname + "/watchers/" + item.token}
-                                                 onCopy={() => toast.success('Successfully Copied !')}>
-                                    <ListItemButton role={undefined} dense>
-                                        <ListItemIcon>
-                                            <Checkbox
-                                                edge="start"
-                                                tabIndex={-1}
-                                                disableRipple
-                                                inputProps={{'aria-labelledby': labelId}}
-                                            />
-                                        </ListItemIcon>
-                                        <ListItemText id={labelId} primary={(
-                                            <>
-                                                    {item.remark}
+                                <ListItemButton role={undefined} dense>
+                                    <ListItemIcon>
+                                        <Checkbox
+                                            edge="start"
+                                            tabIndex={-1}
+                                            disableRipple
+                                            inputProps={{'aria-labelledby': labelId}}
+                                        />
+                                    </ListItemIcon>
+                                    <ListItemText id={labelId} primary={(
+                                        <>
+                                            <span onClick={() => router.push(hostname + "/watchers/" + item.token)} style={{marginRight:50}}>{item.remark}</span>
+                                            <CopyToClipboard text={hostname + "/watchers/" + item.token}
+                                                             onCopy={() => toast.success('Successfully Copied !')}>
                                                 <Tooltip title="Click To Copy">
-                                                <Chip label="Link" size={"small"} sx={{ml: 2,cursor:"pointer"}}
+                                                    <Chip label="Link" size={"small"} sx={{ml: 2, cursor: "pointer"}}
                                                           color={"primary"}/>
                                                 </Tooltip>
-                                            </>
-                                        )}/>
-                                    </ListItemButton>
-                                </CopyToClipboard>
+                                            </CopyToClipboard>
+
+                                            <IconButton edge="end" aria-label="comments">
+                                                <Delete onClick={() => handleClickOpen(item.id)}/>
+                                            </IconButton>
+                                        </>
+                                    )}/>
+                                </ListItemButton>
                             </ListItem>
                         );
                     })}
