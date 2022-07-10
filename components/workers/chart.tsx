@@ -243,17 +243,21 @@ const HashChart = (props: Props) => {
 
     useMemo(() => {
         if(chartRef.current){
+            console.log(props.visibleWorkers);
             if (typeof window !== "undefined") {
                 let legends = document.getElementById('legends');
                 //@ts-ignore
                 legends.innerHTML = "";
                 //@ts-ignore
                 chartRef.current.data.datasets.forEach((dataSet:any, i:any) => {
+                    if(!props.visibleWorkers[i]){
+                        return;
+                    }
                     //@ts-ignore
                     let meta = chartRef.current.getDatasetMeta(i);
                     let checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
-                    checkbox.name = dataSet.label;
+                    checkbox.name = props.visibleWorkers[i].worker_name;
                     checkbox.value = i;
                     checkbox.id = `dataset${i}`;
                     checkbox.checked = !meta.hidden;
@@ -261,7 +265,7 @@ const HashChart = (props: Props) => {
                     let label = document.createElement('label');
                     label.classList.add('customCheck');
                     // add textnode
-                    let labelText = document.createTextNode(dataSet.label);
+                    let labelText = document.createTextNode(props.visibleWorkers[i].worker_name);
                     //@ts-ignore
                     label.appendChild(checkbox);
                     let icon = document.createElement('i');
@@ -286,7 +290,7 @@ const HashChart = (props: Props) => {
                 });
             }
         }
-    },[chartRef.current,changedCount]);
+    },[chartRef.current,changedCount,props.visibleWorkers]);
 
 
     return (

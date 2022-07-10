@@ -2,7 +2,7 @@ import type {NextPage} from 'next'
 import Content from "./content";
 import CopyRight from "./copy-right";
 
-const Footer: NextPage = () => {
+const Footer = () => {
     return (
         <>
             <Content/>

@@ -430,64 +430,64 @@ input:-webkit-autofill {
 }
 
 
-.MuiDataGrid-row:nth-child(1) .MuiDataGrid-cellCheckbox svg  {
-  fill: #FF9800!important;
-}
-
-.MuiDataGrid-row:nth-child(2) .MuiDataGrid-cellCheckbox svg  {
-  fill: #673AB7!important;
-}
-
-.MuiDataGrid-row:nth-child(3) .MuiDataGrid-cellCheckbox svg  {
-  fill: #00BCD4!important;
-}
-
-.MuiDataGrid-row:nth-child(4) .MuiDataGrid-cellCheckbox svg  {
+.checkbox_0 svg  {
   fill: #F44336!important;
 }
 
-.MuiDataGrid-row:nth-child(5) .MuiDataGrid-cellCheckbox svg  {
+.checkbox_1 svg  {
   fill: #8BC34A!important;
 }
 
+.checkbox_2 svg  {
+  fill: #FF9800!important;
+}
+
+.checkbox_3 svg  {
+  fill: #673AB7!important;
+}
+
+.checkbox_4 svg  {
+  fill: #00BCD4!important;
+}
+
 label.customCheck:nth-child(1) > input:checked + i {
-  background-color: #FF9800;
-}
-
-label.customCheck:nth-child(2) > input:checked + i {
-  background-color: #673AB7;
-}
-
-label.customCheck:nth-child(3) > input:checked + i {
-  background-color: #00BCD4;
-}
-
-label.customCheck:nth-child(4) > input:checked + i {
   background-color: #F44336;
 }
 
-label.customCheck:nth-child(5) > input:checked + i {
+label.customCheck:nth-child(2) > input:checked + i {
   background-color: #8BC34A;
 }
 
+label.customCheck:nth-child(3) > input:checked + i {
+  background-color: #FF9800;
+}
+
+label.customCheck:nth-child(4) > input:checked + i {
+  background-color: #673AB7;
+}
+
+label.customCheck:nth-child(5) > input:checked + i {
+  background-color: #00BCD4;
+}
+
 label.customCheck:nth-child(1) > input + i {
-  border:1px solid #FF9800;
-}
-
-label.customCheck:nth-child(2) > input + i {
-  border:1px solid #673AB7;
-}
-
-label.customCheck:nth-child(3) > input + i {
-  border:1px solid #00BCD4;
-}
-
-label.customCheck:nth-child(4) > input + i {
   border:1px solid #F44336;
 }
 
-label.customCheck:nth-child(5) > input + i {
+label.customCheck:nth-child(2) > input + i {
   border:1px solid #8BC34A;
+}
+
+label.customCheck:nth-child(3) > input + i {
+  border:1px solid #FF9800;
+}
+
+label.customCheck:nth-child(4) > input + i {
+  border:1px solid #673AB7;
+}
+
+label.customCheck:nth-child(5) > input + i {
+  border:1px solid #00BCD4;
 }
 
 .customStep {
@@ -636,4 +636,8 @@ label.customCheck > input:checked + i:after {
   top: 1px;
   width: 25px;
   height: 25px;
+}
+
+#groupSelect .hideOnSelect {
+  display: none;
 }

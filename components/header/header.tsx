@@ -4,7 +4,7 @@ import TopHeader from "./top-header";
 import Navigation from "./navigation";
 import LogoWrapper from "./logoWrapper";
 
-const Header: NextPage = () => {
+const Header = () => {
     return (
         <>
             <TopHeader/>

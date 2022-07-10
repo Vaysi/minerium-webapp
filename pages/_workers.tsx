@@ -2,7 +2,7 @@ import type {NextPage} from 'next'
 import {Backdrop, CircularProgress, Grid} from "@mui/material";
 import Header from "../components/header/header";
 import Footer from "../components/footer/footer";
-import WorkersList from "../components/workers/list_new";
+import WorkersList from "../components/workers/list";
 import HashChart from "../components/workers/chart";
 import Watchers from "../components/workers/watchers";
 import {useEffect, useState} from "react";

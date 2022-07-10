@@ -73,15 +73,23 @@ const Register: NextPage = () => {
         let newRules = {...passRules};
         if(/\d/.test(password)){
             newRules.numbers = true;
+        }else {
+            newRules.numbers = false;
         }
         if(hasUpper(password)){
             newRules.upperCase = true;
+        }else {
+            newRules.upperCase = false;
         }
         if(hasLower(password)){
             newRules.lowerCase = true;
+        }else {
+            newRules.lowerCase = false;
         }
         if(password.length > 7){
             newRules.min = true;
+        }else {
+            newRules.min = false;
         }
         setPassRules(newRules);
     },[password]);
