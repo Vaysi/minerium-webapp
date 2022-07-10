@@ -11,7 +11,7 @@ import {dynamicSort} from "../utils/functions";
 import {WorkerGroups, WorkersGraph, WorkersList as WorkersListType} from "../utils/interfaces";
 import WorkersGroup from "../components/workers/group";
 
-const Workers: NextPage = () => {
+const WorkersOld: NextPage = () => {
 
     const [workers, setWorkers] = useState<Array<WorkersListType>>([]);
 
@@ -74,4 +74,4 @@ const Workers: NextPage = () => {
     );
 };
 
-export default Workers;
+export default WorkersOld;

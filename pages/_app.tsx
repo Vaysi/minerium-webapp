@@ -13,6 +13,7 @@ import {useRouter} from "next/router";
 
 
 function MyApp({Component, pageProps}: AppProps) {
+    const MyComponent = Component as any;
     const [mode, setMode] = useState<PaletteMode>('light');
     const [user, setUser] = useState<any>(null);
     const router = useRouter();
@@ -94,7 +95,7 @@ function MyApp({Component, pageProps}: AppProps) {
             <ThemeProvider theme={theme}>
                 <themeModeContext.Provider value={{mode, setMode}}>
                     <userContext.Provider value={{user, setUser}}>
-                        <Component {...pageProps} />
+                        <MyComponent {...pageProps} />
                         <ToastContainer/>
                     </userContext.Provider>
                 </themeModeContext.Provider>

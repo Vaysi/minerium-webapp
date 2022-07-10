@@ -7,6 +7,8 @@ import {makeStyles} from "@mui/styles";
 import Preferences from "../../components/settings/preferences";
 import PaymentSettings from "../../components/settings/payment";
 
+const PreferencesComp = Preferences as any;
+const PaymentSettingsComp = PaymentSettings as any;
 
 const useStyles: any = makeStyles((theme: any) => ({}));
 
@@ -29,8 +31,8 @@ const SettingsPage: NextPage = () => {
         <Grid container>
             <Header/>
             <Tabs data={tabLinks}/>
-            <Preferences/>
-            <PaymentSettings/>
+            <PreferencesComp/>
+            <PaymentSettingsComp/>
             <Footer/>
         </Grid>
     );
