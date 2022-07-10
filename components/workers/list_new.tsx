@@ -379,7 +379,7 @@ const WorkersList = (props: Props) => {
     const updateVisibleWorkers = (page?: number) => {
         let start = page ? page * 5 : 0;
         let end = workers.length;
-        props.states.setVisibleWorkers(page ? workers.slice(start, end) : workers);
+        props.states.setVisibleWorkers(page ? [...workers.slice(start, end)] : [...workers]);
     };
 
     useEffect(() => {
