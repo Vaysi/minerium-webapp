@@ -1,6 +1,7 @@
 import {
     Backdrop,
     Badge,
+    Box,
     Button,
     Checkbox,
     CircularProgress,
@@ -13,9 +14,11 @@ import {
     FormControl,
     Grid,
     IconButton,
+    InputLabel,
     Menu,
     MenuItem,
     Paper,
+    Popover,
     Select,
     Table,
     TableBody,
@@ -30,14 +33,7 @@ import {
     useMediaQuery,
 } from "@mui/material";
 import {makeStyles, styled, useTheme} from "@mui/styles";
-import {
-    GridCellParams,
-    GridColDef,
-    GridFilterInputValueProps,
-    GridFilterItem,
-    GridFilterOperator
-} from '@mui/x-data-grid';
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Hashrate} from "../../utils/functions";
 import {WorkerGroups, WorkersList as WorkersListType} from "../../utils/interfaces";
 import "../../styles/daragrid.module.css";
@@ -47,7 +43,7 @@ import AddWorkerStepper from "./stepper";
 import CustomCard from "../inline-components/card";
 import SplitButton from "../inline-components/split-btn";
 import SplitButtonState from "../inline-components/split-btn-status";
-import {ArrowDownward, ArrowUpward, Circle, Close, Delete, MoreVert} from "@mui/icons-material";
+import {ArrowDownward, ArrowUpward, Circle, Close, Delete, FilterAlt, MoreVert} from "@mui/icons-material";
 import {useRouter} from "next/router";
 import moment from "moment";
 
@@ -75,92 +71,6 @@ const useStyles: any = makeStyles((theme: any) => ({
         }
     }
 }));
-
-function FilterInput(props: GridFilterInputValueProps) {
-    const classes = useStyles();
-    const {item, applyValue} = props;
-
-    const handleFilterChange = (event: any) => {
-        applyValue({...item, value: event.target.value});
-    };
-
-    return (
-        <div>
-            <TextField style={{marginTop: "3px"}} label="Value" variant="standard" size="small" name="input-range"
-                       placeholder="Enter Value" value={item.value ? Number(item.value) : ""}
-                       onChange={handleFilterChange}/>
-        </div>
-    );
-}
-
-function ZeroInput(props: GridFilterInputValueProps) {
-    const classes = useStyles();
-    const {item, applyValue} = props;
-
-    const handleFilterChange = (event: any) => {
-        applyValue({...item, value: event.target.value});
-    };
-
-    useEffect(() => {
-        applyValue({...item, value: 2});
-    }, []);
-
-    return (
-        <div>
-            <TextField style={{display: "none"}} variant="standard" size="small" name="input-range"
-                       placeholder="Enter Value" value={1} onChange={handleFilterChange}/>
-        </div>
-    );
-}
-
-const isZeroOperator: GridFilterOperator = {
-    label: 'is Zero',
-    value: 'isZero',
-    getApplyFilterFn: (filterItem: GridFilterItem, column: GridColDef) => {
-        if (!filterItem.columnField || !filterItem.value || !filterItem.operatorValue) {
-            return null;
-        }
-
-        return (params: GridCellParams): boolean => {
-            return Number(params.value) < 1;
-        };
-    },
-    InputComponent: ZeroInput,
-    InputComponentProps: {type: 'number'},
-};
-
-
-const gtOperator: GridFilterOperator = {
-    label: '>=',
-    value: '>=',
-    getApplyFilterFn: (filterItem: GridFilterItem, column: GridColDef) => {
-        if (!filterItem.columnField || !filterItem.value || !filterItem.operatorValue) {
-            return null;
-        }
-
-        return (params: GridCellParams): boolean => {
-            return Number(params.value) >= Number(filterItem.value);
-        };
-    },
-    InputComponent: FilterInput,
-    InputComponentProps: {type: 'number'},
-};
-
-const ltOperator: GridFilterOperator = {
-    label: '<=',
-    value: '<=',
-    getApplyFilterFn: (filterItem: GridFilterItem, column: GridColDef) => {
-        if (!filterItem.columnField || !filterItem.value || !filterItem.operatorValue) {
-            return null;
-        }
-
-        return (params: GridCellParams): boolean => {
-            return Number(params.value) <= Number(filterItem.value);
-        };
-    },
-    InputComponent: FilterInput,
-    InputComponentProps: {type: 'number'},
-};
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -213,6 +123,80 @@ const WorkersList = (props: Props) => {
     const [sorted, setSorted] = useState(false);
     const [sortedColumn, setSortedColumn] = useState('');
     const [sortToggleIcon, setSortToggleIcon] = useState('');
+    const [filterPopover, setFilterPopover] = useState(null);
+    const header = useRef(null);
+    const columns = [
+        {
+            name: 'Worker',
+            type: 'string',
+            value: 'worker_name'
+        },
+        {
+            name: '1 Minute',
+            type: 'number',
+            value: 'hash1m'
+        },
+        {
+            name: '1 Hour',
+            type: 'number',
+            value: 'hash1hr'
+        },
+        {
+            name: '1 Day',
+            type: 'number',
+            value: 'hash1d'
+        },
+        {
+            name: '7 Day',
+            type: 'number',
+            value: 'hash7day'
+        },
+        {
+            name: 'Last Share',
+            type: 'string',
+            value: 'lastupdate'
+        }
+    ];
+
+    const operators = {
+        number: [
+            {
+                name: '>=',
+                value: '>='
+            },
+            {
+                name: '<=',
+                value: '<='
+            },
+            {
+                name: 'is Zero',
+                value: 'isZero',
+            }
+        ],
+        string: [
+            {
+                name: 'Contains',
+                value: 'contains'
+            },
+            {
+                name: 'Equals',
+                value: 'equals'
+            },
+            {
+                name: 'Starts With',
+                value: 'starts'
+            },
+            {
+                name: 'Ends With',
+                value: 'ends'
+            }
+        ]
+    };
+
+    const [column, setColumn] = useState('worker_name');
+    const [operator, setOperator] = useState('contains');
+    const [filterValue, setFilterValue] = useState('');
+    const [filtered, setFiltered] = useState(false);
 
     const handleClick = (event: any) => {
         setShowMenu(event.currentTarget);
@@ -450,11 +434,11 @@ const WorkersList = (props: Props) => {
         if (column == sortedColumn && sorted) {
             if (sortModel == 'atz') {
                 return <IconButton onClick={() => sortZtA(column)} style={{color: '#fff'}}>
-                    <ArrowDownward/>
+                    <ArrowUpward/>
                 </IconButton>;
             } else {
-                return <IconButton onClick={() => sortAtZ(column)} style={{color: '#fff'}}>
-                    <ArrowUpward/>
+                return <IconButton onClick={() => unSort()} style={{color: '#fff'}}>
+                    <ArrowDownward/>
                 </IconButton>;
             }
         } else if (sortToggleIcon == column) {
@@ -467,6 +451,18 @@ const WorkersList = (props: Props) => {
         return <></>;
     }
 
+    const showFilterIcon = (filterColumn: string) => {
+        if (filterColumn == column && filtered && filterValue) {
+            return <IconButton onClick={() => {
+                setFiltered(false);
+                setFilterValue('');
+                props.states.setVisibleWorkers(props.data);
+            }} style={{color: '#fff'}}>
+                <FilterAlt/>
+            </IconButton>;
+        }
+    }
+
     const showSortIconButton = (column: string) => {
         setSortToggleIcon(column);
     };
@@ -474,6 +470,55 @@ const WorkersList = (props: Props) => {
     const hideSortIconButton = () => {
         setSortToggleIcon('');
     };
+
+    useEffect(() => {
+        if (columns.filter(item => item.value == column).length) {
+            if (columns.filter(item => item.value == column)[0].type == 'string') {
+                setOperator('contains');
+            } else {
+                setOperator('>=');
+            }
+        }
+    }, [column]);
+
+    useEffect(() => {
+        if (filterValue) {
+            let filterType = columns.filter(item => item.value == column)[0].type;
+            let rows = props.data.filter((item: any) => {
+                if (filterType == 'string' && item[column]) {
+                    if (operator == 'contains') {
+                        return item[column].includes(filterValue);
+                    } else if (operator == 'equals') {
+                        return item[column] == filterValue;
+                    } else if (operator == 'starts') {
+                        return item[column].startsWith(filterValue);
+                    } else if (operator == 'ends') {
+                        return item[column].endsWith(filterValue);
+                    }
+                } else {
+                    if (operator == '>=') {
+                        return item[column] >= filterValue;
+                    } else if (operator == '<=') {
+                        return item[column] <= filterValue;
+                    } else if (operator == 'isZero') {
+                        return item[column] == 0;
+                    }
+                }
+            });
+            props.states.setVisibleWorkers([...rows]);
+            props.states.setPage(0);
+            setFiltered(true);
+        }else {
+            setFiltered(false);
+        }
+    }, [filterValue]);
+
+    useEffect(() => {
+        if (operator == 'isZero') {
+            setFilterValue('1');
+        }
+    }, [operator]);
+
 
     return (
         <>
@@ -608,102 +653,168 @@ const WorkersList = (props: Props) => {
                                                          style={{width: "4%"}}><Checkbox disabled/></StyledTableCell>
                                         <StyledTableCell onMouseOver={() => showSortIconButton('worker_name')}
                                                          onMouseLeave={hideSortIconButton} className={styles.thead}
-                                                         align="left">Worker
-                                            {
-                                                showSortIcon('worker_name')
-                                            }
-                                            <IconButton
-                                                onClick={(e: any) => {
-                                                    setSelectedColumn('worker_name');
-                                                    handleClick(e);
-                                                }}
-                                                style={{color: "#fff"}}
-                                                aria-label="show menu" component="span">
-                                                <MoreVert/>
-                                            </IconButton>
+                                                         align="left">
+                                            <Box display={"flex"} alignItems={"center"}
+                                                 justifyContent={"space-between"}>
+                                                <Box>
+                                                    Worker
+                                                    {
+                                                        showSortIcon('worker_name')
+                                                    }
+                                                    {
+                                                        showFilterIcon('worker_name')
+                                                    }
+                                                </Box>
+                                                <IconButton
+                                                    onClick={(e: any) => {
+                                                        setSelectedColumn('worker_name');
+                                                        handleClick(e);
+                                                    }}
+                                                    style={{color: "#fff"}}
+                                                    aria-label="show menu" component="span">
+                                                    <MoreVert/>
+                                                </IconButton>
+                                            </Box>
                                         </StyledTableCell>
                                         <StyledTableCell onMouseOver={() => showSortIconButton('hash1m')}
                                                          onMouseLeave={hideSortIconButton} className={styles.thead}
-                                                         align="center">1
-                                            Minute
-                                            {
-                                                showSortIcon('hash1m')
-                                            }
-                                            <IconButton
-                                                onClick={(e: any) => {
-                                                    setSelectedColumn('hash1m');
-                                                    handleClick(e);
-                                                }}
-                                                style={{color: "#fff"}}
-                                                aria-label="show menu" component="span">
-                                                <MoreVert/>
-                                            </IconButton>
+                                                         align="center">
+                                            <Box display={"flex"} alignItems={"center"}
+                                                 justifyContent={"space-between"}>
+                                                <Box>
+                                                    &nbsp;
+                                                </Box>
+                                                <Box mr={"-20px"}>
+                                                    1 Minute
+                                                    {
+                                                        showSortIcon('hash1m')
+                                                    }
+                                                    {
+                                                        showFilterIcon('hash1m')
+                                                    }
+                                                </Box>
+                                                <IconButton
+                                                    onClick={(e: any) => {
+                                                        setSelectedColumn('hash1m');
+                                                        handleClick(e);
+                                                    }}
+                                                    style={{color: "#fff"}}
+                                                    aria-label="show menu" component="span">
+                                                    <MoreVert/>
+                                                </IconButton>
+                                            </Box>
                                         </StyledTableCell>
                                         <StyledTableCell onMouseOver={() => showSortIconButton('hash1hr')}
                                                          onMouseLeave={hideSortIconButton} className={styles.thead}
-                                                         align="center">1
-                                            Hour
-                                            {
-                                                showSortIcon('hash1hr')
-                                            }
-                                            <IconButton
-                                                onClick={(e: any) => {
-                                                    setSelectedColumn('hash1hr');
-                                                    handleClick(e);
-                                                }}
-                                                style={{color: "#fff"}}
-                                                aria-label="show menu" component="span">
-                                                <MoreVert/>
-                                            </IconButton>
+                                                         align="center">
+                                            <Box display={"flex"} alignItems={"center"}
+                                                 justifyContent={"space-between"}>
+                                                <Box>
+                                                    &nbsp;
+                                                </Box>
+                                                <Box mr={"-20px"}>
+                                                    1 Hour
+                                                    {
+                                                        showSortIcon('hash1hr')
+                                                    }
+                                                    {
+                                                        showFilterIcon('hash1hr')
+                                                    }
+                                                </Box>
+                                                <IconButton
+                                                    onClick={(e: any) => {
+                                                        setSelectedColumn('hash1hr');
+                                                        handleClick(e);
+                                                    }}
+                                                    style={{color: "#fff"}}
+                                                    aria-label="show menu" component="span">
+                                                    <MoreVert/>
+                                                </IconButton>
+                                            </Box>
                                         </StyledTableCell>
                                         <StyledTableCell onMouseOver={() => showSortIconButton('hash1d')}
                                                          onMouseLeave={hideSortIconButton} className={styles.thead}
-                                                         align="center">1 Day
-                                            {
-                                                showSortIcon('hash1d')
-                                            }
-                                            <IconButton
-                                                onClick={(e: any) => {
-                                                    setSelectedColumn('hash1d');
-                                                    handleClick(e);
-                                                }}
-                                                style={{color: "#fff"}}
-                                                aria-label="show menu" component="span">
-                                                <MoreVert/>
-                                            </IconButton>
+                                                         align="center">
+                                            <Box display={"flex"} alignItems={"center"}
+                                                 justifyContent={"space-between"}>
+                                                <Box>
+                                                    &nbsp;
+                                                </Box>
+                                                <Box mr={"-20px"}>
+                                                    1 Day
+                                                    {
+                                                        showSortIcon('hash1d')
+                                                    }
+                                                    {
+                                                        showFilterIcon('hash1d')
+                                                    }
+                                                </Box>
+                                                <IconButton
+                                                    onClick={(e: any) => {
+                                                        setSelectedColumn('hash1d');
+                                                        handleClick(e);
+                                                    }}
+                                                    style={{color: "#fff"}}
+                                                    aria-label="show menu" component="span">
+                                                    <MoreVert/>
+                                                </IconButton>
+                                            </Box>
                                         </StyledTableCell>
                                         <StyledTableCell onMouseOver={() => showSortIconButton('hash7d')}
                                                          onMouseLeave={hideSortIconButton} className={styles.thead}
-                                                         align="center">7 Day
-                                            {
-                                                showSortIcon('hash7d')
-                                            }
-                                            <IconButton
-                                                onClick={(e: any) => {
-                                                    setSelectedColumn('hash7d');
-                                                    handleClick(e);
-                                                }}
-                                                style={{color: "#fff"}}
-                                                aria-label="show menu" component="span">
-                                                <MoreVert/>
-                                            </IconButton>
+                                                         align="center">
+                                            <Box display={"flex"} alignItems={"center"}
+                                                 justifyContent={"space-between"}>
+                                                <Box>
+                                                    &nbsp;
+                                                </Box>
+                                                <Box mr={"-20px"}>
+                                                    7 Day
+                                                    {
+                                                        showSortIcon('hash7d')
+                                                    }
+                                                    {
+                                                        showFilterIcon('hash7d')
+                                                    }
+                                                </Box>
+                                                <IconButton
+                                                    onClick={(e: any) => {
+                                                        setSelectedColumn('hash7d');
+                                                        handleClick(e);
+                                                    }}
+                                                    style={{color: "#fff"}}
+                                                    aria-label="show menu" component="span">
+                                                    <MoreVert/>
+                                                </IconButton>
+                                            </Box>
                                         </StyledTableCell>
                                         <StyledTableCell onMouseOver={() => showSortIconButton('lastupdate')}
                                                          onMouseLeave={hideSortIconButton} className={styles.thead}
-                                                         align="center">Last
-                                            Share
-                                            {
-                                                showSortIcon('lastupdate')
-                                            }
-                                            <IconButton
-                                                onClick={(e: any) => {
-                                                    setSelectedColumn('lastupdate');
-                                                    handleClick(e);
-                                                }}
-                                                style={{color: "#fff"}}
-                                                aria-label="show menu" component="span">
-                                                <MoreVert/>
-                                            </IconButton>
+                                                         align="center">
+                                            <Box display={"flex"} alignItems={"center"}
+                                                 justifyContent={"space-between"}>
+                                                <Box>
+                                                    &nbsp;
+                                                </Box>
+                                                <Box mr={"-20px"}>
+                                                    Last Share
+                                                    {
+                                                        showSortIcon('lastupdate')
+                                                    }
+                                                    {
+                                                        showFilterIcon('lastupdate')
+                                                    }
+                                                </Box>
+                                                <IconButton
+                                                    onClick={(e: any) => {
+                                                        setSelectedColumn('lastupdate');
+                                                        handleClick(e);
+                                                    }}
+                                                    style={{color: "#fff"}}
+                                                    aria-label="show menu" component="span">
+                                                    <MoreVert/>
+                                                </IconButton>
+                                            </Box>
                                         </StyledTableCell>
                                     </TableRow>
                                     <Menu
@@ -722,9 +833,14 @@ const WorkersList = (props: Props) => {
                                         <MenuItem disabled={sorted && sortModel == 'atz'}
                                                   onClick={() => sortAtZ(selectedColumn)}>Sort A to
                                             Z</MenuItem>
+                                        <MenuItem onClick={() => {
+                                            setFilterPopover(header.current);
+                                            setShowMenu(null);
+                                            setColumn(selectedColumn);
+                                        }}>Filter</MenuItem>
                                     </Menu>
                                 </TableHead>
-                                <TableBody>
+                                <TableBody ref={header}>
                                     {props.states.visibleWorkers.length ?
                                         (
                                             props.states.visibleWorkers.slice(props.states.page * 5, props.states.page * 5 + 5).map((item: any, i: number) => (
@@ -867,6 +983,55 @@ const WorkersList = (props: Props) => {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <Popover
+                id={'filter'}
+                open={Boolean(filterPopover)}
+                anchorEl={filterPopover}
+                onClose={() => setFilterPopover(null)}
+                transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left"
+                }}
+            >
+                <Box display={"flex"} alignItems={"center"}>
+                    <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
+                        <InputLabel id="demo-simple-select-standard-label">Column</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            label="Column"
+                            defaultValue={column}
+                            value={column}
+                            onChange={(e) => setColumn(e.target.value)}
+                        >
+                            <MenuItem value={'worker_name'}>Worker</MenuItem>
+                            <MenuItem value={'hash1m'}>1 Minute</MenuItem>
+                            <MenuItem value={'hash1hr'}>1 Hour</MenuItem>
+                            <MenuItem value={'hash1d'}>1 Day</MenuItem>
+                            <MenuItem value={'hash7d'}>7 Day</MenuItem>
+                            <MenuItem value={'lastupdate'}>Last Share</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
+                        <InputLabel id="operator">Operator</InputLabel>
+                        <Select
+                            labelId="operator"
+                            label="Operator"
+                            defaultValue={operator}
+                            value={operator}
+                            onChange={(e) => setOperator(e.target.value)}
+                        >
+                            {
+                                columns.filter(item => item.value == column).length && columns.filter(item => item.value == column)[0].type == 'string' ?
+                                    operators.string.map(item => <MenuItem value={item.value}>{item.name}</MenuItem>)
+                                    : operators.number.map(item => <MenuItem value={item.value}>{item.name}</MenuItem>)
+                            }
+                        </Select>
+                    </FormControl>
+                    <TextField disabled={operator == 'isZero'} label={'Filter Value'} variant={'standard'}
+                               value={filterValue} onChange={(e) => setFilterValue(e.target.value)}/>
+                </Box>
+            </Popover>
         </>
     );
 }
