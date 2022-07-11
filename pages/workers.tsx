@@ -50,6 +50,8 @@ const Workers: NextPage = () => {
             });
             rows = rows.sort(dynamicSort('-hash1m'));
             setWorkers([...rows]);
+            setVisibleWorkers([...rows]);
+            setPage(0);
             setWorkersGraph({...response.data.graph});
         });
     };

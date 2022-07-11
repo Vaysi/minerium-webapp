@@ -243,13 +243,12 @@ const HashChart = (props: Props) => {
 
     useMemo(() => {
         if(chartRef.current){
-            console.log(props.visibleWorkers);
             if (typeof window !== "undefined") {
                 let legends = document.getElementById('legends');
                 //@ts-ignore
                 legends.innerHTML = "";
                 //@ts-ignore
-                chartRef.current.data.datasets.forEach((dataSet:any, i:any) => {
+                props.visibleWorkers.slice(props.page.page * 5,(props.page.page * 5) + 5).map((item:any, i:any) => {
                     if(!props.visibleWorkers[i]){
                         return;
                     }
@@ -257,15 +256,15 @@ const HashChart = (props: Props) => {
                     let meta = chartRef.current.getDatasetMeta(i);
                     let checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
-                    checkbox.name = props.visibleWorkers[i].worker_name;
+                    checkbox.name = item.worker_name;
                     checkbox.value = i;
-                    checkbox.id = `dataset${i}`;
+                    checkbox.id = `item-${i}`;
                     checkbox.checked = !meta.hidden;
                     // add label
                     let label = document.createElement('label');
                     label.classList.add('customCheck');
                     // add textnode
-                    let labelText = document.createTextNode(props.visibleWorkers[i].worker_name);
+                    let labelText = document.createTextNode(item.worker_name);
                     //@ts-ignore
                     label.appendChild(checkbox);
                     let icon = document.createElement('i');
