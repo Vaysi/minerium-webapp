@@ -212,10 +212,7 @@ const WorkersList = (props: Props) => {
     const nineMatches = useMediaQuery('(max-width:980px)');
     const router = useRouter();
     const theme = useTheme();
-    const [tableState, setTableState] = useState({
-        sort: null,
-        page: 0
-    });
+
     //@ts-ignore
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -1023,8 +1020,8 @@ const WorkersList = (props: Props) => {
                         >
                             {
                                 columns.filter(item => item.value == column).length && columns.filter(item => item.value == column)[0].type == 'string' ?
-                                    operators.string.map(item => <MenuItem value={item.value}>{item.name}</MenuItem>)
-                                    : operators.number.map(item => <MenuItem value={item.value}>{item.name}</MenuItem>)
+                                    operators.string.map((item,index) => <MenuItem key={index} value={item.value}>{item.name}</MenuItem>)
+                                    : operators.number.map((item,index) => <MenuItem key={index} value={item.value}>{item.name}</MenuItem>)
                             }
                         </Select>
                     </FormControl>
